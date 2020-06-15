@@ -476,7 +476,7 @@ end
 "Main struct for Grammatical Evolution genotypes used in GP."
 struct GEGenotype <: GPGenotype
     _tree::GERep
-    _ind::IntegerGenotype{UInt8}
+    _ind::IntegerGenotype
     _selections::Array{UInt8}
     _productions::UInt16
     _valid::Bool

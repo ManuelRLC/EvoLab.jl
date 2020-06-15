@@ -53,8 +53,8 @@ function kPointCross(parent1::BinaryGenotype, parent2::BinaryGenotype,
         error("k_points ($k) should be minor than the size of the genoytpe ($genLen)")
     end
 
-    child1 = similar(Bool, genLen)
-    child2 = similar(Bool, genLen)
+    child1 = similar(Array{Bool}, genLen)
+    child2 = similar(Array{Bool}, genLen)
 
     points = Array{UInt16}(undef, k+2)
     points[1] = 0x1

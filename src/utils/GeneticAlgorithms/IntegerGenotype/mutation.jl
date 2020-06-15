@@ -178,6 +178,6 @@ for `IntegerGenotype`, it is [`uniformMutation`](@ref) of one gene within a rang
 for both `CGPGenotype` and `STGPGenotype` it is [`pointMutation`](@ref) with a
 probability of 0.2; for `GEPGenotype` it is [`geneMutation`](@ref).
 """
-function getDefaultMutationOp(individualType::Type{IntegerGenotype{T}})::Tuple{Function, Array} where T<:Integer
+function getDefaultMutationOp(individualType::IntegerGenotype)::Tuple{Function, Array} 
     return uniformMutation, [0, 10]
 end # function

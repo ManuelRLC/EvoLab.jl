@@ -31,6 +31,7 @@ setEvaluator(FitnessFunction(countBinaryOnes))
 setGenerator(randomBinaryGenerator, 50, popSize = 100)
 setSelector(tournamentSelector, 4, samplingWithRep=true)
 setCrossoverOperator(uniformCross, nChildren=2)
+#setCrossoverOperator(kPointCross, nChildren=2)
 setMutationOperator(standardMutation, 0.1)
 setReplacementOperator(replaceAllPopulation)
 #setExperimentSummary(displayFitness=false, displayBestFitness=false,

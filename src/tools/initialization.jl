@@ -99,4 +99,4 @@ function genPopulation_(generator::Generator, experimentInfo::ExperimentInfo)::A
     return population
 end # function
 
-println("genPop:", precompile(genPopulation_, tuple(Generator, ExperimentInfo)))
+precompile(genPopulation_, tuple(Generator, ExperimentInfo))

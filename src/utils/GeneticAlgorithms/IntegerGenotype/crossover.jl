@@ -1,5 +1,5 @@
 
-function uniformCross(parent1::IntegerGenotype, parent2::IntegerGenotype,
+"""function uniformCross(parent1::IntegerGenotype, parent2::IntegerGenotype,
                         rng::Random.AbstractRNG)::Array{IntegerGenotype}
 
     genLen = length(parent1._representation)
@@ -17,7 +17,7 @@ function uniformCross(parent1::IntegerGenotype, parent2::IntegerGenotype,
         end
     end
     return [IntegerGenotype(child1), IntegerGenotype(child2)]
-end
+end"""
 
 
 function kPointCross(parent1::IntegerGenotype, parent2::IntegerGenotype,
@@ -86,6 +86,6 @@ for both `CGPGenotype` and `STGPGenotype` it is [`subtreeCross`](@ref) with a
 probability of 0.2; for `GEPGenotype` it is [`kPointRecombinationCross`](@ref)
 with one crosspoint.
 """
-function getDefaultCrossoverOp(individualType::Type{IntegerGenotype{T}})::Tuple{Function, Array} where T<:Integer
+function getDefaultCrossoverOp(individualType::IntegerGenotype)::Tuple{Function, Array}
     return uniformCross, []
 end # function
