@@ -1,0 +1,13 @@
+name = "EvoLab"
+uuid = "17c16839-0cda-4699-8bb7-e5ab2ce1c6bb"
+authors = ["i62lucum i62lucum@uco.es, SergioGmezM i62gomos@uco.es"]
+version = "0.1.0"
+
+[compat]
+julia = "1.4"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
