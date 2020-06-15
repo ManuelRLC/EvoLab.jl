@@ -1,7 +1,7 @@
-include("../base.jl")
-using .EvoLab
-using .EvoLab.GP.GE
-using .EvoLab.GA.IntegerGA
+
+using EvoLab
+using EvoLab.GP.GE
+using EvoLab.GA.IntegerGA
 
 f(x, y) = (y / 5.5) + x^2
 

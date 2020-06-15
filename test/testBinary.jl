@@ -1,7 +1,5 @@
-include("../base.jl")
-#include("fitnessFunctions.jl")
-using .EvoLab
-using .EvoLab.GA.BinaryGA
+@time using EvoLab
+using EvoLab.GA.BinaryGA
 
 """
     countBinaryOnes(ind::Individual)

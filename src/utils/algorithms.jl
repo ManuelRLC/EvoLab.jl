@@ -23,7 +23,7 @@ function basicExperiment(genj::GenJulia)
 
 
     initBestIndividual(genj)
-
+    """
     while !(reached(genj))
 
         saveResults(genj)
@@ -42,7 +42,7 @@ function basicExperiment(genj::GenJulia)
 
 
     end
-
+    """
     saveResults(genj)
 
 end # function

@@ -1,8 +1,7 @@
-include("../base.jl")
 import Random
-using .EvoLab
-using .EvoLab.GP
-using .EvoLab.GP.STGP
+using EvoLab
+using EvoLab.GP
+using EvoLab.GP.STGP
 
 
 patrones = [

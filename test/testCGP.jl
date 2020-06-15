@@ -1,8 +1,5 @@
-println("hola")
-include("../base.jl")
-using .EvoLab
-#using .EvoLab.GP
-using .EvoLab.GP.CGP
+using EvoLab
+using EvoLab.GP.CGP
 
 import Random
 println("hola")

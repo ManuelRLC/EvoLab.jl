@@ -1,8 +1,7 @@
-include("../base.jl")
+
 import Random
-using .EvoLab
-#using .EvoLab.GP
-using .EvoLab.GP.GEP
+using EvoLab
+using EvoLab.GP.GEP
 
 
 f(x, y) = (y/5.5)+x^2
