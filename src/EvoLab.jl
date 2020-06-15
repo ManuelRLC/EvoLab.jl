@@ -433,7 +433,7 @@ function runGenJ(genj::GenJulia = GenJ; verbose::Bool = true, outputFile::String
     checkParametersCorrect(genj)
     # Prints the information about the experiment
     verbose && printExperimentInfo(outputFile, genj)
-    
+
 
     # Runs the experiment
     #basicExperiment(genj._experimentInfo._algorithmArgs..., genj=GenJ)
