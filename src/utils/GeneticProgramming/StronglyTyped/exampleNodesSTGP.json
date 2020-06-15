@@ -1,0 +1,107 @@
+{
+  "FunctionNodes": [
+    {
+      "Node": {
+        "function": "ifelse",
+        "arity": 3,
+        "returnType": "Union{Int, AbstractFloat}",
+        "argumentTypes": ["Bool", "Union{Int, AbstractFloat}", "Union{Int, AbstractFloat}"]
+      }
+    },
+    {
+      "Node": {
+        "function": "+",
+        "arity": 2,
+        "returnType": "Union{Int, AbstractFloat}",
+        "argumentTypes": ["Union{Int, AbstractFloat}", "Union{Int, AbstractFloat}"]
+      }
+    },
+    {
+      "Node": {
+        "function": "-",
+        "arity": 2,
+        "returnType": "Union{Int, AbstractFloat}",
+        "argumentTypes": ["Union{Int, AbstractFloat}", "Union{Int, AbstractFloat}"]
+      }
+    },
+    {
+      "Node": {
+        "function": "<",
+        "arity": 2,
+        "returnType": "Bool",
+        "argumentTypes": ["Union{Int, AbstractFloat}", "Union{Int, AbstractFloat}"]
+      }
+    },
+    {
+      "Node": {
+        "function": ">",
+        "arity": 2,
+        "returnType": "Bool",
+        "argumentTypes": ["Union{Int, AbstractFloat}", "Union{Int, AbstractFloat}"]
+      }
+    },
+    {
+      "Node": {
+        "function": ">=",
+        "arity": 2,
+        "returnType": "Bool",
+        "argumentTypes": ["Union{Int, AbstractFloat}", "Union{Int, AbstractFloat}"]
+      }
+    },
+    {
+      "Node": {
+        "function": "<=",
+        "arity": 2,
+        "returnType": "Bool",
+        "argumentTypes": ["Union{Int, AbstractFloat}", "Union{Int, AbstractFloat}"]
+      }
+    },
+    {
+      "Node": {
+        "function": "==",
+        "arity": 2,
+        "returnType": "Bool",
+        "argumentTypes": ["Union{Int, AbstractFloat}", "Union{Int, AbstractFloat}"]
+      }
+    }
+  ],
+
+  "TerminalNodes": [
+
+    {
+      "Node": {
+        "kind": "variable",
+        "name": "x",
+        "type": "Int"
+      }
+    },
+    {
+      "Node": {
+        "kind": "variable",
+        "name": "y",
+        "type": "Int"
+      }
+    },
+    {
+      "Node": {
+        "kind": "ephemeralConstant",
+        "function": "rand",
+        "arguments": ["GenJ._experimentInfo._rng", "-100.0:0.001:100.0"]
+      }
+    }
+    ,
+    {
+      "Node": {
+        "kind": "constant",
+        "value": true
+      }
+    }
+    ,
+    {
+      "Node": {
+        "kind": "constant",
+        "value": false
+      }
+    }
+  ]
+}

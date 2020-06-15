@@ -1,0 +1,161 @@
+
+{
+
+  "Experiments":[
+    {
+      "GenJulia": {
+        "ExperimentInfo":{
+          "individualType": "BinaryGenotype",
+          "randomSeed": 1234,
+          "algorithm": "basicExperiment"
+        },
+        "Evaluator": {
+          "fitnessFunctions": ["countBinaryOnes", "countBinaryZeros"],
+          "weights": [1, 0.3],
+          "fitnessComparisonMode": "rawW"
+        },
+        "Generator": {
+          "popSize": 100,
+          "generatedOneByOne": true,
+          "method": "randomBinaryGenerator",
+          "arguments": 5
+        },
+        "Selector": {
+          "nSelected": 1.0,
+          "method": "tournamentSelector",
+          "arguments": [5],
+          "needsComparison": true,
+          "samplingWithRep": false
+        },
+        "Crossover":{
+          "method": "uniformCross",
+          "probability": 0.7,
+          "nParents": 2,
+          "nChildren": -1
+        },
+        "Mutation":{
+          "method": "standardMutation",
+          "arguments": [0.1],
+          "probability": 0.3
+        },
+        "Replacement":{
+          "method": "replaceAllPopulation",
+          "needsComparison": false
+        },
+        "StopConditions":{
+          "maxIterations": 500
+        },
+        "ExperimentSummary":{
+          "outputFile": "hola.txt"
+        }
+      }
+    },
+    {
+      "GenJulia": {
+        "ExperimentInfo":{
+          "individualType": "CGPGenotype",
+          "GPExperimentInfo": {
+            "nodesFile": "ECJ/utils/GeneticProgramming/Canonical/exampleNodesCGP.json",
+            "maxTreeDepth": 3,
+            "varValues": ["collect(-5:0.5:5)", "collect(0:0.5:10)"]
+          },
+          "algorithm": "SPEA",
+          "arguments": [20],
+          "rng": "mirng"
+        },
+        "Evaluator": {
+          "fitnessFunctions": [
+            {
+              "FitnessFunction": {
+                "function": "compareFunctions",
+                "weight": -1,
+                "arguments": ["objs1"]
+              }
+            },
+            {
+              "FitnessFunction": {
+                "function": "nNodes",
+                "weight": -0.2
+              }
+            }
+          ],
+          "globalFitnessFunction": "pareto",
+          "fitnessComparisonMode": "rawW"
+        },
+        "Generator": {
+          "popSize": 50,
+          "method": "rampedHalfHalfGenerator",
+          "generateOneByOne": false
+        },
+        "Selector": {
+          "nSelected": 1.0,
+          "method": "tournamentSelector",
+          "arguments": 4,
+          "needsComparison": true,
+          "samplingWithRep": false
+        },
+        "Crossover":{
+          "method": "subtreeCross",
+          "probability": 0.9,
+          "nParents": 2,
+          "nChildren": -1
+        },
+        "Mutation":{
+          "method": "subtreeMutation",
+          "probability": 0.2
+        },
+        "Replacement":{
+          "method": "replaceAllPopulation",
+          "needsComparison": false
+        },
+        "StopConditions":{
+          "maxIterations": 100
+        }
+      }
+    },
+    {
+      "GenJulia": {
+        "ExperimentInfo": {
+          "individualType": "CGPGenotype",
+          "GPExperimentInfo": {
+            "nodesFile": "ECJ/utils/GeneticProgramming/Canonical/exampleNodesCGP.json",
+            "varValues": ["collect(-5:0.5:5)", "collect(0:0.5:10)"]
+          }
+        },
+        "Evaluator": {
+          "fitnessFunctions": [
+            {
+              "FitnessFunction": {
+                "function": "compareFunctions",
+                "weight": -1,
+                "arguments": ["objs2"]
+              }
+            }
+          ]
+        },
+        "Generator": {
+          "method": "rampedHalfHalfGenerator",
+          "generateOneByOne": false
+        },
+        "StopConditions":{
+          "maxIterations": 50
+        }
+      }
+    },
+    {
+      "GenJulia": {
+        "ExperimentInfo":{
+          "individualType": "IntegerGenotype{Int64}"
+        },
+        "Evaluator": {
+          "fitnessFunctions": "llegar50",
+          "weights": -1
+        },
+        "Generator": {
+          "method": "randomIntegerGenerator",
+          "arguments": [10, 0, 10]
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+"""
+    parse(type, str; base)
+
+Parse a string as a number. For `Integer` types, a base can be specified
+(the default is 10). For floating-point types, the string is parsed as a decimal
+floating-point number.  `Complex` types are parsed from decimal strings
+of the form `"R±Iim"` as a `Complex(R,I)` of the requested type; `"i"` or `"j"` can also be
+used instead of `"im"`, and `"R"` or `"Iim"` are also permitted.
+If the string does not contain a valid number, an error is raised.
+
+# Arguments
+- `n::Integer`: the number of elements to compute.
+- `dim::Integer=1`: the dimensions along which to perform the computation.
+
+!!! compat "Julia 1.1"
+    `parse(Bool, str)` requires at least Julia 1.1.
+
+
+!!! note
+    `endswith` does not compile the anchoring into the regular
+    expression, but instead passes the anchoring as
+    `match_option` to PCRE. If compile time is amortized,
+    `occursin(r"...\$", s)` is faster than `endswith(s, r"...")`.
+
+See also [`occursin`](@ref) and [`startswith`](@ref).
+
+!!! compat "Julia 1.2"
+     This method requires at least Julia 1.2.
+
+!!! warning o warn
+
+!!! tip
+
+
+# Examples
+```jldoctest
+julia> parse(Int, "1234")
+1234
+
+julia> parse(Int, "1234", base = 5)
+194
+
+julia> parse(Int, "afc", base = 16)
+2812
+
+julia> parse(Float64, "1.2e-3")
+0.0012
+
+julia> parse(Complex{Float64}, "3.2e-1 + 4.5im")
+0.32 + 4.5im
+```
+
+See also: [`run`](@ref)
+"""

@@ -1,0 +1,61 @@
+{
+  "FunctionNodes": [
+    {
+      "Node": {
+        "function": "+",
+        "arity": 2,
+        "returnType": "Number",
+        "argumentTypes": ["Number", "Number"]
+      }
+    },
+    {
+      "Node": {
+        "function": "-",
+        "arity": 2,
+        "returnType": "Number",
+        "argumentTypes": ["Number", "Number"]
+      }
+    },
+    {
+      "Node": {
+        "function": "*",
+        "arity": 2,
+        "returnType": "Number",
+        "argumentTypes": ["Number", "Number"]
+      }
+    },
+    {
+      "Node": {
+        "function": "/",
+        "arity": 2,
+        "returnType": "Number",
+        "argumentTypes": ["Number", "Number"]
+      }
+    }
+  ],
+
+  "TerminalNodes": [
+
+    {
+      "Node": {
+        "kind": "variable",
+        "name": "x",
+        "type": "Number"
+      }
+    },
+    {
+      "Node": {
+        "kind": "variable",
+        "name": "y",
+        "type": "Number"
+      }
+    },
+    {
+      "Node": {
+        "kind": "ephemeralConstant",
+        "function": "rand",
+        "arguments": ["GenJ._experimentInfo._rng", "-1000.0:0.001:1000.0"]
+      }
+    }
+  ]
+}

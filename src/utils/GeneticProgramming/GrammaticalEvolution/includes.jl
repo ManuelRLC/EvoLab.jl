@@ -1,0 +1,7 @@
+include("grammar.jl")
+include("structures.jl")
+include("grammarCreator.jl")
+include("initialization.jl")
+include("crossover.jl")
+include("mutation.jl")
+include("evaluation.jl")

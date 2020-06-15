@@ -1,0 +1,97 @@
+{
+  "FunctionNodes": [
+    {
+      "Node": {
+        "function": "+",
+        "arity": 2,
+        "conmutative": true,
+        "returnType": "Number",
+        "argumentTypes": ["Number", "Number"]
+      }
+    },
+    {
+      "Node": {
+        "function": "-",
+        "arity": 2,
+        "conmutative": false,
+        "returnType": "Number",
+        "argumentTypes": ["Number", "Number"]
+      }
+    },
+    {
+      "Node": {
+        "function": "*",
+        "arity": 2,
+        "conmutative": true
+      }
+    },
+    {
+      "Node": {
+        "function": "/",
+        "arity": 2,
+        "conmutative": false,
+        "returnType": "Number",
+        "argumentTypes": ["Number", "Number"]
+      }
+    },
+    {
+      "Node": {
+        "function": "sqrt",
+        "arity": 1
+      }
+    },
+    {
+      "Node": {
+        "function": "^",
+        "arity": 2,
+        "conmutative": false,
+        "returnType": "Number",
+        "argumentTypes": ["Number", "Number"]
+      }
+    }
+  ],
+
+  "TerminalNodes": [
+
+    {
+      "Node": {
+        "kind": "variable",
+        "name": "x",
+        "type": "Number"
+      }
+    },
+    {
+      "Node": {
+        "kind": "variable",
+        "name": "y",
+        "type": "Number"
+      }
+    },
+    {
+      "Node": {
+        "kind": "variable",
+        "name": "z",
+        "type": "Number"
+      }
+    },
+    {
+      "Node": {
+        "kind": "constant",
+        "value": 3.1416
+      }
+    },
+    {
+      "Node": {
+        "kind": "ephemeralConstant",
+        "function": "rand",
+        "arguments": "-1000.0:0.001:1000.0"
+      }
+    },
+    {
+      "Node": {
+        "kind": "terminalFunction",
+        "function": "myrandom"
+      }
+    }
+  ]
+}
