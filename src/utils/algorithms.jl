@@ -23,7 +23,7 @@ function basicExperiment(genj::GenJulia)
 
 
     initBestIndividual(genj)
-    """
+
     while !(reached(genj))
 
         saveResults(genj)
@@ -32,17 +32,17 @@ function basicExperiment(genj::GenJulia)
         selectedParents = selectParents(genj)
 
         offspring = cross(genj, selectedParents)
-
+        """
         mutatedOffspring = mutate(genj, offspring)
 
         evaluate!(genj, mutatedOffspring)
 
         replacePopulation!(genj, mutatedOffspring)
-
+        """
 
 
     end
-    """
+
     saveResults(genj)
 
 end # function

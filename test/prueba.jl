@@ -3,7 +3,6 @@
 #using .GeneticJulia
 import Random
 rng = Random.MersenneTwister(1234)
-include("../utils/miscFunctions.jl")
 
 a="hola"
 module A
@@ -31,13 +30,23 @@ end
 !!! dang
     dont
 """
-@noinline function sergioFunction2(a::Array{Float64})
+
+function sergio1()
+    5
+end
+
+function miOtra(a::Function)
+    a()
+end
+
+@noinline function sergioFunction2(a::Function)
     for i=1:1000
         5+3^2012/231*123
+        miOtra(a)
     end
 end
 
-a=precompile(sergioFunction2,tuple(Vector{<:Number}))
+a=precompile(sergioFunction2,tuple(Function))
 
 
 """
