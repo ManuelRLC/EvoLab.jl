@@ -1,8 +1,8 @@
-include("../base.jl")
-using .EvoLab
-using .EvoLab.GA.BinaryGA
-using .EvoLab.GA.IntegerGA
-using .EvoLab.GP.CGP
+
+using EvoLab
+using EvoLab.GA.BinaryGA
+using EvoLab.GA.IntegerGA
+using EvoLab.GP.CGP
 using Random
 #include("algorithms.jl")
 #include("fitnessFunctions.jl")

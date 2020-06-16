@@ -115,6 +115,7 @@ function cross_(crossoverOp::CrossoverOperator, selected::Array{Individual},
 
     # Obtains an array with the genotypes of selected individuals
     selectedRep = getGenotype(selected)
+
     # Type of genotype which determines the arguments that cross method receives
     genotypeType = getIndividualType(experimentInfo)
 
@@ -122,17 +123,27 @@ function cross_(crossoverOp::CrossoverOperator, selected::Array{Individual},
     functionArgs = getFunctionArgs(crossoverOp)
 
     # A method is created depending on the genotype, but with the same interface.
+"""
     if genotypeType <: GPGenotype
         method = (selectedParents) -> crossMethod(selectedParents..., experimentInfo._GPExperimentInfo, rng, functionArgs...)
     else
         method = (selectedParents) -> crossMethod(selectedParents..., rng, functionArgs...)
     end
-
+"""
+    GP = genotypeType <: GPGenotype
+    if GP
+        gpExperimentInfo = experimentInfo._GPExperimentInfo
+    end
     # If nChildren are equal to nParents, then the accesing indexes works as it is supposed to.
     if nChildren == nParents
         @inbounds for i=1:crossIterations
             if rand(rng) < crossoverOp._probability
-                offspringRep = method(view(selectedRep, indexSelected[i]+1:indexSelected[i+1]))
+                if GP
+                    offspringRep = crossMethod(selectedRep[indexSelected[i]+1:indexSelected[i+1]]..., gpExperimentInfo, rng, functionArgs...)
+                else
+                    offspringRep = crossMethod(selectedRep[indexSelected[i]+1:indexSelected[i+1]]..., rng, functionArgs...)
+                end
+                #offspringRep = method(view(selectedRep, indexSelected[i]+1:indexSelected[i+1]))
                 map!(x->Individual(x), view(offspring, indexOff[i]+1:indexOff[i+1]), offspringRep)
             else
                 offspring[indexOff[i]+1:indexOff[i+1]] = selected[indexSelected[i]+1:indexSelected[i+1]]
@@ -145,7 +156,11 @@ function cross_(crossoverOp::CrossoverOperator, selected::Array{Individual},
     elseif nChildren < nParents
         @inbounds for i=1:crossIterations
             if rand(rng) < crossoverOp._probability
-                offspringRep = method(view(selectedRep, indexSelected[i]+1:indexSelected[i+1]))
+                if GP
+                    offspringRep = crossMethod(selectedRep[indexSelected[i]+1:indexSelected[i+1]]..., gpExperimentInfo, rng, functionArgs...)
+                else
+                    offspringRep = crossMethod(selectedRep[indexSelected[i]+1:indexSelected[i+1]]..., rng, functionArgs...)
+                end
                 map!(x->Individual(x), view(offspring, indexOff[i]+1:indexOff[i+1]), offspringRep)
             else
                 offspring[indexOff[i]+1:indexOff[i+1]] = selected[indexSelected[i]+1:indexSelected[i]+nChildren]
@@ -161,7 +176,11 @@ function cross_(crossoverOp::CrossoverOperator, selected::Array{Individual},
         for i=1:crossIterations
             if rand(rng) < crossoverOp._probability
                 selectedForCross[indexSelected[i]+1:indexSelected[i+1]] = ones(Bool,nParents)
-                offspringRep = method(view(selectedRep, indexSelected[i]+1:indexSelected[i+1]))
+                if GP
+                    offspringRep = crossMethod(selectedRep[indexSelected[i]+1:indexSelected[i+1]]..., gpExperimentInfo, rng, functionArgs...)
+                else
+                    offspringRep = crossMethod(selectedRep[indexSelected[i]+1:indexSelected[i+1]]..., rng, functionArgs...)
+                end
                 map!(x->Individual(x), view(offspring, indexOff[i]+1:indexOff[i+1]), offspringRep)
             else
                 offspring[indexOff[i]+1:indexOff[i]+nParents] = selected[indexSelected[i]+1:indexSelected[i+1]]
@@ -173,9 +192,10 @@ function cross_(crossoverOp::CrossoverOperator, selected::Array{Individual},
                 end
             end
         end
+
     end
 
     return offspring
 end # function
 
-precompile(cross_,(CrossoverOperator, Vector{Individual}, ExperimentInfo))
+println("cross:",precompile(cross_,(CrossoverOperator, Vector{Individual}, ExperimentInfo)))

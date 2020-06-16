@@ -122,7 +122,8 @@ function selectParentsWithReplacement(selector::SelectionOperator, population::A
     return parents
 end # function
 
-
+precompile(selectParentsWithReplacement, tuple(SelectionOperator, Vector{Individual}, Evaluator, Random.MersenneTwister))
+precompile(selectParentsWithReplacement, tuple(SelectionOperator, Vector{Individual}, Evaluator, Random._GLOBAL_RNG))
 
 """
     selectParentsWithoutReplacement(selector::SelectionOperator,
@@ -164,7 +165,8 @@ function selectParentsWithoutReplacement(selector::SelectionOperator,
     return parents
 end # function
 
-
+precompile(selectParentsWithoutReplacement, tuple(SelectionOperator, Vector{Individual}, Evaluator, Random.MersenneTwister))
+precompile(selectParentsWithoutReplacement, tuple(SelectionOperator, Vector{Individual}, Evaluator, Random._GLOBAL_RNG))
 
 """
     selectParents_(selector::SelectionOperator, population::Array{Individual},
@@ -183,7 +185,8 @@ function selectParents_(selector::SelectionOperator, population::Array{Individua
     end
 end # function
 
-
+precompile(selectParents_, tuple(SelectionOperator, Vector{Individual}, Evaluator, Random.MersenneTwister))
+precompile(selectParents_, tuple(SelectionOperator, Vector{Individual}, Evaluator, Random._GLOBAL_RNG))
 
 """
     randomSelector(population::Array{Individual}, rng::Random.AbstractRNG)
@@ -246,7 +249,6 @@ function tournamentSelector(population::Array{Individual}, compare::Function,
     return bestIndex
 end # function
 export tournamentSelector
-
 
 
 

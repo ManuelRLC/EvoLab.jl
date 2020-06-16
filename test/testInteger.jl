@@ -1,7 +1,6 @@
-include("../base.jl")
 
-using .EvoLab
-using .EvoLab.GA.IntegerGA
+using EvoLab
+using EvoLab.GA.IntegerGA
 
 
 

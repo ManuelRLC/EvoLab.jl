@@ -32,13 +32,13 @@ function basicExperiment(genj::GenJulia)
         selectedParents = selectParents(genj)
 
         offspring = cross(genj, selectedParents)
-
+        """
         mutatedOffspring = mutate(genj, offspring)
 
         evaluate!(genj, mutatedOffspring)
 
         replacePopulation!(genj, mutatedOffspring)
-
+        """
 
 
     end

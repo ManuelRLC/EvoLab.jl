@@ -1,5 +1,5 @@
 
-function uniformCross(parent1::IntegerGenotype, parent2::IntegerGenotype,
+"""function uniformCross(parent1::IntegerGenotype, parent2::IntegerGenotype,
                         rng::Random.AbstractRNG)::Array{IntegerGenotype}
 
     genLen = length(parent1._representation)
@@ -17,7 +17,7 @@ function uniformCross(parent1::IntegerGenotype, parent2::IntegerGenotype,
         end
     end
     return [IntegerGenotype(child1), IntegerGenotype(child2)]
-end
+end"""
 
 
 function kPointCross(parent1::IntegerGenotype, parent2::IntegerGenotype,

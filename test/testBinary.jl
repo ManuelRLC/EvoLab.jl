@@ -1,7 +1,5 @@
-include("../base.jl")
-#include("fitnessFunctions.jl")
-using .EvoLab
-using .EvoLab.GA.BinaryGA
+@time using EvoLab
+using EvoLab.GA.BinaryGA
 
 """
     countBinaryOnes(ind::Individual)
@@ -28,11 +26,12 @@ setRandomSeed(5)
 setAlgorithm(basicExperiment)
 #setAlgorithm(basicExperiment)
 setIndividualType(BinaryGenotype)
-setStopCondition(maxIterations=500)
+setStopCondition(maxIterations=1)
 setEvaluator(FitnessFunction(countBinaryOnes))
 setGenerator(randomBinaryGenerator, 50, popSize = 100)
 setSelector(tournamentSelector, 4, samplingWithRep=true)
 setCrossoverOperator(uniformCross, nChildren=2)
+#setCrossoverOperator(kPointCross, nChildren=2)
 setMutationOperator(standardMutation, 0.1)
 setReplacementOperator(replaceAllPopulation)
 #setExperimentSummary(displayFitness=false, displayBestFitness=false,

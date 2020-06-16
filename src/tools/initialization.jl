@@ -98,3 +98,5 @@ function genPopulation_(generator::Generator, experimentInfo::ExperimentInfo)::A
     end
     return population
 end # function
+
+precompile(genPopulation_, tuple(Generator, ExperimentInfo))
