@@ -5,8 +5,8 @@ Main struct for integer arrays genotypes used in GA.
 - `_representation::Array{Integer}`: representation of the individual as an array of
     Integer.
 "
-struct IntegerGenotype <: GAGenotype
-    _representation::Array{Integer}
+struct IntegerGenotype{T<:Integer} <: GAGenotype
+    _representation::Array{T}
 end # struct
 
 

@@ -86,6 +86,6 @@ for both `CGPGenotype` and `STGPGenotype` it is [`subtreeCross`](@ref) with a
 probability of 0.2; for `GEPGenotype` it is [`kPointRecombinationCross`](@ref)
 with one crosspoint.
 """
-function getDefaultCrossoverOp(individualType::IntegerGenotype)::Tuple{Function, Array}
+function getDefaultCrossoverOp(individualType::Type{IntegerGenotype{T}})::Tuple{Function, Array} where T<:Integer
     return uniformCross, []
 end # function

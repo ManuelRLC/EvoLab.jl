@@ -104,13 +104,15 @@ S = "expr"
 println("Hola")
 println("Hola")
 
+clearGenJ()
 setRandomSeed(5)
 
 myrandom() = rand(GenJ._experimentInfo._rng, collect(0:9))
 setGEInfo(N, T, R, S, ["x", "y"], x, y, maxProductions = 50, maxDepth = 8)
 
 setIndividualType(GEGenotype)
-setAlgorithm(EvoLab.basicExperimentDeep)
+#setAlgorithm(EvoLab.basicExperimentDeep)
+setAlgorithm(basicExperiment)
 setStopCondition(maxIterations=2)
 setEvaluator([FitnessFunction(compareFunctions, objs, weight=-1)])
 setGenerator(rampedHalfHalfGenerator, popSize = 50, generateOneByOne = false)
