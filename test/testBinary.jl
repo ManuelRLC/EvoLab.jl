@@ -30,13 +30,14 @@ setStopCondition(maxIterations=500)
 setEvaluator(FitnessFunction(countBinaryOnes))
 setGenerator(randomBinaryGenerator, 50, popSize = 100)
 setSelector(tournamentSelector, 4, samplingWithRep=true)
-setCrossoverOperator(uniformCross, nChildren=2)
+setCrossoverOperator(singlePointCross, nChildren=2)
 #setCrossoverOperator(kPointCross, nChildren=2)
 setMutationOperator(standardMutation, 0.05)
 setReplacementOperator(replaceAllPopulation)
 #setExperimentSummary(displayFitness=false, displayBestFitness=false,
                      #batchSize=1, printDuringExperiment=true)
-setExperimentSummary(printBestFitness=false, printDuringExperiment=true, batchSize = 100)
+setExperimentSummary(printBestFitness=false)
+#setExperimentSummary(batchSize=-1)
 @time runGenJ(verbose=false)
 
 """

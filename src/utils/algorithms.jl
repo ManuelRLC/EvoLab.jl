@@ -38,35 +38,50 @@ export basicExperiment
 !!! warning
     For testing, don't use.
 """
-function basicExperimentDeep(genj::GenJulia = GenJ)
-    """println("Init")
-    @time initTime(genj)
-    println("GenPop")
-    @time genPopulation!(genj)
-    println("Evaluate")
-    @time evaluate!(genj, genj._population)
-    println("InitBest")
-    @time initBestIndividual(genj)
+function basicExperimentDeep(genj::GenJulia)
+
+    init=@elapsed initTime(genj)
+
+    gen=@elapsed genPopulation!(genj)
+
+    ev=@elapsed evaluate!(genj, genj._population)
+
+    best=@elapsed initBestIndividual(genj)
+    save=0
+    selec=0
+    cros=0
+    mutatio=0
+    repl=0
 
     while !(reached(genj))
 
-        println("Save")
-        @time saveResults(genj)
-        println("Select")
-        @time selectedParents = selectParents(genj)
-        println("cross")
-        @time offspring = cross(genj, selectedParents)
-        println("Mutate")
-        @time mutatedOffspring = mutate(genj, offspring)
-        println("Evaluate")
-        @time evaluate!(genj, mutatedOffspring)
-        println("Replace")
-        @time replacePopulation!(genj, mutatedOffspring)
+
+        save+=@elapsed saveResults(genj)
+
+        selec+=@elapsed selectedParents = selectParents(genj)
+
+        cros+=@elapsed offspring = cross(genj, selectedParents)
+
+        mutatio+=@elapsed mutatedOffspring = mutate(genj, offspring)
+
+        ev+=@elapsed evaluate!(genj, mutatedOffspring)
+
+        repl+=@elapsed replacePopulation!(genj, mutatedOffspring)
 
     end
 
-    println("Save")
-    @time saveResults(genj)"""
+
+    save+=@elapsed saveResults(genj)
+
+    println("init: ", init)
+    println("gen: ", gen)
+    println("ev: ", ev)
+    println("best: ", best)
+    println("save: ", save)
+    println("selec: ", selec)
+    println("cros: ", cros)
+    println("mutatio: ", mutatio)
+    println("repl: ", repl)
 end # function
 
 

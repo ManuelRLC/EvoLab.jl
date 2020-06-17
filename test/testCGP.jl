@@ -1,4 +1,5 @@
 using EvoLab
+using EvoLab.GP
 using EvoLab.GP.CGP
 
 import Random
@@ -75,7 +76,7 @@ for i=1:nvalues
 end
 
 clearGenJ()
-setAlgorithm(EvoLab.basicExperiment)
+setAlgorithm(EvoLab.basicExperimentDeep)
 setIndividualType(CGPGenotype)
 setRandomSeed(5)
 setCGPInfo(x, y, nodesFile="src/utils/GeneticProgramming/Canonical/exampleNodesCGP.json")
@@ -86,7 +87,7 @@ setSelector(tournamentSelector, 4)
 setCrossoverOperator(onePointCross, probability=0.9)
 setMutationOperator(pointMutation,0.005, probability=0.1)
 setReplacementOperator(replaceAllPopulation)
-setExperimentSummary(printBestFitness=false)
+setExperimentSummary(printBestFitness=false, batchSize=-1)
 
 
 @time runGenJ(verbose=false)
