@@ -1,5 +1,5 @@
 """
-    printExperimentInfo(genj::GenJulia = GenJ)
+    printExperimentInfo(outputFile::String = "", genj::GenJulia = GenJ)
 
 Print the information about an experiment.
 """

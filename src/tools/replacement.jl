@@ -131,7 +131,7 @@ end # function
     replacePopulation_(replaceOp::ReplacementOperator,
                        population::Array{Individual},
                        offspring::Array{Individual},
-                       evaluator::Evaluator, rng::Random.AbstractRNG)
+                       evaluator::Evaluator, experimentInfo::ExperimentInfo)
 
 Performs the replacement of the population by the given replacement method using
 the comparison function of the `Evaluator` to compare between individuals if necessary.

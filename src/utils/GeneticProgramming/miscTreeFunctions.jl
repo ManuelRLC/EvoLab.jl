@@ -1,35 +1,4 @@
 """
-    mergeSubtrees(original::Union{CGPGenotype, STGPGenotype}, subtree::Array{Node},
-                  pointIndex::Integer, removedLen::Integer)
-
-Merges two subtrees at the given merging point.
-"""
-
-"""function mergeSubtrees(original::Union{CGPGenotype, STGPGenotype}, subtree::Array{Node},
-                       pointIndex::Integer, removedLen::Integer)
-
-    originalTree = original._representation
-    originalLen = length(originalTree)
-    subtreeLen = length(subtree)
-    newLen = originalLen - removedLen + subtreeLen
-    childTree = Array{Node}(undef, newLen)
-
-    for i=1:newLen
-        if i < pointIndex
-            childTree[i] = originalTree[i]
-        elseif pointIndex <= i < (subtreeLen+pointIndex)
-            childTree[i] = subtree[i-pointIndex+1]
-        else
-            childTree[i] = originalTree[i+(removedLen-subtreeLen)]
-        end
-    end
-
-    return childTree
-end"""
-
-
-
-"""
     chooseAnotherNode(node::Node, terminalSet::Array{TerminalNode},
                       functionSet::Array{FunctionNode}, rng::Random.AbstractRNG,
                       allowedType::Union{DataType, Union} = Any)

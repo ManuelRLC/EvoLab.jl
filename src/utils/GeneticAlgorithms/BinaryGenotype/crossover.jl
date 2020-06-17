@@ -22,25 +22,6 @@ end
 
 
 
-function uniformCross2(parent1::BinaryGenotype, parent2::BinaryGenotype,
-                        rng::Random.AbstractRNG)::Array{BinaryGenotype}
-
-    genLen = length(parent1._representation)
-    child1 = BinaryGenotype(similar(Array{Bool}, genLen))
-    child2 = BinaryGenotype(similar(Array{Bool}, genLen))
-
-    indexes = rand(rng, Bool, genLen)
-    indexesF = !indexes
-    child1._representation[indexes] = parent1._representation[indexes]
-    child2._representation[indexes] = parent2._representation[indexes]
-    child1._representation[indexesF] = parent2._representation[indexesF]
-    child2._representation[indexesF] = parent1._representation[indexesF]
-
-    return [BinaryGenotype(child1), BinaryGenotype(child2)]
-end
-
-
-
 function kPointCross(parent1::BinaryGenotype, parent2::BinaryGenotype,
                     rng::Random.AbstractRNG, k::Integer=1)::Array{BinaryGenotype}
 
@@ -93,6 +74,7 @@ function singlePointCross(parent1::BinaryGenotype, parent2::BinaryGenotype,
                             rng::Random.AbstractRNG)::Array{BinaryGenotype}
     kPointCross(parent1, parent2, rng, 1)
 end
+
 
 
 """

@@ -15,7 +15,7 @@ See also: [`evaluate`](@ref)
 function getPhenotype(genotype::STGPGenotype)
     phenotype = Array{String}(undef, 0)
     representation = genotype._representation
-    visitedFromRoot = Array{Integer}(undef, 0, 2)
+    visitedFromRoot = Array{Int64}(undef, 0, 2)
 
     nodeIndex = 1
     parent = 0
@@ -23,7 +23,7 @@ function getPhenotype(genotype::STGPGenotype)
     while nodeIndex != 0
 
         if nodeIndex > size(visitedFromRoot)[1]
-            visitedFromRoot = vcat(visitedFromRoot, zeros(Integer, 1, 2))
+            visitedFromRoot = vcat(visitedFromRoot, zeros(Int64, 1, 2))
             visitedFromRoot[end, 2] = parent
 
             if typeof(representation[nodeIndex]) <: TerminalNode

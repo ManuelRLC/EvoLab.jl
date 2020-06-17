@@ -19,7 +19,7 @@ end
 
 setRandomSeed(20)
 setIndividualType(GEPGenotype)
-setGEPInfo(x, y, nodesFile="ECJ/utils/GeneticProgramming/GeneExpressionProgramming/exampleNodesGEP.json")
+setGEPInfo(x, y, nodesFile="src/utils/GeneticProgramming/GeneExpressionProgramming/exampleNodesGEP.json")
 setStopCondition(maxIterations=50)
 setEvaluator([FitnessFunction(compareFunctions, objs, weight=-1)])
 setGenerator(rampedHalfHalfGenerator, popSize = 50, generateOneByOne = false)

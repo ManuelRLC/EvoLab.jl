@@ -94,8 +94,8 @@ end # function
 
 
 """
-    rampedHalfHalfGenerator(gpExperimentInfo::CGPInfo, popSize::Integer,
-                            rng::Random.AbstractRNG, RHHFactor::AbstractFloat = 0.5)
+    rampedHalfHalfGenerator(gpExperimentInfo::CGPInfo, popSize::UInt32,
+                            rng::Random.AbstractRNG, RHHFactor::Float64 = 0.5)
 
 Initializes a population for a GP problem by the \"ramped half and half\" method,
 which creates part of it using the full method, and the other part using the grow
@@ -106,13 +106,13 @@ method.
 
 # Self-provided Arguments
 - `gpExperimentInfo::CGPInfo`: information about the GP experiment.
-- `popSize::Integer`: size of the population that is going to be created, that is
+- `popSize::UInt32`: size of the population that is going to be created, that is
     to say, the number of individuals of the population.
 - `rng::Random.AbstractRNG`: random number generator for random number consistency
     along an experiment.
 
 # User arguments
-- `RHHFactor::AbstractFloat = 0.5`: percentage of the population that is going to
+- `RHHFactor::Float64 = 0.5`: percentage of the population that is going to
     be created by the \"full\" method, the remaining percentage will be created by
     the \"grow\" method.
 
@@ -135,7 +135,5 @@ function rampedHalfHalfGenerator(gpExperimentInfo::CGPInfo, popSize::UInt32,
 
     return Random.shuffle(rng, population)
 end # function
-println(precompile(rampedHalfHalfGenerator, tuple(CGPInfo,UInt32,
-                                 Random.MersenneTwister, Float64)))
-println(precompile(rampedHalfHalfGenerator, tuple(CGPInfo,UInt32,
-                              Random._GLOBAL_RNG, Float64)))
+precompile(rampedHalfHalfGenerator, tuple(CGPInfo,UInt32, Random.MersenneTwister, Float64))
+precompile(rampedHalfHalfGenerator, tuple(CGPInfo,UInt32, Random._GLOBAL_RNG, Float64))

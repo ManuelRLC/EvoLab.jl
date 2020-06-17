@@ -4,7 +4,8 @@
 
 Selects a node from a tree and mutates it into another one.
 
-`Self-provided Arguments` are provided by the library, so only `User Arguments` must be provided.
+!!! note
+    `Self-provided Arguments` are provided by the library, so only `User Arguments` must be provided.
 
 # Self-provided Arguments
 - `genotype::CGPGenotype`: genotype of the individual that is going to be mutated.
@@ -45,11 +46,12 @@ end # function
 
 """
     pointMutation(genotype::CGPGenotype, gpExperimentInfo::CGPInfo,
-                  rng::Random.AbstractRNG, probability::AbstractFloat)
+                  rng::Random.AbstractRNG, probability::Float64)
 
 Mutates the nodes of a tree with a certain probability.
 
-`Self-provided Arguments` are provided by the library, so only `User Arguments` must be provided.
+!!! note
+    `Self-provided Arguments` are provided by the library, so only `User Arguments` must be provided.
 
 # Self-provided Arguments
 - `genotype::CGPGenotype`: genotype of the individual that is going to be mutated.
@@ -58,13 +60,13 @@ Mutates the nodes of a tree with a certain probability.
     along an experiment.
 
 # User Arguments
-- `probability::AbstractFloat`: probability of mutation for each node.
+- `probability::Float64`: probability of mutation for each node.
 
 # Returns
 The instance of type `CGPGenotype` mutated.
 """
 function pointMutation(genotype::CGPGenotype, gpExperimentInfo::CGPInfo,
-                       rng::Random.AbstractRNG, probability::AbstractFloat)
+                       rng::Random.AbstractRNG, probability::Float64)
 
     terminalSet = deepcopy(gpExperimentInfo._terminalSet)
     functionSet = gpExperimentInfo._functionSet
@@ -90,8 +92,7 @@ function pointMutation(genotype::CGPGenotype, gpExperimentInfo::CGPInfo,
 
     return CGPGenotype(mutatedChild)
 end # function
-println(precompile(pointMutation, tuple(CGPGenotype, CGPInfo,
-                       Random.MersenneTwister, Float64)))
+precompile(pointMutation, tuple(CGPGenotype, CGPInfo, Random.MersenneTwister, Float64))
 
 
 

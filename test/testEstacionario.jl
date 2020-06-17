@@ -23,7 +23,7 @@ end
 
 setRandomSeed(54)
 setIndividualType(CGPGenotype)
-setCGPInfo(x, y, nodesFile="ECJ/utils/GeneticProgramming/Canonical/exampleNodesCGP.json")
+setCGPInfo(x, y, nodesFile="src/utils/GeneticProgramming/Canonical/exampleNodesCGP.json")
 setStopCondition(maxIterations=1000)
 setEvaluator([FitnessFunction(compareFunctions, objs, weight=-1)])
 setGenerator(rampedHalfHalfGenerator, popSize = 100, generateOneByOne = false)
@@ -31,6 +31,6 @@ setSelector(tournamentSelector, 4, nSelected=2)
 setCrossoverOperator(subtreeCross, probability=0.9)
 setMutationOperator(pointMutation, 0.2, probability=0.1)
 setReplacementOperator(replaceWorstIndividuals, needsComparison=true)
-
+setExperimentSummary(displayBestFitness=false)
 
 @time runGenJ(verbose=false)

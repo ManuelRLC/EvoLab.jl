@@ -27,12 +27,14 @@ mutable struct Consequent
 end
 
 
+
 """
     getNSymbols(genotype::Genotype)::UInt8
 
 Returns the number of symbol of the consequent.
 """
 getNSymbols(consequent::Consequent)::UInt8 = consequent._nSymbols
+
 
 
 """
@@ -43,12 +45,14 @@ Returns the the maximum of the minimum depths of the symbols.
 getDepth(consequent::Consequent)::Int16 = consequent._depth
 
 
+
 """
     isRecursive(consequent::Consequent)::Bool
 
 Returns whether is recursive or not.
 """
 isRecursive(consequent::Consequent)::Bool = consequent._recursive
+
 
 
 """
@@ -83,12 +87,14 @@ mutable struct ProductionRule
 end
 
 
+
 """
     hasDepth(productionRule::ProductionRule)::Bool
 
 Returns whether the depth is already set or not.
 """
 hasDepth(productionRule::ProductionRule)::Bool = productionRule._depth != -32000
+
 
 
 """
@@ -99,12 +105,14 @@ Returns the number of consequent that the production rule has.
 getNConsequent(productionRule::ProductionRule)::UInt8 = productionRule._nConsequent
 
 
+
 """
     getNRules(productionRule::ProductionRule)::UInt8
 
 Returns the number of consequent that the production rule has.
 """
 getNRules(productionRule::ProductionRule)::UInt8 = getNConsequent(productionRule)
+
 
 
 """
@@ -115,12 +123,14 @@ Returns the depth that represent the minimum of consequents depth.
 getDepth(productionRule::ProductionRule)::Int16 = productionRule._depth
 
 
+
 """
     getConsequent(productionRule::ProductionRule)::Consequent
 
 Returns the consequent associated with index.
 """
 getConsequent(productionRule::ProductionRule, index::UInt8)::Consequent = productionRule._consequent[index]
+
 
 
 """
@@ -140,6 +150,7 @@ function getPosibleConsequentProductions(productionRule::ProductionRule, product
     end
     return index, count
 end
+
 
 
 """
@@ -165,6 +176,7 @@ function getPosibleRecursiveProductions(productionRule::ProductionRule, producti
 end
 
 
+
 """
     getPosibleConsequentDepth(productionRule::ProductionRule, depth::UInt8=0xffff, productions::UInt16=0xffff)::Tuple{Array{UInt8}, UInt8}
 
@@ -183,6 +195,8 @@ function getPosibleConsequentDepth(productionRule::ProductionRule, depth::UInt8=
     end
     return index, count
 end
+
+
 
 """
     getPosibleRecursiveDepth(productionRule::ProductionRule, depth::UInt8=0xffff, productions::UInt16=0xffff)::Tuple{Array{UInt8}, UInt8}
@@ -207,8 +221,6 @@ function getPosibleRecursiveDepth(productionRule::ProductionRule, depth::UInt8=0
     end
     return index, count
 end
-
-
 
 
 
@@ -240,12 +252,14 @@ end # struct
 export Grammar
 
 
+
 """
     getInitialSymbol(gramm::Grammar)::UInt16
 
 Returns the first symbol of the grammar.
 """
 getInitialSymbol(gramm::Grammar)::UInt16 = gramm._S
+
 
 
 """
@@ -266,6 +280,7 @@ A interface for `getDepth(productionRule::ProductionRule)`.
 getDepth(gramm::Grammar, id::UInt16)::Int16 = getDepth(getProductionRule(gramm, id))
 
 
+
 """
     getRepresentation(gramm::Grammar, id::UInt16)::String
 
@@ -274,12 +289,14 @@ Returns the correspondence of a numeric symbol, a string.
 getRepresentation(gramm::Grammar, id::UInt16)::String = isTerminalSymbol(gramm, id) ? gramm._T[id-0x03e8] : gramm._N[id]
 
 
+
 """
     isTerminalSymbol(gramm::Grammar, id::UInt16)::Bool
 
 Returns the correspondence of a numeric symbol, a string.
 """
 isTerminalSymbol(gramm::Grammar, id::UInt16)::Bool = id > 0x03e7
+
 
 
 """
@@ -296,6 +313,7 @@ function getNRules(gramm::Grammar)::UInt16
 end
 
 
+
 """
     getNProductionRules(gramm::Grammar)::UInt16
 
@@ -304,12 +322,14 @@ Returns the number of production rules in the grammar.
 getNProductionRules(gramm::Grammar)::UInt16 = gramm._nProductionRules
 
 
+
 """
     getNConsequent(gramm::Grammar, id::UInt16)::UInt8
 
 A interface for `getNConsequent(productionRule::ProductionRule)`.
 """
 getNConsequent(gramm::Grammar, id::UInt16)::UInt8 = getNConsequent(getProductionRule(gramm, id))
+
 
 
 """
@@ -322,6 +342,7 @@ getPosibleConsequentProductions(gramm::Grammar, antecedent::UInt16,
             productions::UInt16=0xffff)::Tuple{Array{UInt8}, UInt8} = getPosibleConsequentProductions(getProductionRule(gramm, antecedent), productions)
 
 
+
 """
     getPosibleRecursiveProductions(gramm::Grammar, antecedent::UInt16,
             productions::UInt16=0xffff)::Tuple{Array{UInt8}, UInt8}
@@ -332,6 +353,7 @@ getPosibleRecursiveProductions(gramm::Grammar, antecedent::UInt16,
         productions::UInt16=0xffff)::Tuple{Array{UInt8}, UInt8} = getPosibleRecursiveProductions(getProductionRule(gramm, antecedent), productions)
 
 
+
 """
     getPosibleConsequentDepth(gramm::Grammar, antecedent::UInt16, depth::UInt8=0xff,
             productions::UInt16=0xffff)::Tuple{Array{UInt8}, UInt8}
@@ -340,6 +362,7 @@ A interface for `getPosibleConsequentDepth(productionRule::ProductionRule, depth
 """
 getPosibleConsequentDepth(gramm::Grammar, antecedent::UInt16, depth::UInt8=0xff,
         productions::UInt16=0xffff)::Tuple{Array{UInt8}, UInt8} = getPosibleConsequentDepth(getProductionRule(gramm, antecedent), depth, productions)
+
 
 
 """
@@ -358,7 +381,6 @@ getPosibleRecursiveDepth(gramm::Grammar, antecedent::UInt16, depth::UInt8=0xff,
 A interface for `getConsequent(productionRule::ProductionRule, index)`.
 """
 getConsequent(gramm::Grammar, antecedent::UInt16, index::UInt8)::Consequent = getConsequent(getProductionRule(gramm, antecedent), index)
-
 
 
 

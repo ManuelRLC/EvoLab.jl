@@ -901,29 +901,29 @@ function parseExperimentSummary(summaryDict::Dict, experiment::GenJulia)
         error("displayFitnessMean field in Experiment Summary must be either true or false", displayFitnessMean)
     end
 
-    displayFitnessSTD = get(summaryDict, "displayFitnessSTD", false)
-    if typeof(displayFitnessSTD) <: String
+    displayFitnessVAR = get(summaryDict, "displayFitnessVAR", false)
+    if typeof(displayFitnessVAR) <: String
         try
-            aux = parentModule.eval(Meta.parse(displayFitnessSTD))
-            displayFitnessSTD = aux
+            aux = parentModule.eval(Meta.parse(displayFitnessVAR))
+            displayFitnessVAR = aux
         catch e
-            error("displayFitnessSTD field in ExperimentSummary is not defined: ", displayFitnessSTD)
+            error("displayFitnessVAR field in ExperimentSummary is not defined: ", displayFitnessVAR)
         end
     end
-    if !(typeof(displayFitnessSTD) <: Bool)
-        error("displayFitnessSTD field in Experiment Summary must be either true or false", displayFitnessSTD)
+    if !(typeof(displayFitnessVAR) <: Bool)
+        error("displayFitnessVAR field in Experiment Summary must be either true or false", displayFitnessVAR)
     end
 
     setExperimentSummary(experiment, outputFile=outputFile, batchSize=batchSize,
                          printDuringExperiment=printDuringExperiment, displayFitness=displayFitness,
                          displayBestFitness=displayBestFitness, displayFitnessMean=displayFitnessMean,
-                         displayFitnessSTD=displayFitnessSTD)
+                         displayFitnessVAR=displayFitnessVAR)
 end # function
 
 
 
 """
-    generateMainStructure(genJ::GenJulia, jsonFile::String)
+    generateMainStructure(jsonFile::String; verbose::Bool = true)
 
 Generate the array of structures for each experiment of the configuration file.
 """
