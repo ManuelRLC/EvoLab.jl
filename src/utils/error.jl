@@ -286,7 +286,7 @@ function checkParametersCorrectGP(genj::GenJulia, index::Int64 = 0)
             error("Generation method ($(genj._generator._method)) should generate individuals (you generate $(typeof(individuals[1]))) of the same type as the one specified in individualType ($(genj._experimentInfo._individualType))")
         end
 
-
+fitness = fitnessEval(genj._evaluator._fitnessFunctions[1], genj._experimentInfo._GPExperimentInfo, individuals[1])
         try
             len = length(genj._evaluator._fitnessFunctions)
             k = 1

@@ -46,7 +46,7 @@ end
 clearGenJ()
 setIndividualType(CGPGenotype)
 setRandomSeed(2)
-setCGPInfo(x, y, nodesFile="ECJ/utils/GeneticProgramming/Canonical/exampleNodesCGP.json")
+setCGPInfo(x, y, nodesFile="src/utils/GeneticProgramming/Canonical/exampleNodesCGP.json")
 setAlgorithm(SPEA, 10)
 setStopCondition(maxIterations=50)
 setEvaluator([FitnessFunction(compareFunctions, objs, weight=-1), FitnessFunction(nNodes, weight=-0.2)],
@@ -56,7 +56,7 @@ setSelector(tournamentSelector, 2)
 setCrossoverOperator(subtreeCross, probability=0.9)
 setMutationOperator(subtreeMutation, probability=0.2)
 setReplacementOperator(replaceAllPopulation, eliteSize=5)
-#setExperimentSummary(displayBestFitness=false)
+setExperimentSummary(batchSize=-1, printBestFitness=false)
 
 @time runGenJ(verbose=false)
 """
@@ -77,16 +77,16 @@ end
 clearGenJ()
 setAlgorithm(EvoLab.basicExperiment)
 setIndividualType(CGPGenotype)
-setRandomSeed(5)
+setRandomSeed(43)
 setCGPInfo(x, y, nodesFile="src/utils/GeneticProgramming/Canonical/exampleNodesCGP.json")
 setStopCondition(maxIterations=50)
 setEvaluator([FitnessFunction(compareFunctions, objs, weight=-1)])
 setGenerator(fullGenerator, popSize = 50, generateOneByOne = true)
 setSelector(tournamentSelector, 4)
 setCrossoverOperator(onePointCross, probability=0.9)
-setMutationOperator(pointMutation,0.005, probability=0.1)
+setMutationOperator(pointMutation, 0.2, probability=0.1)
 setReplacementOperator(replaceAllPopulation)
-setExperimentSummary(printBestFitness=false)
+setExperimentSummary(batchSize=-1, printBestFitness=false)
 
 
 @time runGenJ(verbose=false)

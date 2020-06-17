@@ -10,7 +10,6 @@ include("evaluation.jl")
 export evalPhenotype
 
 module CGP
-
 import ..GP: parseGPExperimentInfo, getDefaultCrossoverOp, getDefaultMutationOp
 using ..GP: GenJulia, GenJ, GPExperimentInfo, setGPExperimentInfo,
             GPGenotype, Random, Node, FunctionNode, TerminalNode, VariableNode, ConstantNode,

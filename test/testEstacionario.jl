@@ -31,6 +31,6 @@ setSelector(tournamentSelector, 4, nSelected=2)
 setCrossoverOperator(subtreeCross, probability=0.9)
 setMutationOperator(pointMutation, 0.2, probability=0.1)
 setReplacementOperator(replaceWorstIndividuals, needsComparison=true)
-setExperimentSummary(displayBestFitness=false)
+setExperimentSummary(printBestFitness=false)
 
 @time runGenJ(verbose=false)

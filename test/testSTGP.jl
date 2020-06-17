@@ -1,6 +1,6 @@
 import Random
 using EvoLab
-using EvoLab.GP
+
 using EvoLab.GP.STGP
 
 
@@ -73,6 +73,7 @@ evaluate!(GenJ, GenJ._population)
 
 """
 clearGenJ()
+setAlgorithm(EvoLab.basicExperimentDeep)
 setIndividualType(STGPGenotype)
 setRandomSeed(2)
 setSTGPInfo(x, y, nodesFile="src/utils/GeneticProgramming/StronglyTyped/exampleNodesSTGP.json")
@@ -83,6 +84,6 @@ setSelector(tournamentSelector, 5)
 setCrossoverOperator(subtreeCross, probability = 0.9)
 setMutationOperator(STGP.subtreeMutation, probability = 0.2)
 setReplacementOperator(replaceAllPopulation, eliteSize=5)
-setExperimentSummary(displayBestFitness=false)
+setExperimentSummary(batchSize=-1, printBestFitness=false)
 
 @time runGenJ(verbose = false)
