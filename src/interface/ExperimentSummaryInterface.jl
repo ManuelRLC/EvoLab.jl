@@ -4,8 +4,8 @@
 documentation
 """
 function setExperimentSummary(genj::GenJulia = GenJ; batchSize::Integer = 0,
-                              displayFitness::Bool = true, displayBestFitness::Bool = true,
-                              displayFitnessMean::Bool = true, displayFitnessSTD::Bool = true,
+                              printFitness::Bool = true, printBestFitness::Bool = true,
+                              printFitnessMean::Bool = true, printFitnessVAR::Bool = true,
                               printDuringExperiment::Bool = false, outputFile::String = "")
 
     if batchSize < 0
@@ -31,13 +31,13 @@ function setExperimentSummary(genj::GenJulia = GenJ; batchSize::Integer = 0,
         intDiv = div(maxIter, batchSize)
 
         # Using column-first order for higher performance
-        if displayFitness
+        if printFitness
             fitnessValues = Array{Float64}(undef, (nFitness+1, popSize, intDiv))
         else
             fitnessValues = Array{Float64}(undef, 0)
         end
 
-        if displayBestFitness
+        if printBestFitness
             bestFitnessValues = Array{Float64}(undef, (nFitness+1, intDiv))
             bestIndividuals = Array{Any}(undef, intDiv)
         else
@@ -45,16 +45,16 @@ function setExperimentSummary(genj::GenJulia = GenJ; batchSize::Integer = 0,
             bestIndividuals = Array{Any}(undef, 0)
         end
 
-        if displayFitnessMean
+        if printFitnessMean
             meanFitness = Array{Float64}(undef, (nFitness+1, intDiv))
         else
             meanFitness = Array{Float64}(undef, 0)
         end
 
-        if displayFitnessSTD
-            stdFitness = Array{Float64}(undef, (nFitness+1, intDiv))
+        if printFitnessVAR
+            varFitness = Array{Float64}(undef, (nFitness+1, intDiv))
         else
-            stdFitness = Array{Float64}(undef, 0)
+            varFitness = Array{Float64}(undef, 0)
         end
 
         GenJ._experimentInfo._experimentSummary = ExperimentSummary(outputFile,
@@ -63,7 +63,7 @@ function setExperimentSummary(genj::GenJulia = GenJ; batchSize::Integer = 0,
                                                                     fitnessValues,
                                                                     bestFitnessValues,
                                                                     meanFitness,
-                                                                    stdFitness,
+                                                                    varFitness,
                                                                     bestIndividuals,
                                                                     Base.OneTo(nFitness),
                                                                     hasGlobal)
@@ -82,14 +82,14 @@ export setExperimentSummary
 
 Prints all the information of the experiment.
 """
-function printInformation(genj::GenJulia = GenJ; displayFitness::Bool = true,
-                          displayBestFitness::Bool = true, displayMeanFitness::Bool = true,
-                          displayVARFitness::Bool = true, outputFile::String = "")
+function printInformation(genj::GenJulia = GenJ; printFitness::Bool = true,
+                          printBestFitness::Bool = true, printFitnessMean::Bool = true,
+                          printFitnessVAR::Bool = true, outputFile::String = "")
 
     if isdefined(genj._experimentInfo, :_experimentSummary)
-        printInformation_(genj._experimentInfo._experimentSummary, displayFitness=displayFitness,
-                          displayBestFitness=displayBestFitness, displayMeanFitness=displayMeanFitness,
-                          displayVARFitness=displayVARFitness, outputFile=outputFile)
+        printInformation_(genj._experimentInfo._experimentSummary, printFitness=printFitness,
+                          printBestFitness=printBestFitness, printFitnessMean=printFitnessMean,
+                          printFitnessVAR=printFitnessVAR, outputFile=outputFile)
     else
         error("The experiment has not been set with an information summary (See \"setExperimentSummary\")")
     end

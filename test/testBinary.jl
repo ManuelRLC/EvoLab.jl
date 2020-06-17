@@ -36,7 +36,7 @@ setMutationOperator(standardMutation, 0.05)
 setReplacementOperator(replaceAllPopulation)
 #setExperimentSummary(displayFitness=false, displayBestFitness=false,
                      #batchSize=1, printDuringExperiment=true)
-setExperimentSummary(displayBestFitness=false)
+setExperimentSummary(printBestFitness=false, printDuringExperiment=true, batchSize = 100)
 @time runGenJ(verbose=false)
 
 """

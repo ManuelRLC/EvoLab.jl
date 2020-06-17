@@ -257,12 +257,12 @@ end # function
 
 displays all the information in the summary.
 """
-function displayInformation_(summary::ExperimentSummary; displayFitness::Bool = true,
-                                     displayBestFitness::Bool = true, displayMeanFitness::Bool = true,
-                                     displayVARFitness::Bool = true, outputFile::String = "")
+function printInformation_(summary::ExperimentSummary; printFitness::Bool = true,
+                                     printBestFitness::Bool = true, printFitnessMean::Bool = true,
+                                     printFitnessVAR::Bool = true, outputFile::String = "")
 
-    if somethingToDisplay(summary) && (displayFitness || displayBestFitness ||
-        displayMeanFitness || displayVARFitness)
+    if somethingToDisplay(summary) && (printFitness || printBestFitness ||
+        printFitnessMean || printFitnessVAR)
 
         if outputFile == ""
             outputFile = getOutputFile(summary)
@@ -280,7 +280,7 @@ function displayInformation_(summary::ExperimentSummary; displayFitness::Bool = 
             println(io, "GENERATION ", batchSize * gen, ":")
             println(io)
 
-            if displayFitness(summary) && displayFitness
+            if displayFitness(summary) && printFitness
                 println(io, "  RESULTS OF ALL THE INDIVIDUALS")
                 println(io, "  ------------------------------")
                 indexes = axes(summary._fitnessValues)
@@ -303,7 +303,7 @@ function displayInformation_(summary::ExperimentSummary; displayFitness::Bool = 
             end
 
 
-            if displayBestFitness(summary) && displayBestFitness
+            if displayBestFitness(summary) && printBestFitness
                 println(io, "  RESULTS OF THE BEST INDIVIDUAL")
                 println(io, "  ------------------------------")
 
@@ -318,7 +318,7 @@ function displayInformation_(summary::ExperimentSummary; displayFitness::Bool = 
                 println(io)
             end
 
-            if displayMeanFitness(summary) && displayMeanFitness
+            if displayMeanFitness(summary) && printFitnessMean
                 println(io, "  MEAN OF THE RESULTS")
                 println(io, "  -------------------")
                 for fit = summary._indexes
@@ -330,7 +330,7 @@ function displayInformation_(summary::ExperimentSummary; displayFitness::Bool = 
                 println(io)
             end
 
-            if displayVARFitness(summary) && displayVARFitness
+            if displayVARFitness(summary) && printFitnessVAR
                 println(io, "  VARIANCE OF THE RESULTS")
                 println(io, "  ---------------------------------")
                 for fit = summary._indexes
