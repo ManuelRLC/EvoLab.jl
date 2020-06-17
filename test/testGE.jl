@@ -113,7 +113,7 @@ setGEInfo(N, T, R, S, ["x", "y"], x, y, maxProductions = 50, maxDepth = 8)
 setIndividualType(GEGenotype)
 #setAlgorithm(EvoLab.basicExperimentDeep)
 setAlgorithm(basicExperiment)
-setStopCondition(maxIterations=2)
+setStopCondition(maxIterations=50)
 setEvaluator([FitnessFunction(compareFunctions, objs, weight=-1)])
 setGenerator(rampedHalfHalfGenerator, popSize = 50, generateOneByOne = false)
 setSelector(tournamentSelector, 4)
@@ -128,6 +128,7 @@ setMutationOperator(
     probability = 0.5,
 )
 setReplacementOperator(replaceAllPopulation, eliteSize=5)
+setExperimentSummary(displayBestFitness=false)
 
 @time runGenJ(verbose = false)
 #genj = GeneticJulia.GenJ

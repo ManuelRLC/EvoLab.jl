@@ -26,7 +26,7 @@ setRandomSeed(5)
 setAlgorithm(basicExperiment)
 #setAlgorithm(basicExperiment)
 setIndividualType(BinaryGenotype)
-setStopCondition(maxIterations=1)
+setStopCondition(maxIterations=500)
 setEvaluator(FitnessFunction(countBinaryOnes))
 setGenerator(randomBinaryGenerator, 50, popSize = 100)
 setSelector(tournamentSelector, 4, samplingWithRep=true)
@@ -36,6 +36,7 @@ setMutationOperator(standardMutation, 0.1)
 setReplacementOperator(replaceAllPopulation)
 #setExperimentSummary(displayFitness=false, displayBestFitness=false,
                      #batchSize=1, printDuringExperiment=true)
+setExperimentSummary(displayBestFitness=false)
 @time runGenJ(verbose=false)
 
 """

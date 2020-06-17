@@ -73,8 +73,6 @@ end # function
 
 
 
-
-
 function exchangeMutation(genotype::BinaryGenotype, rng::Random.AbstractRNG)::BinaryGenotype
 
     genLen = length(genotype._representation)
@@ -89,6 +87,8 @@ function exchangeMutation(genotype::BinaryGenotype, rng::Random.AbstractRNG)::Bi
 
     return BinaryGenotype(mutatedIndRep)
 end
+
+
 
 function scrambleMutation(genotype::BinaryGenotype, nGens::Integer,
                                 rng::Random.AbstractRNG)::BinaryGenotype
@@ -117,12 +117,15 @@ function scrambleMutation(genotype::BinaryGenotype, nGens::Integer,
     return BinaryGenotype(mutatedIndRep)
 end
 
+
+
 function scrambleMutation(genotype::BinaryGenotype, rng::Random.AbstractRNG)::BinaryGenotype
 
     genLen = length(genotype._representation)
     nGens=rand(rng, UInt32)%(genLen-2)+2
     return scrambleMutation(genotype, convert(Integer, nGens), rng)
 end
+
 
 
 function inversionMutation(genotype::BinaryGenotype, nGens::Integer,
@@ -150,6 +153,8 @@ function inversionMutation(genotype::BinaryGenotype, nGens::Integer,
     return BinaryGenotype(mutatedIndRep)
 
 end
+
+
 
 function inversionMutation(genotype::BinaryGenotype,
                                 rng::Random.AbstractRNG)::BinaryGenotype
@@ -205,6 +210,8 @@ function insertMutation(genotype::BinaryGenotype, nGens::Integer,
 
     return BinaryGenotype(mutatedIndRep)
 end
+
+
 
 function insertMutation(genotype::BinaryGenotype,
                             rng::Random.AbstractRNG)::BinaryGenotype

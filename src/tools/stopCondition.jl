@@ -99,7 +99,7 @@ Sets the starting time of the experiment.
 """
 function setTime(stopCondition::StopCondition, time::Float64)
     stopCondition._initialTime = time
-    nothing
+    return nothing
 end # function
 
 
@@ -111,7 +111,7 @@ Adds one to the current number of evaluations.
 """
 function notifyEvaluation(stopCondition::StopCondition)
     stopCondition._numEvaluations += 1
-    nothing
+    return nothing
 end # function
 
 
@@ -123,7 +123,7 @@ Adds one to the current number of iterations.
 """
 function notifyIteration(stopCondition::StopCondition)
     stopCondition._numIterations += 1
-    nothing
+    return nothing
 end # function
 
 
@@ -136,7 +136,7 @@ of the population.
 """
 function notifyIterNotImproving(stopCondition::StopCondition)
     stopCondition._numIterNotImproving += 1
-    nothing
+    return nothing
 end # function
 
 
@@ -148,7 +148,7 @@ Resets the number of evaluations back to 0.
 """
 function resetEvaluations(stopCondition::StopCondition)
     stopCondition._numEvaluations = 0
-    nothing
+    return nothing
 end # function
 
 
@@ -160,7 +160,7 @@ Resets the number of iterations back to 0.
 """
 function resetIterations(stopCondition::StopCondition)
     stopCondition._numIterations = 0
-    nothing
+    return nothing
 end # function
 
 
@@ -173,7 +173,7 @@ back to 0.
 """
 function resetIterNotImproving(stopCondition::StopCondition)
     stopCondition._numIterNotImproving = 0
-    nothing
+    return nothing
 end # function
 
 
@@ -184,15 +184,15 @@ end # function
 Reset all the stop conditions.
 """
 function resetConditions_(stopCondition::StopCondition)
-    if stopCondition._maxEvaluations != -1
+    if stopCondition._maxEvaluations != typemax(Int64)
         resetEvaluations(stopCondition)
     end
 
-    if stopCondition._maxIterations != -1
+    if stopCondition._maxIterations != typemax(Int64)
         resetIterations(stopCondition)
     end
 
-    if stopCondition._maxIterNotImproving != -1
+    if stopCondition._maxIterNotImproving != typemax(Int64)
         resetIterNotImproving(stopCondition)
     end
 

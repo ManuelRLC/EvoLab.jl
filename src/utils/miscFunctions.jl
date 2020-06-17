@@ -8,6 +8,8 @@ function euclideanDistance(point1::Array, point2::Array)
     return sqrt(acc)
 end
 
+
+
 function pairwiseDistance(array1::Array, array2::Array, metric::Function)
 
     len = size(array1)[2]
@@ -23,6 +25,8 @@ function pairwiseDistance(array1::Array, array2::Array, metric::Function)
 
     return matrix
 end
+
+
 
 function getKnearest(row::Array, k::Integer)
 
@@ -51,6 +55,8 @@ function getKnearest(row::Array, k::Integer)
     return Knearest
 end
 
+
+
 function randomIndexSelection(len::Integer, n::Integer, rng::Random.AbstractRNG)
 
     if n>len
@@ -77,6 +83,7 @@ function randomIndexSelection(len::Integer, n::Integer, rng::Random.AbstractRNG)
 end
 
 
+
 function randomIndexSelection2(len::Integer, n::Integer, rng::Random.AbstractRNG)
 
     if n>len
@@ -100,6 +107,7 @@ function randomIndexSelection2(len::Integer, n::Integer, rng::Random.AbstractRNG
 end
 
 
+
 function findprevIndexes(predicate::Function, A::Array, i::Integer)
     previous = Array{Integer}(undef, 0)
 
@@ -110,6 +118,7 @@ function findprevIndexes(predicate::Function, A::Array, i::Integer)
 
     return previous
 end
+
 
 
 function findnextIndexes(predicate::Function, A::Array, i::Integer)

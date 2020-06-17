@@ -13,8 +13,6 @@ end
 
 
 
-
-
 function setFourthDepth!(gramm::Grammar)
 
     function isRecursive(symbol::UInt16)
@@ -48,6 +46,7 @@ function setFourthDepth!(gramm::Grammar)
     end
 
 end
+
 
 """
     Profundidad para aquellos consecuentes que sean Inf, en este punto ya deberia conocer cual es
@@ -165,6 +164,7 @@ end
     y las reglas de produccion que los contienen a 1 de profundidad. Por otro lado, aquellas reglas con recursividad
     directa se setean como recursivas e Inf.
 """
+
 function setFirstDepth!(gramm::Grammar)
 
 
@@ -198,13 +198,13 @@ function setFirstDepth!(gramm::Grammar)
 end
 
 
+
 function setDepth!(gramm::Grammar)
     setFirstDepth!(gramm)
     setSecondDepth!(gramm)
     setThirdDepth!(gramm)
     setFourthDepth!(gramm)
 end
-
 
 
 
@@ -241,8 +241,8 @@ function reorderNonTerminals!(N::Array{String}, productionRules::Array{Productio
         end
     end
 
-
 end
+
 
 
 function readSymbol(str::String)
@@ -268,8 +268,6 @@ function readSymbol(str::String)
 
     return symbol, i
 end
-
-
 
 
 

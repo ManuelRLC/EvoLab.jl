@@ -28,7 +28,6 @@ end
 
 
 
-
 function exchangeMutation(genotype::IntegerGenotype, rng::Random.AbstractRNG)::IntegerGenotype
 
     genLen = length(genotype._representation)
@@ -43,6 +42,8 @@ function exchangeMutation(genotype::IntegerGenotype, rng::Random.AbstractRNG)::I
 
     return IntegerGenotype(mutatedIndRep)
 end
+
+
 
 function scrambleMutation(genotype::IntegerGenotype, nGens::Integer,
                                 rng::Random.AbstractRNG)::IntegerGenotype
@@ -71,12 +72,15 @@ function scrambleMutation(genotype::IntegerGenotype, nGens::Integer,
     return IntegerGenotype(mutatedIndRep)
 end
 
+
+
 function scrambleMutation(genotype::IntegerGenotype, rng::Random.AbstractRNG)::IntegerGenotype
 
     genLen = length(genotype._representation)
     nGens=rand(rng, UInt32)%(genLen-2)+2
     return scrambleMutation(genotype, convert(Integer, nGens), rng)
 end
+
 
 
 function inversionMutation(genotype::IntegerGenotype, nGens::Integer,
@@ -104,6 +108,8 @@ function inversionMutation(genotype::IntegerGenotype, nGens::Integer,
     return IntegerGenotype(mutatedIndRep)
 
 end
+
+
 
 function inversionMutation(genotype::IntegerGenotype,
                                 rng::Random.AbstractRNG)::IntegerGenotype
@@ -159,6 +165,8 @@ function insertMutation(genotype::IntegerGenotype, nGens::Integer,
 
     return IntegerGenotype(mutatedIndRep)
 end
+
+
 
 function insertMutation(genotype::IntegerGenotype,
                             rng::Random.AbstractRNG)::IntegerGenotype

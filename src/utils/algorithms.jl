@@ -9,45 +9,28 @@ Runs a single experiment with the tools and methods specified in `genj`.
 See also: [`run`](@ref)
 """
 function basicExperiment(genj::GenJulia)
-    """println("Reset")
-    @time resetConditions(genj)"""
-    #resetConditions(genj)
-
 
     initTime(genj)
-
     genPopulation!(genj)
-
-
     evaluate!(genj, genj._population)
-
-
     initBestIndividual(genj)
 
     while !(reached(genj))
 
         saveResults(genj)
-
-
         selectedParents = selectParents(genj)
-
         offspring = cross(genj, selectedParents)
-        """
         mutatedOffspring = mutate(genj, offspring)
-
         evaluate!(genj, mutatedOffspring)
-
         replacePopulation!(genj, mutatedOffspring)
-        """
-
-
     end
 
     saveResults(genj)
-
 end # function
 precompile(basicExperiment, tuple(GenJulia))
 export basicExperiment
+
+
 
 """
     basicExperimentDeep(; genj::GenJulia = GenJ)
@@ -103,11 +86,8 @@ function SPEA(genj::GenJulia, archiveSize::Int64)
         rest = length(archive) - archiveSize
         fitnesses = getFitness(archive)
         distanceMatrix = pairwiseDistance(fitnesses, fitnesses, euclideanDistance)
-        #println(size(fitnesses))
 
         for i=1:rest
-            #println("k: ", k)
-            #println("disMat: ", size(distanceMatrix))
             nearestDistances = sum(distanceMatrix[1, getKnearest(distanceMatrix[1,:], k)])
             bestIndex = 1
             for j=2:size(distanceMatrix)[1]
@@ -124,32 +104,23 @@ function SPEA(genj::GenJulia, archiveSize::Int64)
         return archive
     end
 
-    #resetConditions(genj)
     initTime(genj)
     genPopulation!(genj)
     evaluate!(genj, genj._population)
-
     initBestIndividual(genj)
-
     archive = getDominant(genj._population)
-
 
     while !reached(genj)
 
         saveResults(genj)
-
         if length(archive) > archiveSize
             archive=truncateArchive(archive)
         end
         selectedParents = selectParents(genj, union(genj._population, archive))
-
         offspring = cross(genj, selectedParents)
         mutatedOffspring = mutate(genj, offspring)
-
         evaluate!(genj, mutatedOffspring)
-
         replacePopulation!(genj, mutatedOffspring)
-
         archive = getDominant(union(genj._population, archive))
     end
 

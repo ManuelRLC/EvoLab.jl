@@ -9,6 +9,8 @@ struct BinaryGenotype <: GAGenotype
     _representation::Array{Bool}
 end # struct
 
+
+
 """
     getGenotype(genotype::BinaryGenotype)::BinaryGenotype
 

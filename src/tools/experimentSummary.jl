@@ -23,6 +23,8 @@ displayed during the experiment or at the end of it.
     fitness values of the individuals of the population throughout the generations.
 - `_bestIndividuals::Array{Any}`: array to store the representations and phenotypes
     of the best individuals of the population throughout the generations.
+- `_indexes::Base.OneTo`: indexes of the fitness values that are not global.
+- `_global::Bool`: whether there is a global fitness or not.
 
 See also: [`setExperimentSummary`](@ref)
 "
@@ -166,7 +168,7 @@ end # function
 
 """
     saveFitness(summary::ExperimentSummary, fitnesses::Array{Float64},
-                currIter::Int16)
+                currIter::Int, globalFitnesses::Array{Float64})
 
 Saves the fitness values of the individuals of a generation.
 """
@@ -183,8 +185,9 @@ end # function
 
 
 """
-    saveBestFitness(summary::ExperimentSummary, fitnesses::Array{Float64},
-                    currIter::Int16)
+    saveBestFitness(summary::ExperimentSummary, bestFitness::Array{Float64},
+                    representation::Union{Array,Expr}, currIter::Integer,
+                    bestGlobalFitness::Float64 = NaN)
 
 Saves the best fitness values of a generation.
 """
@@ -202,63 +205,34 @@ end # function
 
 
 
-
-
-@inline function auxMean(a::AbstractArray, dest::AbstractArray, index1, index2)
-    count = 0
-    acc = 0
-    for i in eachindex(a)
-        count+=1
-        acc+=a[i]
-    end
-    dest[index1, index2] = acc/count
-    nothing
-end
-
-function auxMean2(a::AbstractArray, dest::AbstractArray, index2)
-    index = axes(a)
-    for i in index[1]
-        auxMean(a[i,:], dest, i, index2)
-    end
-    nothing
-end
-
-
-
 """
-    saveMeanFitness(summary::ExperimentSummary, fitnesses::Array{Float64},
-                    currIter::Int16)
+    saveMeanFitness(summary::ExperimentSummary, fitness::Array{Float64},
+                    currIter::Integer, globalFitnesses::Array{Float64})
 
 Saves the mean of fitness values of the individuals of a generation.
 """
 function saveMeanFitness(summary::ExperimentSummary, fitness::Array{Float64},
                          currIter::Integer, globalFitnesses::Array{Float64})
 
-
-
-
     index = div(currIter, getBatchSize(summary))
-
     summary._meanFitness[summary._indexes, index] = Statistics.mean(fitness, dims = 2)
-    #auxMean2(fitness, summary._meanFitness, index)
     summary._meanFitness[end, index] = Statistics.mean(globalFitnesses)
-    #auxMean(globalFitnesses, summary._meanFitness, index)
+
     return nothing
 end # function
 
 
 
 """
-    saveSTDFitness(summary::ExperimentSummary, fitnesses::Array{Float64},
-                   currIter::Int16)
+    saveVARFitness(summary::ExperimentSummary, fitness::Array{Float64},
+                   currIter::Integer, globalFitnesses::Array{Float64})
 
-Saves the standard deviation of fitness values of the individuals of a generation.
+Saves the variance of fitness values of the individuals of a generation.
 """
 function saveVARFitness(summary::ExperimentSummary, fitness::Array{Float64},
                         currIter::Integer, globalFitnesses::Array{Float64})
 
     index = div(currIter, getBatchSize(summary))
-
 
     if displayMeanFitness(summary)
         summary._varFitness[summary._indexes, index] =
@@ -270,7 +244,6 @@ function saveVARFitness(summary::ExperimentSummary, fitness::Array{Float64},
         summary._varFitness[end, index] = Statistics.var(globalFitnesses)
     end
 
-
     return nothing
 end # function
 
@@ -278,15 +251,18 @@ end # function
 
 
 """
-    printInformation_(summary::ExperimentSummary)
+    displayInformation_(summary::ExperimentSummary; displayFitness::Bool = true,
+                      displayBestFitness::Bool = true, displayMeanFitness::Bool = true,
+                      displayVARFitness::Bool = true, outputFile::String = "")
 
-Prints all the information in the summary.
+displays all the information in the summary.
 """
-function printInformation_(summary::ExperimentSummary; printFitness::Bool = true,
-                                     printBestFitness::Bool = true, printMeanFitness::Bool = true,
-                                     printVARFitness::Bool = true, outputFile::String = "")
-    if somethingToDisplay(summary) && (printFitness || printBestFitness ||
-        printMeanFitness || printSTDFitness)
+function displayInformation_(summary::ExperimentSummary; displayFitness::Bool = true,
+                                     displayBestFitness::Bool = true, displayMeanFitness::Bool = true,
+                                     displayVARFitness::Bool = true, outputFile::String = "")
+
+    if somethingToDisplay(summary) && (displayFitness || displayBestFitness ||
+        displayMeanFitness || displayVARFitness)
 
         if outputFile == ""
             outputFile = getOutputFile(summary)
@@ -304,7 +280,7 @@ function printInformation_(summary::ExperimentSummary; printFitness::Bool = true
             println(io, "GENERATION ", batchSize * gen, ":")
             println(io)
 
-            if displayFitness(summary) && printFitness
+            if displayFitness(summary) && displayFitness
                 println(io, "  RESULTS OF ALL THE INDIVIDUALS")
                 println(io, "  ------------------------------")
                 indexes = axes(summary._fitnessValues)
@@ -327,7 +303,7 @@ function printInformation_(summary::ExperimentSummary; printFitness::Bool = true
             end
 
 
-            if displayBestFitness(summary) && printBestFitness
+            if displayBestFitness(summary) && displayBestFitness
                 println(io, "  RESULTS OF THE BEST INDIVIDUAL")
                 println(io, "  ------------------------------")
 
@@ -342,7 +318,7 @@ function printInformation_(summary::ExperimentSummary; printFitness::Bool = true
                 println(io)
             end
 
-            if displayMeanFitness(summary) && printMeanFitness
+            if displayMeanFitness(summary) && displayMeanFitness
                 println(io, "  MEAN OF THE RESULTS")
                 println(io, "  -------------------")
                 for fit = summary._indexes
@@ -354,7 +330,7 @@ function printInformation_(summary::ExperimentSummary; printFitness::Bool = true
                 println(io)
             end
 
-            if displayVARFitness(summary) && printVARFitness
+            if displayVARFitness(summary) && displayVARFitness
                 println(io, "  VARIANCE OF THE RESULTS")
                 println(io, "  ---------------------------------")
                 for fit = summary._indexes
@@ -383,21 +359,19 @@ end # function
 
 
 
-
 """
-    printLastInformation_(summary::ExperimentSummary)
+    printLastInformation_(summary::ExperimentSummary, currGeneration::Integer)
 
 Prints the last bit of information collected of the summary.
 """
 function printLastInformation_(summary::ExperimentSummary, currGeneration::Integer)
+
     if somethingToDisplay(summary)
 
         outputFile = getOutputFile(summary)
         io = outputFile != "" ? open(outputFile, "a") : Base.stdout
         flush(io)
         currGeneration = div(currGeneration, getBatchSize(summary))
-
-
 
         if displayFitness(summary)
             println(io, "  RESULTS OF ALL THE INDIVIDUALS")
@@ -420,7 +394,6 @@ function printLastInformation_(summary::ExperimentSummary, currGeneration::Integ
 
             println(io)
         end
-
 
         if displayBestFitness(summary)
             println(io, "  RESULTS OF THE BEST INDIVIDUAL")
@@ -462,7 +435,6 @@ function printLastInformation_(summary::ExperimentSummary, currGeneration::Integ
         end
 
         io == Base.stdout || close(io)
-
     end
 
     return nothing

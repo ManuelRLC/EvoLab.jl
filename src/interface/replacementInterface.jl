@@ -1,7 +1,8 @@
 """
     setReplacementOperator(method::Function, varArgs...;
                            genj::GenJulia = GenJ,
-                           needsComparison::Bool = false)
+                           needsComparison::Bool = false
+                           eliteSize::Integer = 0)
 
 Sets the replacement operator of the population for `genj`.
 This function constructs a structure of type `ReplacementOperator` and adds it

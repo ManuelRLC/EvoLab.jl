@@ -76,34 +76,20 @@ export setExperimentSummary
 
 
 """
-    printInformation(genj::GenJulia; printFitness::Bool = true,
+    printInformation(genj::GenJulia = GenJ; printFitness::Bool = true,
                      printBestFitness::Bool = true, printMeanFitness::Bool = true,
-                     printSTDFitness::Bool = true)
+                     printVARFitness::Bool = true, outputFile::String = "")
 
 Prints all the information of the experiment.
 """
-function printInformation(genj::GenJulia = GenJ; printFitness::Bool = true,
-                          printBestFitness::Bool = true, printMeanFitness::Bool = true,
-                          printVARFitness::Bool = true, outputFile::String = "")
-
-
-
+function printInformation(genj::GenJulia = GenJ; displayFitness::Bool = true,
+                          displayBestFitness::Bool = true, displayMeanFitness::Bool = true,
+                          displayVARFitness::Bool = true, outputFile::String = "")
 
     if isdefined(genj._experimentInfo, :_experimentSummary)
-        printInformation_(genj._experimentInfo._experimentSummary, printFitness=printFitness,
-                        printBestFitness=printBestFitness, printMeanFitness=printMeanFitness,
-                        printVARFitness=printVARFitness, outputFile=outputFile)
-        """
-        if hasGlobalFitnessFunction(genj._evaluator)
-            printInformationWithGlobal_(genj._experimentInfo._experimentSummary, printFitness=printFitness,
-                                        printBestFitness=printBestFitness, printMeanFitness=printMeanFitness,
-                                        printSTDFitness=printSTDFitness, outputFile=outputFile)
-        else
-            printInformation_(genj._experimentInfo._experimentSummary, printFitness=printFitness,
-                              printBestFitness=printBestFitness, printMeanFitness=printMeanFitness,
-                              printSTDFitness=printSTDFitness, outputFile=outputFile)
-        end
-        """
+        printInformation_(genj._experimentInfo._experimentSummary, displayFitness=displayFitness,
+                          displayBestFitness=displayBestFitness, displayMeanFitness=displayMeanFitness,
+                          displayVARFitness=displayVARFitness, outputFile=outputFile)
     else
         error("The experiment has not been set with an information summary (See \"setExperimentSummary\")")
     end
@@ -114,7 +100,7 @@ export printInformation
 
 
 """
-    printLastInformation(genj::GenJulia)
+    printLastInformation(genj::GenJulia = GenJ, currGen::Integer = 0)
 
 Prints the last bit of information collected of the experiment.
 """
@@ -125,16 +111,7 @@ function printLastInformation(genj::GenJulia = GenJ, currGen::Integer = 0)
     end
 
     printLastInformation_(genj._experimentInfo._experimentSummary, currGen)
-    """
-    if hasGlobalFitnessFunction(genj._evaluator)
 
-
-
-    else
-        printLastInformation_(genj._experimentInfo._experimentSummary, currGen)
-
-    end
-    """
     return nothing
 end # function
 export printLastInformation

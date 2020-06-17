@@ -17,7 +17,7 @@ Set 500 as the maximum number of iterations by default.
 """
 function setDefaultStopCondition(genj::GenJulia)
     setStopCondition(genj = genj, maxEvaluations = typemax(Int64),
-                     maxIterations = 500, maxIterNotImproving = typemax(Int64), 
+                     maxIterations = 500, maxIterNotImproving = typemax(Int64),
                      maxTime = Inf)
 end # function
 
@@ -72,10 +72,23 @@ function setDefaultReplacementOp(genj::GenJulia)
 end # function
 
 
+
+"""
+    setDefaultReplacementOp(genj::GenJulia)
+
+Set the default replacement method and its arguments.
+"""
+function setDefaultExperimentSummary(genj::GenJulia)
+    setExperimentSummary()
+end # function
+
+
+
 """
     fillCross()
 
-documentation
+!!! warning
+    To be implemented
 """
 function fillCross(genj::GenJulia)
 
@@ -111,7 +124,7 @@ function fillCross(genj::GenJulia)
 
     CrossoverOperator(method, crossoverOp._probability, crossoverOp._nParents, crossoverOp._nChildren, crossoverOp._varArgs,
                      indexSelected, indexOff, crossIterations, sizeOffspring, crossoverOp._method)
-    nothing
+    return nothing
 end
 
 
@@ -177,5 +190,9 @@ function setDefaultSettings(; genj::GenJulia = GenJ, i::Integer=0)
 
     if !isdefined(genj, :_replacementOp)
         setDefaultReplacementOp(genj)
+    end
+
+    if !isdefined(genj._experimentInfo, :_experimentSummary)
+        setDefaultExperimentSummary(genj)
     end
 end # function

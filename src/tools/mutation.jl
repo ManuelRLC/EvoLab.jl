@@ -15,10 +15,6 @@ end # struct
 
 
 
-
-
-
-
 """
     getMethod(mutationOp::MutationOperator)::Function
 

@@ -74,19 +74,19 @@ for i=1:nvalues
     objs[i] = f(x[i], y[i])
 end
 
-
-setAlgorithm(EvoLab.basicExperimentDeep)
+clearGenJ()
+setAlgorithm(EvoLab.basicExperiment)
 setIndividualType(CGPGenotype)
-setRandomSeed(54)
-setCGPInfo(x, y, nodesFile="ECJ/utils/GeneticProgramming/Canonical/exampleNodesCGP.json")
-setStopCondition(maxIterations=2)
+setRandomSeed(5)
+setCGPInfo(x, y, nodesFile="src/utils/GeneticProgramming/Canonical/exampleNodesCGP.json")
+setStopCondition(maxIterations=1)
 setEvaluator([FitnessFunction(compareFunctions, objs, weight=-1)])
 setGenerator(rampedHalfHalfGenerator, popSize = 50, generateOneByOne = false)
 setSelector(tournamentSelector, 4)
 setCrossoverOperator(subtreeCross, probability=0.9)
 setMutationOperator(pointMutation, 0.2, probability=0.1)
 setReplacementOperator(replaceAllPopulation)
-#setExperimentSummary()
+setExperimentSummary(displayBestFitness=false)
 
 
 @time runGenJ(verbose=false)

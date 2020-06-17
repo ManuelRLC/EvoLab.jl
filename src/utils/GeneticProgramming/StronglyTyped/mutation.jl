@@ -45,7 +45,7 @@ end # function
 
 """
     pointMutation(genotype::CGPGenotype, gpExperimentInfo::CGPInfo,
-                  rng::Random.AbstractRNG, probability::AbstractFloat)
+                  rng::Random.AbstractRNG, probability::Float64)
 
 Mutates the nodes of a tree with a certain probability.
 
@@ -58,13 +58,13 @@ Mutates the nodes of a tree with a certain probability.
     along an experiment.
 
 # User Arguments
-- `probability::AbstractFloat`: probability of mutation for each node.
+- `probability::Float64`: probability of mutation for each node.
 
 # Returns
 The instance of type `STGPGenotype` mutated.
 """
 function pointMutation(genotype::STGPGenotype, gpExperimentInfo::STGPInfo,
-                       rng::Random.AbstractRNG, probability::AbstractFloat)
+                       rng::Random.AbstractRNG, probability::Float64)
 
     terminalSet = deepcopy(gpExperimentInfo._terminalSet)
     functionSet = gpExperimentInfo._functionSet

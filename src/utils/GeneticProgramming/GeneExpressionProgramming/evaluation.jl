@@ -9,10 +9,10 @@ function getPhenotype(tree::GEPGenotype)
 
     phenotype = Array{String}(undef, 0)
 
-    visitedFromRoot = zeros(Integer, lenRep, 4)
+    visitedFromRoot = zeros(Int64, lenRep, 4)
     visitedFromRoot[:, 1] = fill(-1, lenRep)
     visitedFromRoot[:, 4] = fill(-1, lenRep)
-    visitedNodes = Array{Integer}(undef, 0)
+    visitedNodes = Array{Int64}(undef, 0)
     step = getArity(representation[1])
     currLevel = 0
     i = 1

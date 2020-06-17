@@ -162,6 +162,7 @@ function growGeneratorDepth(gpExperimentInfo::GEInfo, rng::Random.AbstractRNG,
 end # function
 
 
+
 """
     function growGenerator(gpExperimentInfo::GEInfo, rng::Random.AbstractRNG,
                     initInd::Array{UInt8}=Array{UInt8}(undef, 0))::GEGenotype
@@ -185,8 +186,8 @@ function growGenerator(gpExperimentInfo::GEInfo, rng::Random.AbstractRNG,
         return growGeneratorDepth(gpExperimentInfo, rng, initInd)
     end
 end
-
 precompile(growGenerator, tuple(GEInfo, Random.MersenneTwister, Vector{UInt8}))
+
 
 
 """
@@ -239,19 +240,6 @@ function fullGeneratorProductions(gpExperimentInfo::GEInfo, rng::Random.Abstract
         if !isTerminalSymbol(gramm, symbol)
             actualProductions = actualProductions + getDepth(gramm, symbol) - 0x1
             indexes, nIndexes = getPosibleRecursiveProductions(gramm, symbol, actualProductions)
-            """
-            if actualProductions <= 0x1
-                actualProductions = actualProductions + getDepth(gramm, symbol) - 0x1
-                indexes, nIndexes = getPosibleConsequentProductions(gramm, symbol, actualProductions)
-            else
-                actualProductions = actualProductions + getDepth(gramm, symbol) - 0x1
-                indexes, nIndexes = getPosibleRecursiveProductions(gramm, symbol, actualProductions)
-                if nIndexes == 0x0
-                    indexes, nIndexes = getPosibleConsequentProductions(gramm, symbol, actualProductions)
-
-                end
-            end
-            """
 
             selected = ind[i] % nIndexes + 0x1
             selected = indexes[selected]
@@ -282,7 +270,6 @@ function fullGeneratorProductions(gpExperimentInfo::GEInfo, rng::Random.Abstract
 
     return GEGenotype(Root, IntegerGenotype(ind), selections, i-1, true)
 end # function
-
 
 
 
@@ -336,16 +323,6 @@ function fullGeneratorDepth(gpExperimentInfo::GEInfo, rng::Random.AbstractRNG,
             actualProductions = actualProductions + getDepth(gramm, symbol) - 0x1
 
             indexes, nIndexes = getPosibleRecursiveDepth(gramm, symbol, maxDepth-actualDepth, actualProductions)
-            """
-            if leftDepth == 0x1
-                indexes, nIndexes = getPosibleConsequentDepth(gramm, symbol, leftDepth)
-            else
-                indexes, nIndexes = getPosibleRecursiveDepth(gramm, symbol, leftDepth)
-                if nIndexes == 0x0
-                    indexes, nIndexes = getPosibleConsequentDepth(gramm, symbol, leftDepth)
-                end
-            end
-            """
 
             selected = ind[i] % nIndexes + 0x1
             selected = indexes[selected]
@@ -374,6 +351,7 @@ function fullGeneratorDepth(gpExperimentInfo::GEInfo, rng::Random.AbstractRNG,
 end # function
 
 
+
 """
     function fullGenerator(gpExperimentInfo::GEInfo, rng::Random.AbstractRNG,
                     initInd::Array{UInt8}=Array{UInt8}(undef, 0))::GEGenotype
@@ -399,6 +377,7 @@ function fullGenerator(gpExperimentInfo::GEInfo, rng::Random.AbstractRNG,
 end
 
 precompile(growGenerator, tuple(GEInfo, Random.MersenneTwister, Vector{UInt8}))
+
 
 
 """
@@ -468,6 +447,7 @@ function generateTreeProductions(gpExperimentInfo::GEInfo, rng::Random.AbstractR
         return GEGenotype(Root, IntegerGenotype{UInt8}(codons), selections, i-1, true)
     end
 end
+
 
 
 """

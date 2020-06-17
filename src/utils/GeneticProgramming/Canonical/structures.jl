@@ -162,12 +162,12 @@ end # function
 
 """
     mergeSubtrees(original::CGPGenotype, subtree::Array{Node},
-                  pointIndex::Integer, removedLen::Integer)
+                  pointIndex::Int64, removedLen::Int64)
 
 Merges two subtrees at the given merging point.
 """
 function mergeSubtrees(original::CGPGenotype, subtree::Array{Node},
-                       pointIndex::Integer, removedLen::Integer)
+                       pointIndex::Int64, removedLen::Int64)
 
     originalTree = original._representation
     originalLen = length(originalTree)

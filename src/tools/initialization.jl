@@ -69,6 +69,8 @@ function genPopulationOneByOne_!(generator::Generator, experimentInfo::Experimen
     end
 end
 
+
+
 function genPopulationAll_!(generator::Generator, experimentInfo::ExperimentInfo,
                            population::Array{Individual})::Array{Individual}
 
@@ -82,6 +84,8 @@ function genPopulationAll_!(generator::Generator, experimentInfo::ExperimentInfo
     end
 
 end
+
+
 
 """
     genPopulation_(generator::Generator, experimentInfo::ExperimentInfo)::Array{Individual}

@@ -157,18 +157,13 @@ export setGPExperimentInfo
 
 
 
-
 include("utils/defaultSettings.jl")
-
 include("utils/parser.jl")
 include("utils/verboseFunctions.jl")
 include("interface/includes.jl")
-
 include("utils/GeneticAlgorithms/includes.jl")
 include("utils/GeneticProgramming/includes.jl")
-
 include("utils/error.jl")
-
 include("utils/algorithms.jl")
 
 
