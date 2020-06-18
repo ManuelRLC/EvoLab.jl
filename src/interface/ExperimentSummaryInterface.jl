@@ -9,7 +9,7 @@ function setExperimentSummary(genj::GenJulia = GenJ; batchSize::Integer = 0,
                               printDuringExperiment::Bool = false, outputFile::String = "")
 
     if batchSize < 0
-        GenJ._experimentInfo._experimentSummary = ExperimentSummary()
+        genj._experimentInfo._experimentSummary = ExperimentSummary()
     else
         if !(isdefined(genj, :_generator))
             error("Generator must be defined first")

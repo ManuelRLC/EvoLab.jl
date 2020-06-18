@@ -27,6 +27,8 @@ function growGenerator(gpExperimentInfo::GEPInfo, rng::Random.AbstractRNG)
 
     return GEPGenotype(representation)
 end # function
+precompile(growGenerator, tuple(GEPInfo, Random._GLOBAL_RNG))
+precompile(growGenerator, tuple(GEPInfo, Random.MersenneTwister))
 
 
 
@@ -54,6 +56,8 @@ function fullGenerator(gpExperimentInfo::GEPInfo, rng::Random.AbstractRNG)
 
     return GEPGenotype(representation)
 end # function
+precompile(fullGenerator, tuple(GEPInfo, Random._GLOBAL_RNG))
+precompile(fullGenerator, tuple(GEPInfo, Random.MersenneTwister))
 
 
 

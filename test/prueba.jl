@@ -1,7 +1,32 @@
+module A
 
-function a(b::Expr, c::NamedTuple)
-    eval(b)
+    hola() = println("hola")
+
+    module GenJulia
+        holaB() = D.eval(:holaD)()
+        f(m) = m.eval(:(5+2))
+        export holaB, f
+
+        module C
+
+            holaC() = Main.eval(:B)
+        end
+    end
 
 end
 
-precompile(a, tuple(Expr, NamedTuple))
+module D
+    using ..A.GenJulia
+
+    holaD() = println("holaD")
+
+    println(f(D))
+end
+
+
+
+
+
+
+using .A.B
+A.B.C.holaC()

@@ -29,8 +29,8 @@ and the type allowed.
     been proved not to have a compatible crosspoint in the other parent.
 """
 function selectCrossPoint(genotype::STGPGenotype, rng::Random.AbstractRNG;
-                          fixedDepth::Int64 = -1, minDepth::Int64 = -1,
-                          maxDepth::Int64 = -1,
+                          fixedDepth::Integer = -1, minDepth::Integer = -1,
+                          maxDepth::Integer = -1,
                           allowedType::Union{DataType, Union} = Any,
                           forbidden::Array{Int64} = Array{Int64}(undef, 0))
 
@@ -70,25 +70,28 @@ function selectCrossPoint(genotype::STGPGenotype, rng::Random.AbstractRNG;
     end
 
     # Sets heights for every node
-    heights = Array{Int64}(undef, lenRep)
-    heights[end] = 0
-    stack = [lenRep]
-    currIndex = lenRep - 1
+    local heights
+    if fixedDepth == -1
+        heights = Array{Int64}(undef, lenRep)
+        heights[end] = 0
+        stack = [lenRep]
+        currIndex = lenRep - 1
 
-    while currIndex > 0
+        while currIndex > 0
 
-        if typeof(representation[currIndex]) <: TerminalNode
-            heights[currIndex] = 0
-        elseif typeof(representation[currIndex]) <: FunctionNode
-            childrenIndexes = Array{Int64}(undef, 0)
-            for i=1:getArity(representation[currIndex])
-                push!(childrenIndexes, pop!(stack))
+            if typeof(representation[currIndex]) <: TerminalNode
+                heights[currIndex] = 0
+            elseif typeof(representation[currIndex]) <: FunctionNode
+                childrenIndexes = Array{Int64}(undef, 0)
+                for i=1:getArity(representation[currIndex])
+                    push!(childrenIndexes, pop!(stack))
+                end
+                heights[currIndex] = maximum(heights[childrenIndexes]) + 1
             end
-            heights[currIndex] = maximum(heights[childrenIndexes]) + 1
-        end
 
-        push!(stack, currIndex)
-        currIndex -= 1
+            push!(stack, currIndex)
+            currIndex -= 1
+        end
     end
 
     # Chooses cross point
@@ -109,8 +112,8 @@ function selectCrossPoint(genotype::STGPGenotype, rng::Random.AbstractRNG;
 
     if maxDepth != -1
         if fixedDepth != -1
-            indexes = union(filter(x->depths[x]==fixedDepth, indexes),
-                            filter(x->heights[x]+fixedDepth<=maxDepth, indexes))
+            indexes = filter(x->depths[x]==fixedDepth, indexes)
+            
         elseif minDepth != -1
             indexes = union(filter(x->depths[x]>=minDepth, indexes),
                             filter(x->heights[x]+minDepth<=maxDepth, indexes))

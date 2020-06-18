@@ -21,8 +21,8 @@ by taking some considerations into account, such as the maximum depth allowed.
     can be. If this argument is set to -1, it will be ignored.
 """
 function selectCrossPoint(genotype::CGPGenotype, rng::Random.AbstractRNG;
-                          fixedDepth::Int64 = -1, minDepth::Int64 = -1,
-                          maxDepth::Int64 = -1)
+                          fixedDepth::Integer = -1, minDepth::Integer = -1,
+                          maxDepth::Integer = -1)
 
     if fixedDepth != -1 && minDepth != -1
         minDepth = -1
@@ -60,25 +60,28 @@ function selectCrossPoint(genotype::CGPGenotype, rng::Random.AbstractRNG;
     end
 
     # Sets heights for every node
-    heights = Array{Int64}(undef, lenRep)
-    heights[end] = 0
-    stack = [lenRep]
-    currIndex = lenRep - 1
+    local heights
+    if fixedDepth == -1
+        heights = Array{Int64}(undef, lenRep)
+        heights[end] = 0
+        stack = [lenRep]
+        currIndex = lenRep - 1
 
-    while currIndex > 0
+        while currIndex > 0
 
-        if typeof(representation[currIndex]) <: TerminalNode
-            heights[currIndex] = 0
-        elseif typeof(representation[currIndex]) <: FunctionNode
-            childrenIndexes = Array{Int64}(undef, 0)
-            for i=1:getArity(representation[currIndex])
-                push!(childrenIndexes, pop!(stack))
+            if typeof(representation[currIndex]) <: TerminalNode
+                heights[currIndex] = 0
+            elseif typeof(representation[currIndex]) <: FunctionNode
+                childrenIndexes = Array{Int64}(undef, 0)
+                for i=1:getArity(representation[currIndex])
+                    push!(childrenIndexes, pop!(stack))
+                end
+                heights[currIndex] = maximum(heights[childrenIndexes]) + 1
             end
-            heights[currIndex] = maximum(heights[childrenIndexes]) + 1
-        end
 
-        push!(stack, currIndex)
-        currIndex -= 1
+            push!(stack, currIndex)
+            currIndex -= 1
+        end
     end
 
     # Chooses cross point
@@ -87,8 +90,7 @@ function selectCrossPoint(genotype::CGPGenotype, rng::Random.AbstractRNG;
 
     if maxDepth != -1
         if fixedDepth != -1
-            indexes = union(filter(x->depths[x]==fixedDepth, indexes),
-                            filter(x->heights[x]+fixedDepth<=maxDepth, indexes))
+            indexes = filter(x->depths[x]==fixedDepth, indexes)
         elseif minDepth != -1
             indexes = union(filter(x->depths[x]>=minDepth, indexes),
                             filter(x->heights[x]+minDepth<=maxDepth, indexes))
@@ -167,7 +169,8 @@ function onePointCross(parent1::CGPGenotype, parent2::CGPGenotype,
     maxDepth = gpExperimentInfo._maxTreeDepth
 
     subtree1, crossPoint1, pointDepth1 = selectCrossPoint(parent1, rng)
-    subtree2, crossPoint2, _ = selectCrossPoint(parent2, rng, fixedDepth=pointDepth1, maxDepth=convert(Int64,maxDepth))
+    subtree2, crossPoint2, pointDepth2 = selectCrossPoint(parent2, rng, fixedDepth=pointDepth1,
+                                                maxDepth=maxDepth)
     child1Tree = mergeSubtrees(parent1, subtree2, crossPoint1, length(subtree1))
     child2Tree = mergeSubtrees(parent2, subtree1, crossPoint2, length(subtree2))
 

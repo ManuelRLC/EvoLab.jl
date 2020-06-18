@@ -9,9 +9,9 @@ function geneMutation(genotype::GEPGenotype,
                       gpExperimentInfo::GEPInfo,
                       rng::Random.AbstractRNG)
 
-    representation = genotype._representation
+    representation = deepcopy(genotype._representation)
     functionSet = gpExperimentInfo._functionSet
-    terminalSet = gpExperimentInfo._terminalSet
+    terminalSet = deepcopy(gpExperimentInfo._terminalSet)
     headSize = gpExperimentInfo._head
     tailSize = gpExperimentInfo._tail
     lenRep = headSize + tailSize
@@ -42,6 +42,8 @@ function geneMutation(genotype::GEPGenotype,
 
     return GEPGenotype(mutatedGenotype)
 end # function
+precompile(geneMutation, tuple(GEPGenotype, GEPInfo, Random._GLOBAL_RNG))
+precompile(geneMutation, tuple(GEPGenotype, GEPInfo, Random.MersenneTwister))
 
 
 

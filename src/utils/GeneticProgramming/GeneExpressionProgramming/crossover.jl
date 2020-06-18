@@ -7,14 +7,14 @@ documentation
 """
 function kPointRecombinationCross(parent1::GEPGenotype, parent2::GEPGenotype,
                                   gpExperimentInfo::GEPInfo, rng::Random.AbstractRNG,
-                                  k::Integer=1)
+                                  k::Int64=1)
 
     if k < 1
         error("k_points ($k) should be greater than 0")
     end
 
-    parent1Rep = parent1._representation
-    parent2Rep = parent2._representation
+    parent1Rep = deepcopy(parent1._representation)
+    parent2Rep = deepcopy(parent2._representation)
     genotypeLen = length(parent1Rep)
     if k > genotypeLen
         error("k_points ($k) should be minor than the size of the genoytpe ($genotypeLen)")
@@ -23,7 +23,7 @@ function kPointRecombinationCross(parent1::GEPGenotype, parent2::GEPGenotype,
     child1 = Array{Node}(undef, genotypeLen)
     child2 = Array{Node}(undef, genotypeLen)
 
-    points = Array{Integer}(undef, k+2)
+    points = Array{Int64}(undef, k+2)
     points[1] = 1
     points[end] = genotypeLen
 
@@ -55,6 +55,12 @@ function kPointRecombinationCross(parent1::GEPGenotype, parent2::GEPGenotype,
 
     return [GEPGenotype(child1), GEPGenotype(child2)]
 end
+precompile(kPointRecombinationCross, tuple(GEPGenotype, GEPGenotype,
+                                           GEPInfo, Random._GLOBAL_RNG,
+                                           Int64))
+precompile(kPointRecombinationCross, tuple(GEPGenotype, GEPGenotype,
+                                           GEPInfo, Random.MersenneTwister,
+                                           Int64))
 
 
 

@@ -74,7 +74,7 @@ function fullGenerator(gpExperimentInfo::STGPInfo, rng::Random.AbstractRNG)
     terminalSet = deepcopy(gpExperimentInfo._terminalSet)
     maxDepth = gpExperimentInfo._maxTreeDepth
 
-    function fullRecursiveMethod(maxDepthAux::Int64, allowedType::Union{DataType, Union})
+    function fullRecursiveMethod(maxDepthAux::Integer, allowedType::Union{DataType, Union})
         expr = Array{Node}(undef, 0)
 
         if maxDepthAux == 0

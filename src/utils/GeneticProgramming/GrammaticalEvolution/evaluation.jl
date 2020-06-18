@@ -134,3 +134,13 @@ function compareFunctions(genotype::GEGenotype, gpExperimentInfo::GEInfo,
 
     return fitness
 end # function
+
+
+
+"""
+    getRepresentation(gpInfo::GEInfo, genotype::GEGenotype)
+
+documentation
+"""
+getRepresentation(gpInfo::GEInfo, genotype::GEGenotype) = getPhenotype(gpInfo._grammar, genotype)
+# function

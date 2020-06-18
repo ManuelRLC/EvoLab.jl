@@ -66,3 +66,13 @@ function getPhenotype(genotype::STGPGenotype)
         return Meta.parse(join(phenotype))
     end
 end # function
+
+
+
+"""
+    getRepresentation(genotype::STGPGenotype)
+
+documentation
+"""
+getRepresentation(genotype::STGPGenotype) = getPhenotype(genotype)
+# function

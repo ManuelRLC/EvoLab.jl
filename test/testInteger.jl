@@ -30,8 +30,8 @@ setSelector(tournamentSelector, 3, samplingWithRep = true, nSelected = 1.0)
 setCrossoverOperator(singlePointCross, nChildren = 2)
 setMutationOperator(uniformMutation, 0, 10, 1)
 setReplacementOperator(replaceAllPopulation)
+setExperimentSummary(printFitness=false, printDuringExperiment=true)
 setExperimentSummary(printBestFitness=false)
-#setExperimentSummary(displayFitness=false, printDuringExperiment=true, outputFile="hola.txt")
 
 
 @time runGenJ(verbose=false)

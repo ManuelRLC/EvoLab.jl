@@ -39,7 +39,7 @@ function setStopCondition(; genj::GenJulia = GenJ, maxEvaluations::Integer = typ
     end
 
     stopCondition = StopCondition(maxEvaluations, maxIterations,
-                                  maxIterNotImproving, maxTime, 0, 0, 0, 0)
+                                  maxIterNotImproving, maxTime, 0, 1, 1, 0)
     genj._stopCondition = stopCondition
 end # function
 export setStopCondition

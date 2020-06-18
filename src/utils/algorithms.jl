@@ -14,18 +14,17 @@ function basicExperiment(genj::GenJulia)
     genPopulation!(genj)
     evaluate!(genj, genj._population)
     initBestIndividual(genj)
+    saveResults(genj)
 
     while !(reached(genj))
 
-        saveResults(genj)
         selectedParents = selectParents(genj)
         offspring = cross(genj, selectedParents)
         mutatedOffspring = mutate(genj, offspring)
         evaluate!(genj, mutatedOffspring)
         replacePopulation!(genj, mutatedOffspring)
+        saveResults(genj)
     end
-
-    saveResults(genj)
 end # function
 precompile(basicExperiment, tuple(GenJulia))
 export basicExperiment
