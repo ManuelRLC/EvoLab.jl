@@ -306,7 +306,7 @@ function saveResults(genj::GenJulia)
         batchSize = getBatchSize(genj._experimentInfo._experimentSummary)
         currIter = getCurrentIteration(genj._stopCondition)
 
-        if batchSize == 0 && reached_(genj._stopCondition) || currIter%batchSize == 0
+        if (batchSize == 0 && reached_(genj._stopCondition)) || currIter%batchSize == 0
 
             if displayFitness(genj._experimentInfo._experimentSummary)
                 saveFitness(genj._experimentInfo._experimentSummary,
@@ -321,12 +321,10 @@ function saveResults(genj::GenJulia)
                 bestFitness = getFitness(bestIndividual)
                 bestGenotype = getGenotype(bestIndividual)
 
-                 if typeof(bestGenotype) <: GAGenotype
-                    bestRep = getRepresentation(bestGenotype)
-                elseif typeof(bestGenotype) <: GEGenotype
-                    bestRep = getPhenotype(genj._experimentInfo._gpExperimentInfo._grammar, bestGenotype)
+                if typeof(bestGenotype) <: GEGenotype
+                    bestRep = getRepresentation(genj._experimentInfo._GPExperimentInfo, bestGenotype)
                 else
-                    bestRep = getPhenotype(bestGenotype)
+                    bestRep = getRepresentation(bestGenotype)
                 end
 
                 saveBestFitness(genj._experimentInfo._experimentSummary,

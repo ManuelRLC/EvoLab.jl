@@ -86,7 +86,7 @@ setSelector(tournamentSelector, 4)
 setCrossoverOperator(subtreeCross, probability=0.9)
 setMutationOperator(pointMutation, 0.2, probability=0.1)
 setReplacementOperator(replaceAllPopulation)
-setExperimentSummary(batchSize=-1, printBestFitness=false)
+setExperimentSummary(batchSize=10)
 
 
 @time runGenJ(verbose=false)

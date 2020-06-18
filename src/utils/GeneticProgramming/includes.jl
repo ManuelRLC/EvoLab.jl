@@ -1,7 +1,8 @@
 module GP
 
 using ..EvoLab: GPGenotype, Random, JSON, GenJulia, GenJ, GPExperimentInfo, setGPExperimentInfo
-import ..EvoLab: parseGPExperimentInfo, getDefaultCrossoverOp, getDefaultMutationOp
+import ..EvoLab: parseGPExperimentInfo, getDefaultCrossoverOp, getDefaultMutationOp,
+                 getRepresentation
 
 include("nodes.jl")
 include("nodeSetsParser.jl")
@@ -17,7 +18,7 @@ module CGP
 import ..GP: parseGPExperimentInfo, getDefaultCrossoverOp, getDefaultMutationOp,
              growGenerator, fullGenerator, rampedHalfHalfGenerator, getPhenotype,
              onePointCross, oneChildSubtreeCross, subtreeCross, onePointMutation,
-             pointMutation, subtreeMutation
+             pointMutation, subtreeMutation, getRepresentation
 using ..GP: GenJulia, GenJ, GPExperimentInfo, setGPExperimentInfo,
             GPGenotype, Random, Node, FunctionNode, TerminalNode, VariableNode, ConstantNode,
             NoArgsFunctionNode, getName, getType, getArity, createNodes,
@@ -31,7 +32,7 @@ export CGPGenotype, CGPInfo, getPhenotype, compareFunctions, onePointCross,
        oneChildSubtreeCross, subtreeCross, getDefaultCrossoverOp, growGenerator,
        fullGenerator, rampedHalfHalfGenerator, onePointMutation, pointMutation,
        subtreeMutation, getDefaultMutationOp, copyGenotype, parseGPExperimentInfo,
-       evalPhenotype
+       evalPhenotype, getRepresentation
 end # module
 
 module STGP
@@ -39,7 +40,7 @@ module STGP
 import ..GP: parseGPExperimentInfo, getDefaultCrossoverOp, getDefaultMutationOp,
              growGenerator, fullGenerator, rampedHalfHalfGenerator, getPhenotype,
              onePointCross, oneChildSubtreeCross, subtreeCross, onePointMutation,
-             pointMutation, subtreeMutation
+             pointMutation, subtreeMutation, getRepresentation
 using ..GP: GenJulia, GenJ, GPExperimentInfo, setGPExperimentInfo,
             GPGenotype, Random, Node, FunctionNode, TerminalNode, VariableNode, ConstantNode,
             NoArgsFunctionNode, getName, getType, getArity, createNodes,
@@ -52,13 +53,15 @@ precompile(compareFunctions, tuple(STGPGenotype, STGPInfo, Vector{Float64}))
 export STGPGenotype, STGPInfo, getPhenotype, compareFunctions, onePointCross,
        oneChildSubtreeCross, subtreeCross, getDefaultCrossoverOp, growGenerator,
        fullGenerator, rampedHalfHalfGenerator, onePointMutation, pointMutation,
-       subtreeMutation, copyGenotype, parseGPExperimentInfo, evalPhenotype
+       subtreeMutation, copyGenotype, parseGPExperimentInfo, evalPhenotype,
+       getRepresentation
 end # module
 
 module GEP
 
 import ..GP: parseGPExperimentInfo, getDefaultCrossoverOp, getDefaultMutationOp,
-             growGenerator, fullGenerator, rampedHalfHalfGenerator, getPhenotype
+             growGenerator, fullGenerator, rampedHalfHalfGenerator, getPhenotype,
+             getRepresentation
 using ..GP: GenJulia, GenJ, GPExperimentInfo, setGPExperimentInfo,
             GPGenotype, Random, Node, FunctionNode, TerminalNode, VariableNode, ConstantNode,
             NoArgsFunctionNode, getName, getType, getArity, createNodes,
@@ -72,14 +75,14 @@ precompile(compareFunctions, tuple(GEPGenotype, GEPInfo, Vector{Float64}))
 export GEPGenotype, GEPInfo, getPhenotype, compareFunctions, growGenerator,
        fullGenerator, rampedHalfHalfGenerator, kPointRecombinationCross,
        getDefaultCrossoverOp, onePointRecombinationCross, geneMutation,
-       copyGenotype, parseGPExperimentInfo, evalPhenotype
+       copyGenotype, parseGPExperimentInfo, evalPhenotype, getRepresentation
 end # module
 
 module GE
 
 import ..GP: parseGPExperimentInfo, getDefaultCrossoverOp, getDefaultMutationOp,
              growGenerator, fullGenerator, rampedHalfHalfGenerator, getPhenotype,
-             compareFunctions
+             compareFunctions, getRepresentation
 using ..GP: GenJulia, GenJ, GPExperimentInfo, setGPExperimentInfo,
             GPGenotype, Random, evalPhenotype
 using ....EvoLab.GA.IntegerGA
@@ -91,7 +94,7 @@ precompile(compareFunctions, tuple(GEGenotype, GEInfo, Vector{Float64}))
 export printTree, GEGenotype, GEInfo, copyGenotype, proteinCross, proteinCrossGrow,
        getPhenotype, compareFunctions, growGenerator, fullGenerator, generateTree,
        rampedHalfHalfGenerator, proteinMutation, proteinMutationGrow,
-       getDefaultCrossoverOp, setGEInfo, evalPhenotype
+       getDefaultCrossoverOp, setGEInfo, evalPhenotype, getRepresentation
 end # module
 
 end # module

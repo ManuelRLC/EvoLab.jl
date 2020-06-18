@@ -84,3 +84,13 @@ function getPhenotype(tree::GEPGenotype)
         return Meta.parse(join(phenotype))
     end
 end # function
+
+
+
+"""
+    getRepresentation(genotype::CGPGenotype)
+
+documentation
+"""
+getRepresentation(genotype::GEPGenotype) = getPhenotype(genotype)
+# function

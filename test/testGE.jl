@@ -128,7 +128,7 @@ setMutationOperator(
     probability = 0.5,
 )
 setReplacementOperator(replaceAllPopulation, eliteSize=5)
-setExperimentSummary(printBestFitness=false)
+setExperimentSummary()
 
 @time runGenJ(verbose = false)
 #genj = GeneticJulia.GenJ

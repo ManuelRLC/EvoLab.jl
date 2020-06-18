@@ -33,7 +33,7 @@ export GPGenotype
 
 
 """
-    getRepresentation(genotype::Genotype)
+    getRepresentation(genotype::GAGenotype)
 
 Returns the representation of the genotype.
 """

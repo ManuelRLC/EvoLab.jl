@@ -31,7 +31,7 @@ setCrossoverOperator(uniformCross, nChildren = 2)
 setMutationOperator(uniformMutation, 0, 10, 1)
 setReplacementOperator(replaceAllPopulation)
 setExperimentSummary(printBestFitness=false)
-#setExperimentSummary(displayFitness=false, printDuringExperiment=true, outputFile="hola.txt")
+setExperimentSummary(printFitness=false, printDuringExperiment=true)
 
 
 @time runGenJ(verbose=false)
