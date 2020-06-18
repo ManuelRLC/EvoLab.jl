@@ -1,13 +1,40 @@
 """
-    subtreeMutation(genotype::Union{CGPGenotype, STGPGenotype},
-                    gpExperimentInfo::Union{CGPInfo, STGPInfo},
+    onePointMutation(genotype::GPGenotype, gpExperimentInfo::GPExperimentInfo,
+                     rng::Random.AbstractRNG)
+
+documentation
+"""
+function onePointMutation(genotype::GPGenotype, gpExperimentInfo::GPExperimentInfo,
+                          rng::Random.AbstractRNG)
+    error("No onePointMutation method for this type of genotype: ", typeof(genotype))
+end # function
+
+
+
+"""
+    pointMutation(genotype::GPGenotype, gpExperimentInfo::GPExperimentInfo,
+                  rng::Random.AbstractRNG)
+
+documentation
+"""
+function pointMutation(genotype::GPGenotype, gpExperimentInfo::GPExperimentInfo,
+                          rng::Random.AbstractRNG)
+    error("No pointMutation method for this type of genotype: ", typeof(genotype))
+end # function
+
+
+
+"""
+    subtreeMutation(genotype::GPGenotype,
+                    gpExperimentInfo::GPExperimentInfo,
                     rng::Random.AbstractRNG,
                     method::Function = fullGenerator)
 
 Performs a subtree mutation for the given genotype. The subtree mutation performs
 a crossover operation between the given genotype and a random generated one.
 
-`Self-provided Arguments` are provided by the library, so only `User Arguments` must be provided.
+!!! note
+    `Self-provided Arguments` are provided by the library, so only `User Arguments` must be provided.
 
 # Self-provided Arguments
 - `genotype::Union{CGPGenotype, STGPGenotype}`: genotype of the individual that is
@@ -24,13 +51,10 @@ None.
 # Returns
 The mutated genotype.
 """
-function subtreeMutation(genotype::Union{CGPGenotype, STGPGenotype},
-                         gpExperimentInfo::Union{CGPInfo, STGPInfo},
+function subtreeMutation(genotype::GPGenotype,
+                         gpExperimentInfo::GPExperimentInfo,
                          rng::Random.AbstractRNG,
                          method::Function = fullGenerator)
 
-    randomGenotype = method(gpExperimentInfo, rng)
-    mutatedGenotype = oneChildSubtreeCross(genotype, randomGenotype, gpExperimentInfo, rng)[1]
-
-    return mutatedGenotype
+    error("No subtreeMutation method defined for this type of genotype: ", typeof(genotype))
 end # function

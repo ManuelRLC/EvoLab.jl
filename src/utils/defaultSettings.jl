@@ -79,7 +79,7 @@ end # function
 Set the default replacement method and its arguments.
 """
 function setDefaultExperimentSummary(genj::GenJulia)
-    setExperimentSummary()
+    setExperimentSummary(genj)
 end # function
 
 

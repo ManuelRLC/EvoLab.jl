@@ -55,7 +55,7 @@
         "ExperimentInfo":{
           "individualType": "CGPGenotype",
           "GPExperimentInfo": {
-            "nodesFile": "ECJ/utils/GeneticProgramming/Canonical/exampleNodesCGP.json",
+            "nodesFile": "src/utils/GeneticProgramming/Canonical/exampleNodesCGP.json",
             "maxTreeDepth": 3,
             "varValues": ["collect(-5:0.5:5)", "collect(0:0.5:10)"]
           },
@@ -118,7 +118,7 @@
         "ExperimentInfo": {
           "individualType": "CGPGenotype",
           "GPExperimentInfo": {
-            "nodesFile": "ECJ/utils/GeneticProgramming/Canonical/exampleNodesCGP.json",
+            "nodesFile": "src/utils/GeneticProgramming/Canonical/exampleNodesCGP.json",
             "varValues": ["collect(-5:0.5:5)", "collect(0:0.5:10)"]
           }
         },

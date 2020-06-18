@@ -21,6 +21,7 @@ for i=1:nvalues
     objs[i] = f(x[i], y[i])
 end
 
+clearGenJ()
 setRandomSeed(54)
 setIndividualType(CGPGenotype)
 setCGPInfo(x, y, nodesFile="src/utils/GeneticProgramming/Canonical/exampleNodesCGP.json")

@@ -15,7 +15,8 @@ end # function
 Parse the information about the experiment.
 """
 function parseExperimentInfo(experimentInfoDict::Dict, experiment::GenJulia)
-    parentModule = parentmodule(EvoLab)
+    parentModule = experiment._experimentInfo._parentModule
+
     individualType = get(experimentInfoDict, "individualType", false)
     if individualType != false
         individualType = parentModule.eval(Meta.parse(individualType))
@@ -107,8 +108,7 @@ end # function
 
 Parse a FitnessFunction dictionary.
 """
-function parseFitnessFunction(fitnessFunctionDict::Dict, index::Integer)
-    parentModule = parentmodule(EvoLab)
+function parseFitnessFunction(fitnessFunctionDict::Dict, parentModule::Module, index::Integer)
 
     fitnessFunction = get(fitnessFunctionDict, "function", false)
     if fitnessFunction == false
@@ -163,7 +163,7 @@ end # function
 Parse the information about the Evaluator.
 """
 function parseEvaluator(evaluatorDict::Dict, experiment::GenJulia)
-    parentModule = parentmodule(EvoLab)
+    parentModule = experiment._experimentInfo._parentModule
     local aux
 
     globalFitnessFunction = get(evaluatorDict, "globalFitnessFunction", false)
@@ -207,7 +207,7 @@ function parseEvaluator(evaluatorDict::Dict, experiment::GenJulia)
         nFitnessFunctions = length(fitnessFunctionsStrings)
         fitnessFunctions = Array{FitnessFunction}(undef, nFitnessFunctions)
         for i=1:nFitnessFunctions
-            fitnessFunctions[i] = parseFitnessFunction(fitnessFunctionsStrings[i]["FitnessFunction"], i)
+            fitnessFunctions[i] = parseFitnessFunction(fitnessFunctionsStrings[i]["FitnessFunction"], parentModule, i)
         end
 
         setEvaluator(fitnessFunctions, genj=experiment, globalFitnessFunction=globalFitnessFunction, compareFunctionArgs=fitnessComparisonMode)
@@ -273,7 +273,7 @@ end # function
 Parse the information about the Generator.
 """
 function parseGenerator(generatorDict::Dict, experiment::GenJulia)
-    parentModule = parentmodule(EvoLab)
+    parentModule = experiment._experimentInfo._parentModule
 
     popSize = get(generatorDict, "popSize", 100)
     if typeof(popSize) <: String
@@ -344,7 +344,7 @@ end # function
 Parse the information about the Selector.
 """
 function parseSelector(selectorDict::Dict, experiment::GenJulia)
-    parentModule = parentmodule(EvoLab)
+    parentModule = experiment._experimentInfo._parentModule
 
     method = get(selectorDict, "method", false)
     if method == false
@@ -473,7 +473,7 @@ end # function
 Parse the information about the Crossover.
 """
 function parseCrossover(crossoverDict::Dict, experiment::GenJulia)
-    parentModule = parentmodule(EvoLab)
+    parentModule = experiment._experimentInfo._parentModule
 
     method = get(crossoverDict, "method", false)
     if method == false
@@ -602,7 +602,7 @@ end # function
 Parse the information about the Mutation.
 """
 function parseMutation(mutationDict::Dict, experiment::GenJulia)
-    parentModule = parentmodule(EvoLab)
+    parentModule = experiment._experimentInfo._parentModule
 
     method = get(mutationDict, "method", false)
     if method == false
@@ -679,7 +679,7 @@ end # function
 Parse the information about the Replacement.
 """
 function parseReplacement(replacementDict::Dict, experiment::GenJulia)
-    parentModule = parentmodule(EvoLab)
+    parentModule = experiment._experimentInfo._parentModule
 
     method = get(replacementDict, "method", false)
     if method == false
@@ -762,7 +762,7 @@ end # function
 Parse the information about the Stop Condition.
 """
 function parseStopCondition(stopConditionDict::Dict, experiment::GenJulia)
-    parentModule = parentmodule(EvoLab)
+    parentModule = experiment._experimentInfo._parentModule
 
     maxEvaluations = get(stopConditionDict, "maxEvaluations", typemax(Int64))
     if typeof(maxEvaluations) <: String
@@ -829,7 +829,7 @@ end # function
 Parse the information about the Experiment Summary.
 """
 function parseExperimentSummary(summaryDict::Dict, experiment::GenJulia)
-    parentModule = parentmodule(EvoLab)
+    parentModule = experiment._experimentInfo._parentModule
 
     outputFile = get(summaryDict, "outputFile", "")
     if !(typeof(outputFile) <: String)
@@ -862,62 +862,62 @@ function parseExperimentSummary(summaryDict::Dict, experiment::GenJulia)
         error("printDuringExperiment field in Experiment Summary must be either true or false", printDuringExperiment)
     end
 
-    displayFitness = get(summaryDict, "displayFitness", false)
-    if typeof(displayFitness) <: String
+    printFitness = get(summaryDict, "printFitness", false)
+    if typeof(printFitness) <: String
         try
-            aux = parentModule.eval(Meta.parse(displayFitness))
-            displayFitness = aux
+            aux = parentModule.eval(Meta.parse(printFitness))
+            printFitness = aux
         catch e
-            error("displayFitness field in ExperimentSummary is not defined: ", displayFitness)
+            error("printFitness field in ExperimentSummary is not defined: ", printFitness)
         end
     end
-    if !(typeof(displayFitness) <: Bool)
-        error("displayFitness field in Experiment Summary must be either true or false", displayFitness)
+    if !(typeof(printFitness) <: Bool)
+        error("printFitness field in Experiment Summary must be either true or false", printFitness)
     end
 
-    displayBestFitness = get(summaryDict, "displayBestFitness", false)
-    if typeof(displayBestFitness) <: String
+    printBestFitness = get(summaryDict, "printBestFitness", false)
+    if typeof(printBestFitness) <: String
         try
-            aux = parentModule.eval(Meta.parse(displayBestFitness))
-            displayBestFitness = aux
+            aux = parentModule.eval(Meta.parse(printBestFitness))
+            printBestFitness = aux
         catch e
-            error("displayBestFitness field in ExperimentSummary is not defined: ", displayBestFitness)
+            error("printBestFitness field in ExperimentSummary is not defined: ", printBestFitness)
         end
     end
-    if !(typeof(displayBestFitness) <: Bool)
-        error("displayBestFitness field in Experiment Summary must be either true or false", displayBestFitness)
+    if !(typeof(printBestFitness) <: Bool)
+        error("printBestFitness field in Experiment Summary must be either true or false", printBestFitness)
     end
 
-    displayFitnessMean = get(summaryDict, "displayFitnessMean", false)
-    if typeof(displayFitnessMean) <: String
+    printFitnessMean = get(summaryDict, "printFitnessMean", false)
+    if typeof(printFitnessMean) <: String
         try
-            aux = parentModule.eval(Meta.parse(displayFitnessMean))
-            displayFitnessMean = aux
+            aux = parentModule.eval(Meta.parse(printFitnessMean))
+            printFitnessMean = aux
         catch e
-            error("displayFitnessMean field in ExperimentSummary is not defined: ", displayFitnessMean)
+            error("printFitnessMean field in ExperimentSummary is not defined: ", printFitnessMean)
         end
     end
-    if !(typeof(displayFitnessMean) <: Bool)
-        error("displayFitnessMean field in Experiment Summary must be either true or false", displayFitnessMean)
+    if !(typeof(printFitnessMean) <: Bool)
+        error("printFitnessMean field in Experiment Summary must be either true or false", printFitnessMean)
     end
 
-    displayFitnessVAR = get(summaryDict, "displayFitnessVAR", false)
-    if typeof(displayFitnessVAR) <: String
+    printFitnessVAR = get(summaryDict, "printFitnessVAR", false)
+    if typeof(printFitnessVAR) <: String
         try
-            aux = parentModule.eval(Meta.parse(displayFitnessVAR))
-            displayFitnessVAR = aux
+            aux = parentModule.eval(Meta.parse(printFitnessVAR))
+            printFitnessVAR = aux
         catch e
-            error("displayFitnessVAR field in ExperimentSummary is not defined: ", displayFitnessVAR)
+            error("printFitnessVAR field in ExperimentSummary is not defined: ", printFitnessVAR)
         end
     end
-    if !(typeof(displayFitnessVAR) <: Bool)
-        error("displayFitnessVAR field in Experiment Summary must be either true or false", displayFitnessVAR)
+    if !(typeof(printFitnessVAR) <: Bool)
+        error("printFitnessVAR field in Experiment Summary must be either true or false", printFitnessVAR)
     end
 
     setExperimentSummary(experiment, outputFile=outputFile, batchSize=batchSize,
-                         printDuringExperiment=printDuringExperiment, displayFitness=displayFitness,
-                         displayBestFitness=displayBestFitness, displayFitnessMean=displayFitnessMean,
-                         displayFitnessVAR=displayFitnessVAR)
+                         printDuringExperiment=printDuringExperiment, printFitness=printFitness,
+                         printBestFitness=printBestFitness, printFitnessMean=printFitnessMean,
+                         printFitnessVAR=printFitnessVAR)
 end # function
 
 
@@ -927,7 +927,8 @@ end # function
 
 Generate the array of structures for each experiment of the configuration file.
 """
-function generateMainStructure(jsonFile::String; verbose::Bool = true)
+function generateMainStructure(jsonFile::String; verbose::Bool = true,
+                               parentModule::Module = Main)
     file=open(jsonFile)
     dictionary = JSON.parse(file)
     close(file)
@@ -947,6 +948,7 @@ function generateMainStructure(jsonFile::String; verbose::Bool = true)
         experiments[i] = GenJulia()
 
         experiments[i]._experimentInfo = ExperimentInfo()
+        setParentModule(parentModule, genj=experiments[i])
 
         experimentInfoDict = get(dictionary["Experiments"][i]["GenJulia"], "ExperimentInfo", false)
         if experimentInfoDict != false

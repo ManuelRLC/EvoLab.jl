@@ -20,7 +20,7 @@ function llegar50(genotype::IntegerGenotype)
 end # function
 #include("fitnessFunctions.jl")
 
-
+clearGenJ()
 setIndividualType(IntegerGenotype{Int64})
 setRandomSeed(9)
 setStopCondition(maxIterations = 100)
@@ -30,7 +30,7 @@ setSelector(tournamentSelector, 3, samplingWithRep = true, nSelected = 1.0)
 setCrossoverOperator(uniformCross, nChildren = 2)
 setMutationOperator(uniformMutation, 0, 10, 1)
 setReplacementOperator(replaceAllPopulation)
-setExperimentSummary(displayBestFitness=false)
+setExperimentSummary(printBestFitness=false)
 #setExperimentSummary(displayFitness=false, printDuringExperiment=true, outputFile="hola.txt")
 
 

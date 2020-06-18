@@ -6,18 +6,26 @@ import ..EvoLab: parseGPExperimentInfo, getDefaultCrossoverOp, getDefaultMutatio
 include("nodes.jl")
 include("nodeSetsParser.jl")
 include("evaluation.jl")
+include("initialization.jl")
+include("crossover.jl")
+include("mutation.jl")
+include("miscTreeFunctions.jl")
 
-export evalPhenotype
+export evalPhenotype, chooseAnotherNode
 
 module CGP
-import ..GP: parseGPExperimentInfo, getDefaultCrossoverOp, getDefaultMutationOp
+import ..GP: parseGPExperimentInfo, getDefaultCrossoverOp, getDefaultMutationOp,
+             growGenerator, fullGenerator, rampedHalfHalfGenerator, getPhenotype,
+             onePointCross, oneChildSubtreeCross, subtreeCross, onePointMutation,
+             pointMutation, subtreeMutation
 using ..GP: GenJulia, GenJ, GPExperimentInfo, setGPExperimentInfo,
             GPGenotype, Random, Node, FunctionNode, TerminalNode, VariableNode, ConstantNode,
             NoArgsFunctionNode, getName, getType, getArity, createNodes,
-            evalPhenotype
+            evalPhenotype, chooseAnotherNode, compareFunctions
 
-include("miscTreeFunctions.jl")
 include("Canonical/includes.jl")
+
+precompile(compareFunctions, tuple(CGPGenotype, CGPInfo, Vector{Float64}))
 
 export CGPGenotype, CGPInfo, getPhenotype, compareFunctions, onePointCross,
        oneChildSubtreeCross, subtreeCross, getDefaultCrossoverOp, growGenerator,
@@ -28,14 +36,18 @@ end # module
 
 module STGP
 
-import ..GP: parseGPExperimentInfo, getDefaultCrossoverOp, getDefaultMutationOp
+import ..GP: parseGPExperimentInfo, getDefaultCrossoverOp, getDefaultMutationOp,
+             growGenerator, fullGenerator, rampedHalfHalfGenerator, getPhenotype,
+             onePointCross, oneChildSubtreeCross, subtreeCross, onePointMutation,
+             pointMutation, subtreeMutation
 using ..GP: GenJulia, GenJ, GPExperimentInfo, setGPExperimentInfo,
             GPGenotype, Random, Node, FunctionNode, TerminalNode, VariableNode, ConstantNode,
             NoArgsFunctionNode, getName, getType, getArity, createNodes,
-            evalPhenotype
+            evalPhenotype, chooseAnotherNode, compareFunctions
 
-include("miscTreeFunctions.jl")
 include("StronglyTyped/includes.jl")
+
+precompile(compareFunctions, tuple(STGPGenotype, STGPInfo, Vector{Float64}))
 
 export STGPGenotype, STGPInfo, getPhenotype, compareFunctions, onePointCross,
        oneChildSubtreeCross, subtreeCross, getDefaultCrossoverOp, growGenerator,
@@ -45,15 +57,17 @@ end # module
 
 module GEP
 
-import ..GP: parseGPExperimentInfo, getDefaultCrossoverOp, getDefaultMutationOp
+import ..GP: parseGPExperimentInfo, getDefaultCrossoverOp, getDefaultMutationOp,
+             growGenerator, fullGenerator, rampedHalfHalfGenerator, getPhenotype
 using ..GP: GenJulia, GenJ, GPExperimentInfo, setGPExperimentInfo,
             GPGenotype, Random, Node, FunctionNode, TerminalNode, VariableNode, ConstantNode,
             NoArgsFunctionNode, getName, getType, getArity, createNodes,
-            evalPhenotype
+            evalPhenotype, compareFunctions
 using ....EvoLab: findprevIndexes, findnextIndexes
 
-include("miscTreeFunctions.jl")
 include("GeneExpressionProgramming/includes.jl")
+
+precompile(compareFunctions, tuple(GEPGenotype, GEPInfo, Vector{Float64}))
 
 export GEPGenotype, GEPInfo, getPhenotype, compareFunctions, growGenerator,
        fullGenerator, rampedHalfHalfGenerator, kPointRecombinationCross,
@@ -63,12 +77,16 @@ end # module
 
 module GE
 
-import ..GP: parseGPExperimentInfo, getDefaultCrossoverOp, getDefaultMutationOp
+import ..GP: parseGPExperimentInfo, getDefaultCrossoverOp, getDefaultMutationOp,
+             growGenerator, fullGenerator, rampedHalfHalfGenerator, getPhenotype,
+             compareFunctions
 using ..GP: GenJulia, GenJ, GPExperimentInfo, setGPExperimentInfo,
             GPGenotype, Random, evalPhenotype
 using ....EvoLab.GA.IntegerGA
 
 include("GrammaticalEvolution/includes.jl")
+
+precompile(compareFunctions, tuple(GEGenotype, GEInfo, Vector{Float64}))
 
 export printTree, GEGenotype, GEInfo, copyGenotype, proteinCross, proteinCrossGrow,
        getPhenotype, compareFunctions, growGenerator, fullGenerator, generateTree,
