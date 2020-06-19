@@ -1,4 +1,5 @@
 using EvoLab
+using EvoLab.GP
 using EvoLab.GP.CGP
 
 import Random
@@ -75,7 +76,7 @@ for i=1:nvalues
 end
 
 clearGenJ()
-setAlgorithm(EvoLab.basicExperiment)
+setAlgorithm(EvoLab.basicExperimentDeep)
 setIndividualType(CGPGenotype)
 setRandomSeed(5432)
 setCGPInfo(x, y, nodesFile="src/utils/GeneticProgramming/Canonical/exampleNodesCGP.json")

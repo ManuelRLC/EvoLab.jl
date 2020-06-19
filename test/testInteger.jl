@@ -27,11 +27,11 @@ setStopCondition(maxIterations = 100)
 setEvaluator(llegar50, -1)
 setGenerator(randomIntegerGenerator, 10, 0, 10, popSize = 100)
 setSelector(tournamentSelector, 3, samplingWithRep = true, nSelected = 1.0)
-setCrossoverOperator(uniformCross, nChildren = 2)
+setCrossoverOperator(singlePointCross, nChildren = 2)
 setMutationOperator(uniformMutation, 0, 10, 1)
 setReplacementOperator(replaceAllPopulation)
-setExperimentSummary(printBestFitness=false)
 setExperimentSummary(printFitness=false, printDuringExperiment=true)
+setExperimentSummary(printBestFitness=false)
 
 
 @time runGenJ(verbose=false)
