@@ -176,7 +176,7 @@ function checkParametersCorrectGP(genj::GenJulia, index::Int64 = 0)
             OneByOne = false
         end
     end
-ind = genj._generator._method(genj._experimentInfo._GPExperimentInfo, one(UInt32), rng, genj._generator._varArgs...)
+    
     try
         ind = genj._generator._method(genj._experimentInfo._GPExperimentInfo, one(UInt32), rng, genj._generator._varArgs...)
     catch e
