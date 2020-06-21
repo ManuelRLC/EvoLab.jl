@@ -1,4 +1,15 @@
 """
+    getPhenotype(args)
+
+documentation
+"""
+function getPhenotype(genotype::GPGenotype)
+    error("No method for phenotype obtention for this type of genotype: ", typeof(genotype))
+end # function
+
+
+
+"""
     changeSymbol!(expr, namedTuple)
 
 Changes the symbols of the named tuple found in the expression into their actual
@@ -97,16 +108,15 @@ end # function
 
 
 """
-    compareFunctions(genotype::GPGenotype,
-                    gpExperimentInfo::GPExperimentInfo, objectives::Array,
-                    values...)
+    compareFunctions(genotype::GPGenotype, gpExperimentInfo::GPExperimentInfo, objectives::Array)
 
 This GP-exclusive fitness function compares the objective values given with the
 ones obtained by the individual's evaluation using the values for the variables.
 The fitness value that this function calculates is the MSE between the results of
 the genotype for the given variable values and the objective values.
 
-`Self-provided Arguments` are provided by the library, so only `User Arguments` must be provided.
+!!! note
+    `Self-provided Arguments` are provided by the library, so only `User Arguments` must be provided.
 
 # Self-provided Arguments
 - `genotype::GPGenotype`: genotype of the individual that is going to be evaluated.
@@ -114,44 +124,32 @@ the genotype for the given variable values and the objective values.
 
 # User Arguments
 - `objectives::Array`: objective values that are going to be compared.
-- `values`: values of the variables. Must be in the same order as the variables
-    are in the GP experiment information (see documentation of [`GPExperimentInfo`](@ref)
-    and [`getVariables`](@ref)).
 
 # Returns
 The MSE between the objective values and the results of evaluating the genotype
-with the given variables values.
+with the variables values set in [`setCGPInfo`](@ref).
 
 # Examples
+Setting the fitness function with some objective values.
 ```jdoctests
-julia> objectives = [0, 1, 4, 9, 16, 25] #Objective values
+julia> objectives = [0, 1, 4, 9, 16, 25]
 6-element Array{Int64,1}:
 [...]
 
-julia> xValues = [0, 1, 2, 3, 4 , 5] #Values for variable x
-6-element Array{Int64,1}:
+julia> setEvaluator([FitnessFunction(compareFunctions, objectives, weight=-1)])
 [...]
-
-julia> setEvaluator([FitnessFunction(compareFunctions, objectives, xValues, weight=-1)])
-Evaluator(...)
 ```
 
 See also: [`setEvaluator`](@ref), [`FitnessFunction`](@ref)
 """
-
-"""function compareFunctions(genotype::GPGenotype,
-                          gpExperimentInfo::GPExperimentInfo, objectives::Array,
-                          values...)
+function compareFunctions(genotype::GPGenotype,
+                          gpExperimentInfo::GPExperimentInfo, objectives::Array)
 
 
-    vars = getVariables(gpExperimentInfo)
+    vars = gpExperimentInfo._variables
     nVars = length(vars)
-
-    vars = [Meta.parse(x) for x in vars]
-    vars = (vars...,)
     phenotype = getPhenotype(genotype)
 
-    values = [i for i in values]
     nValues = 1
     y = 0
     y_est = 0
@@ -175,19 +173,13 @@ See also: [`setEvaluator`](@ref), [`FitnessFunction`](@ref)
         end
 
     else
-        nValues = length(values[1])
-        varValues = Array{Number}(undef, nVars)
+        nValues = size(gpExperimentInfo._varValues)[1]
         for i=1:nValues
-
-            for j=1:nVars
-                varValues[j] = values[j][i]
-            end
-            varsdict = NamedTuple{vars}(varValues)
 
             y = objectives[i]
 
             try
-                y_est = evaluate(phenotype, varsdict)
+                y_est = evalPhenotype(phenotype, gpExperimentInfo._varValues[i])
 
                 if isnan(y_est) || abs(y_est) == Inf
                     failures += 1
@@ -209,4 +201,4 @@ See also: [`setEvaluator`](@ref), [`FitnessFunction`](@ref)
     end
 
     return fitness
-end # function"""
+end # function

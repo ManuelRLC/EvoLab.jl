@@ -4,11 +4,11 @@ function uniformCross(parent1::GAGenotype, parent2::GAGenotype, rng::Random.Abst
     parent1Rep = parent1._representation
     parent2Rep = parent2._representation
     genLen = length(parent1Rep)
-    genRepType = typeof(parent1Rep[1])
+    genRepType = eltype(parent1Rep)
     genType = typeof(parent1)
 
-    child1 = Array{genRepType}(undef, genLen)
-    child2 = Array{genRepType}(undef, genLen)
+    child1 = similar(Array{genRepType}, genLen)
+    child2 = similar(Array{genRepType}, genLen)
 
     for i=1:genLen
         prob = rand(rng)
@@ -44,7 +44,7 @@ function kPointCross(parent1::GAGenotype, parent2::GAGenotype, rng::Random.Abstr
     child1 = Array{genRepType}(undef, genLen)
     child2 = Array{genRepType}(undef, genLen)
 
-    points = Array{Integer}(undef, k+2)
+    points = Array{UInt16}(undef, k+2)
     points[1] = 1
     points[end] = genLen
 

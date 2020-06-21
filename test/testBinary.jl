@@ -26,20 +26,21 @@ setRandomSeed(5)
 setAlgorithm(basicExperiment)
 #setAlgorithm(basicExperiment)
 setIndividualType(BinaryGenotype)
-setStopCondition(maxIterations=1)
+setStopCondition(maxIterations=500)
 setEvaluator(FitnessFunction(countBinaryOnes))
 setGenerator(randomBinaryGenerator, 50, popSize = 100)
 setSelector(tournamentSelector, 4, samplingWithRep=true)
-setCrossoverOperator(uniformCross, nChildren=2)
+setCrossoverOperator(singlePointCross, nChildren=2)
 #setCrossoverOperator(kPointCross, nChildren=2)
-setMutationOperator(standardMutation, 0.1)
+setMutationOperator(standardMutation, 0.05)
 setReplacementOperator(replaceAllPopulation)
 #setExperimentSummary(displayFitness=false, displayBestFitness=false,
                      #batchSize=1, printDuringExperiment=true)
+setExperimentSummary(printBestFitness=false)
+#setExperimentSummary(batchSize=-1)
 @time runGenJ(verbose=false)
 
 """
-
 
 mutable struct Poder1
     a::Function

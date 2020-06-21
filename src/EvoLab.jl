@@ -64,6 +64,7 @@ Auxiliary structure that keeps some generic information for experiments.
 See also: [`GenJulia`](@ref)
 "
 mutable struct ExperimentInfo
+    _parentModule::Module
     _individualType::DataType
     _GPExperimentInfo::GPExperimentInfo
     _experimentSummary::ExperimentSummary
@@ -157,18 +158,13 @@ export setGPExperimentInfo
 
 
 
-
 include("utils/defaultSettings.jl")
-
 include("utils/parser.jl")
 include("utils/verboseFunctions.jl")
 include("interface/includes.jl")
-
 include("utils/GeneticAlgorithms/includes.jl")
 include("utils/GeneticProgramming/includes.jl")
-
 include("utils/error.jl")
-
 include("utils/algorithms.jl")
 
 
@@ -191,6 +187,31 @@ Gets the individual type of the main structure.
 getIndividualType(genj::GenJulia) = getIndividualType(genj._experimentInfo)
 # function
 export getIndividualType
+
+
+
+"""
+    setParentModule(mod::Module; genj::GenJulia = GenJ)
+
+Sets the main module in which EvoLab is enclosed.
+
+# Arguments
+- `mod::Module`: module in which EvoLab is enclosed, if not set, it will take
+    Julia's Main module by default.
+
+# Keyword Arguments
+- `genj::GenJulia = GenJ`: the main structure. For `code user`: don't modify
+    the default value unless multiple experiments are going to be run.
+
+# Examples
+```jldoctest
+julia> setModule(Main)
+
+```
+"""
+setParentModule(mod::Module = Main; genj::GenJulia = GenJ) = genj._experimentInfo._parentModule = mod
+# function
+export setParentModule
 
 
 
@@ -369,8 +390,9 @@ For guidance about how to create the information file about the experiments
 visit our GitHub repository at:
 [https://github.com/SergioGmezM/Evolutionary\\_Computation\\_Julia](https://github.com/SergioGmezM/Evolutionary_Computation_Julia)
 """
-function runGenJ(configFile::String; verbose::Bool = true, outputFile::String = "")
-    experiments = generateMainStructure(configFile)
+function runGenJ(configFile::String; verbose::Bool = true, outputFile::String = "",
+                 parentModule::Module = Main)
+    experiments = generateMainStructure(configFile, parentModule=parentModule)
     nExperiments = length(experiments)
 
     if !verbose
@@ -428,12 +450,10 @@ function runGenJ(genj::GenJulia = GenJ; verbose::Bool = true, outputFile::String
     setDefaultSettings(genj=genj)
     # Checks that all has been set
     checkParametersDefined(genj)
-
     # Checks that all has been set correctly
     checkParametersCorrect(genj)
     # Prints the information about the experiment
     verbose && printExperimentInfo(outputFile, genj)
-
 
     # Runs the experiment
     #basicExperiment(genj._experimentInfo._algorithmArgs..., genj=GenJ)

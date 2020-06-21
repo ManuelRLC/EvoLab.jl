@@ -1,6 +1,6 @@
 """
-    setStopCondition(; genj::GenJulia = GenJ, maxEvaluations::Integer = -1,
-                     maxIterations::Integer = -1, maxIterNotImproving::Integer = -1,
+    setStopCondition(; genj::GenJulia = GenJ, maxEvaluations::Integer = typemax(Int64),
+                     maxIterations::Integer = typemax(Int64), maxIterNotImproving::Integer = typemax(Int64),
                      maxTime::AbstractFloat = Inf)
 
 Sets the stop conditions for `genj`, however if none are introduced, `maxIterations`
@@ -10,13 +10,13 @@ will be set to 100 by default. This function constructs a structure of type
 # Keyword Arguments
 - `genj::GenJulia = GenJ`: the main structure. For `code user`: don't modify
     the default value unless multiple experiments are going to be run.
-- `maxEvaluations::Integer = -1`: number of calls to compute fitness before the
+- `maxEvaluations::Integer = typemax(Int64)`: number of calls to compute fitness before the
     algorithm stops. If it is set to a `negative value`, the verification over
     this parameter will be `useless`, as default.
-- `maxIterations::Integer = -1`: number of iterations before the algorithm stops.
+- `maxIterations::Integer = typemax(Int64)`: number of iterations before the algorithm stops.
     If it is set to a `negative value`, the verification over this parameter
     will be `useless`, as default.
-- `maxIterNotImproving::Integer = -1`: number of iterations in which the best
+- `maxIterNotImproving::Integer = typemax(Int64)`: number of iterations in which the best
     individual doesn't improve before the algorithm stops. If it is set to a
     `negative value`, the verification over this parameter will be `useless`, as default.
 - `maxTime::AbstractFloat = Inf`: time, in seconds, passed since the beginning of the
@@ -39,7 +39,7 @@ function setStopCondition(; genj::GenJulia = GenJ, maxEvaluations::Integer = typ
     end
 
     stopCondition = StopCondition(maxEvaluations, maxIterations,
-                                  maxIterNotImproving, maxTime, 0, 0, 0, 0)
+                                  maxIterNotImproving, maxTime, 0, 1, 1, 0)
     genj._stopCondition = stopCondition
 end # function
 export setStopCondition
@@ -47,7 +47,7 @@ export setStopCondition
 
 
 """
-    showStopConditions(genj::GenJulia = GenJ)
+    showStopConditions(; genj::GenJulia = GenJ, outputFile::String = "")
 
 documentation
 """

@@ -58,7 +58,6 @@ end # function
 
 
 """
-
     getNParents(selector::SelectionOperator)::Real
 
 Returns the attribute that represents the number of parents that are going to be selected.
@@ -69,9 +68,9 @@ getNSelectedParents(selector::SelectionOperator)::Real = selector._nSelectedPare
 
 
 """
-
     samplingWithReplacement(selector::SelectionOperator)::Bool
 
+Check whether the selection operation is going to be with replacement or not.
 """
 samplingWithReplacement(selector::SelectionOperator)::Bool = selector._samplingWithRep
 # function
@@ -79,7 +78,6 @@ samplingWithReplacement(selector::SelectionOperator)::Bool = selector._samplingW
 
 
 """
-
     getFunctionArgs(selector::SelectionOperator)::Array
 
 Obtains the aditional arguments associated to selector method.
@@ -106,9 +104,7 @@ function selectParentsWithReplacement(selector::SelectionOperator, population::A
     parents = Array{Individual}(undef, nSelectedParents)
 
     method = getMethod(selector)
-
     functionArgs = getFunctionArgs(selector)
-
 
     for i=eachindex(parents)
         if needsComparison(selector)
@@ -124,6 +120,8 @@ end # function
 
 precompile(selectParentsWithReplacement, tuple(SelectionOperator, Vector{Individual}, Evaluator, Random.MersenneTwister))
 precompile(selectParentsWithReplacement, tuple(SelectionOperator, Vector{Individual}, Evaluator, Random._GLOBAL_RNG))
+
+
 
 """
     selectParentsWithoutReplacement(selector::SelectionOperator,
@@ -168,6 +166,8 @@ end # function
 precompile(selectParentsWithoutReplacement, tuple(SelectionOperator, Vector{Individual}, Evaluator, Random.MersenneTwister))
 precompile(selectParentsWithoutReplacement, tuple(SelectionOperator, Vector{Individual}, Evaluator, Random._GLOBAL_RNG))
 
+
+
 """
     selectParents_(selector::SelectionOperator, population::Array{Individual},
                    evaluator::Evaluator, rng::Random.AbstractRNG)
@@ -187,6 +187,8 @@ end # function
 
 precompile(selectParents_, tuple(SelectionOperator, Vector{Individual}, Evaluator, Random.MersenneTwister))
 precompile(selectParents_, tuple(SelectionOperator, Vector{Individual}, Evaluator, Random._GLOBAL_RNG))
+
+
 
 """
     randomSelector(population::Array{Individual}, rng::Random.AbstractRNG)
@@ -252,23 +254,6 @@ export tournamentSelector
 
 
 
-"""
-function tournamentSelector(fitnesses::Array, compare::Function, rng::Random.AbstractRNG, k::Integer)
-    nInd = length(fitnesses) # Number of individuals of the population
-    bestIndex = rand(rng, UInt) % nInd + 1
-    best = fitnesses[bestIndex]
-
-    for i=2:k
-        currentIndex = rand(rng, UInt) % nInd + 1
-        current = fitnesses[currentIndex]
-        bestIndex = compare(best, current) ? bestIndex : currentIndex
-        best = fitnesses[bestIndex]
-    end
-
-    return bestIndex
-end
-"""
-
 function rouletteSelector(fitnesses::Array, compare::Function, rng::Random.AbstractRNG, k::Integer=-1)
 
     minimize = compare(1, 2) # esto no fufa
@@ -306,6 +291,13 @@ end # function
 export rouletteSelector
 
 
+
+"""
+    rankingSelector(fitnesses::Array, compare::Function, rng::Random.AbstractRNG, k::Integer=-1)
+
+!!! warning
+    Still in development. Do not use. 
+"""
 function rankingSelector(fitnesses::Array, compare::Function, rng::Random.AbstractRNG, k::Integer=-1)
 
     minimize = compare(1,2)
@@ -343,89 +335,3 @@ function rankingSelector(fitnesses::Array, compare::Function, rng::Random.Abstra
 
     return indexes[selected]
 end
-
-
-
-
-"""
-function selectParentsWithoutReplacement(selector::SelectionOperator,
-                                         population::Array{Individual},
-                                         nParents::Integer, evaluator::Evaluator, rng::Random.AbstractRNG)
-
-    nSelectedParents = getNSelectedParents(selector)
-    compare = getCompareFitness(evaluator)
-    popSize = length(population)
-
-    if !(typeof(nSelectedParents) <: Integer)
-        nSelectedParents = convert(Integer, round(nSelectedParents * popSize))
-        remainder = nSelectedParents % nParents
-
-        if remainder != 0
-            nSelectedParents = nSelectedParents + nParents - remainder
-        end
-
-        if nSelectedParents > popSize
-            nSelectedParents -= nParents
-        end
-    end
-
-    indexes = collect(1:popSize)
-
-    if selector._individualMode == "fitness"
-        fitnesses = getFitness(population)
-
-        for i=1:nSelectedParents
-            if needsComparison(selector)
-                index = selector._method(fitnesses, compare, rng, selector._varArgs...)
-                fitnesses[index] = fitnesses[end]
-                pop!(fitnesses)
-                indexes[index], indexes[end-i+1] = indexes[end-i+1], indexes[index]
-            else
-                index = selector._method(fitnesses, rng, selector._varArgs...)
-                fitnesses[index] = fitnesses[end]
-                pop!(fitnesses)
-                indexes[index], indexes[end-i+1] = indexes[end-i+1], indexes[index]
-            end
-        end
-    elseif selector._individualMode == "representation"
-        indReps = getGenotype(population)
-        for i=1:nSelectedParents
-            if needsComparison(selector)
-                index = selector._method(indReps, compare, rng, selector._varArgs...)
-                indReps[index] = indReps[end]
-                pop!(indReps)
-                indexes[index], indexes[end-i+1] = indexes[end-i+1], indexes[index]
-            else
-                index = selector._method(indReps, rng, selector._varArgs...)
-                indReps[index] = indReps[end]
-                pop!(indReps)
-                indexes[index], indexes[end-i+1] = indexes[end-i+1], indexes[index]
-            end
-        end
-    else
-        fitnesses = getFitness(population)
-        indReps = getGenotype(population)
-        for i=1:nSelectedParents
-            if needsComparison(selector)
-                index = selector._method(indReps, fitnesses, compare, rng, selector._varArgs...)
-                indReps[index] = indReps[end]
-                pop!(indReps)
-                fitnesses[index] = fitnesses[end]
-                pop!(fitnesses)
-                indexes[index], indexes[end-i+1] = indexes[end-i+1], indexes[index]
-            else
-                index = selector._method(indReps, fitnesses, rng, selector._varArgs...)
-                indReps[index] = indReps[end]
-                pop!(indReps)
-                fitnesses[index] = fitnesses[end]
-                pop!(fitnesses)
-                indexes[index], indexes[end-i+1] = indexes[end-i+1], indexes[index]
-            end
-        end
-    end
-
-    parents = deepcopy(population[indexes[end-nParents+1:end]])
-
-    return parents
-end # function
-"""

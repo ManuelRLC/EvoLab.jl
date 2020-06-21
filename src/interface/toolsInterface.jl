@@ -1,7 +1,7 @@
 """
-    clearExperiment(genj::GenJulia = GenJ)
+    clearExperiment()
 
-Reset all the information about the experiment.
+Reset all the information for code users.
 
 See also: [`GenJulia`](@ref)
 """
@@ -306,11 +306,7 @@ function saveResults(genj::GenJulia)
         batchSize = getBatchSize(genj._experimentInfo._experimentSummary)
         currIter = getCurrentIteration(genj._stopCondition)
 
-
-        if batchSize == 0 && reached_(genj._stopCondition) || currIter%batchSize == 0
-
-            # AQUI SE DISPARA EL TIEMPO REVISAR
-            # Reduc muy poco el TIEMPO
+        if (batchSize == 0 && reached_(genj._stopCondition)) || currIter%batchSize == 0
 
             if displayFitness(genj._experimentInfo._experimentSummary)
                 saveFitness(genj._experimentInfo._experimentSummary,
@@ -319,22 +315,16 @@ function saveResults(genj::GenJulia)
 
             end
 
-
-
-            # Reduce muy poco el TIEMPO
-
             if displayBestFitness(genj._experimentInfo._experimentSummary)
 
                 bestIndividual = genj._population[getBestIndividual(genj)[1]]
                 bestFitness = getFitness(bestIndividual)
                 bestGenotype = getGenotype(bestIndividual)
 
-                 if typeof(bestGenotype) <: GAGenotype
-                    bestRep = getRepresentation(bestGenotype)
-                elseif typeof(bestGenotype) <: GEGenotype
-                    bestRep = getPhenotype(genj._experimentInfo._gpExperimentInfo._grammar, bestGenotype)
+                if typeof(bestGenotype) <: GEGenotype
+                    bestRep = getRepresentation(genj._experimentInfo._GPExperimentInfo, bestGenotype)
                 else
-                    bestRep = getPhenotype(bestGenotype)
+                    bestRep = getRepresentation(bestGenotype)
                 end
 
                 saveBestFitness(genj._experimentInfo._experimentSummary,
@@ -343,17 +333,11 @@ function saveResults(genj::GenJulia)
 
             end
 
-
-            # Reduce poco el tiempo, aun asi , revisar. Aprox 0.1 seg y 10 megas
-
             if displayMeanFitness(genj._experimentInfo._experimentSummary)
                 saveMeanFitness(genj._experimentInfo._experimentSummary,
                                 getFitness(genj._population),
                                 currIter, getGlobalFitness(genj._population))
             end
-
-
-            # Reduce muy poco el tiempo
 
             if displayVARFitness(genj._experimentInfo._experimentSummary)
                 saveVARFitness(genj._experimentInfo._experimentSummary,
@@ -361,8 +345,6 @@ function saveResults(genj::GenJulia)
                                 currIter, getGlobalFitness(genj._population))
             end
 
-
-            # 0.12 sec, 10 megas, revisar.
             if printDuringExperiment(genj._experimentInfo._experimentSummary)
 
                 outputFile = getOutputFile(genj._experimentInfo._experimentSummary)
@@ -382,18 +364,10 @@ function saveResults(genj::GenJulia)
                 println(io)
 
                 io == Base.stdout || close(io)
-
-
             end
-
-
         end
-
     end
 
     return nothing
 end # function
-"""println("hola")
-println("precompile saveResults: ", precompile(saveResults, tuple(GenJulia)))"""
-
 export saveResults

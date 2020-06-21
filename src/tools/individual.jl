@@ -33,7 +33,7 @@ export GPGenotype
 
 
 """
-    getRepresentation(genotype::Genotype)
+    getRepresentation(genotype::GAGenotype)
 
 Returns the representation of the genotype.
 """
@@ -175,7 +175,7 @@ end # function
 
 
 """
-    setFitness!(ind::Individual, fitness::Real; index::Integer = 1)
+    setFitness!(ind::Individual, fitness::Float64; index::Integer = 1)
 
 Sets a fitness value of the individual.
 """
@@ -193,13 +193,13 @@ Sets the second-phase fitness value of the individual.
 """
 function setGlobalFitness!(ind::Individual, fitness::Real)
     ind._globalFitness = fitness
-    nothing
+    return nothing
 end # function
 
 
 
 """
-    setGlobalFitness!(population::Array{Individual}, globalFitnesses::Array{Real})
+    setGlobalFitness!(population::Array{Individual}, globalFitnesses::Array{Float64})
 
 Sets the second-phase fitness value of the individuals of a population.
 """
@@ -207,13 +207,13 @@ function setGlobalFitness!(population::Array{Individual}, globalFitnesses::Array
     for i=eachindex(population)
         setGlobalFitness!(population[i], globalFitnesses[i])
     end
-    nothing
+    return nothing
 end # function
 
 
 
 """
-    isPredefinedType(individualInfo::DataType)
+    isPredefinedType(individualInfo::DataType)::Bool
 
 Checks wether an individual type is one of the predefined ones or not.
 """
@@ -225,7 +225,7 @@ end # function
 
 
 """
-    getNumberFitness(population)::Int
+    getNumberFitness(population::Array{Individual})::Int
 
 Returns the number of fitness values that the individual has.
 """

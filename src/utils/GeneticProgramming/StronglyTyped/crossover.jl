@@ -1,9 +1,9 @@
 """
     selectCrossPoint(genotype::STGPGenotype, rng::Random.AbstractRNG;
-                     fixedDepth::Integer = -1, minDepth::Integer = -1,
-                     maxDepth::Integer = -1,
+                     fixedDepth::Int64 = -1, minDepth::Int64 = -1,
+                     maxDepth::Int64 = -1,
                      allowedType::Union{DataType, Union} = Any,
-                     forbidden::Array{Integer} = Array{Integer}(undef, 0))
+                     forbidden::Array{Int64} = Array{Int64}(undef, 0))
 
 Selects a point in the genotype where the crossover is going to be performed
 by taking some considerations into account, such as the maximum depth
@@ -16,15 +16,15 @@ and the type allowed.
     along an experiment.
 
 # Keyword Arguments
-- `fixedDepth::Integer = -1`: specifies the exact depth at where the crosspoint
+- `fixedDepth::Int64 = -1`: specifies the exact depth at where the crosspoint
     must be. If this argument is set to -1, it will be ignored.
-- `minDepth::Integer = -1`: specifies the minimum depth at where the crosspoint
+- `minDepth::Int64 = -1`: specifies the minimum depth at where the crosspoint
     can be. If this argument is set to -1, it will be ignored.
-- `maxDepth::Integer = -1`: specifies the maximum depth at where the crosspoint
+- `maxDepth::Int64 = -1`: specifies the maximum depth at where the crosspoint
     can be. If this argument is set to -1, it will be ignored.
 - `allowedType::Union{DataType, Union} = Any`: specifies the allowed type that the
     crosspoint must have.
-- `forbidden::Array{Integer} = Array{Integer}(undef, 0)`: array of the indexes
+- `forbidden::Array{Int64} = Array{Int64}(undef, 0)`: array of the indexes
     of the nodes that are forbidden to be crosspoints because they have already
     been proved not to have a compatible crosspoint in the other parent.
 """
@@ -32,7 +32,7 @@ function selectCrossPoint(genotype::STGPGenotype, rng::Random.AbstractRNG;
                           fixedDepth::Integer = -1, minDepth::Integer = -1,
                           maxDepth::Integer = -1,
                           allowedType::Union{DataType, Union} = Any,
-                          forbidden::Array{Integer} = Array{Integer}(undef, 0))
+                          forbidden::Array{Int64} = Array{Int64}(undef, 0))
 
     if fixedDepth != -1 && minDepth != -1
         minDepth = -1
@@ -42,8 +42,8 @@ function selectCrossPoint(genotype::STGPGenotype, rng::Random.AbstractRNG;
     lenRep = length(representation)
 
     # Sets depths for every node
-    depths = Array{Integer}(undef, lenRep)
-    visitedFromRoot = zeros(Integer, 1, 2)
+    depths = Array{Int64}(undef, lenRep)
+    visitedFromRoot = zeros(Int64, 1, 2)
     nodeIndex = 1
     depths[nodeIndex] = 0
     parent = 0
@@ -52,7 +52,7 @@ function selectCrossPoint(genotype::STGPGenotype, rng::Random.AbstractRNG;
     while nodeIndex != 0
 
         if nodeIndex > size(visitedFromRoot)[1]
-            visitedFromRoot = vcat(visitedFromRoot, zeros(Integer, 1, 2))
+            visitedFromRoot = vcat(visitedFromRoot, zeros(Int64, 1, 2))
             depths[nodeIndex] = depth
             visitedFromRoot[end, 2] = parent
         end
@@ -70,29 +70,32 @@ function selectCrossPoint(genotype::STGPGenotype, rng::Random.AbstractRNG;
     end
 
     # Sets heights for every node
-    heights = Array{Integer}(undef, lenRep)
-    heights[end] = 0
-    stack = [lenRep]
-    currIndex = lenRep - 1
+    local heights
+    if fixedDepth == -1
+        heights = Array{Int64}(undef, lenRep)
+        heights[end] = 0
+        stack = [lenRep]
+        currIndex = lenRep - 1
 
-    while currIndex > 0
+        while currIndex > 0
 
-        if typeof(representation[currIndex]) <: TerminalNode
-            heights[currIndex] = 0
-        elseif typeof(representation[currIndex]) <: FunctionNode
-            childrenIndexes = Array{Integer}(undef, 0)
-            for i=1:getArity(representation[currIndex])
-                push!(childrenIndexes, pop!(stack))
+            if typeof(representation[currIndex]) <: TerminalNode
+                heights[currIndex] = 0
+            elseif typeof(representation[currIndex]) <: FunctionNode
+                childrenIndexes = Array{Int64}(undef, 0)
+                for i=1:getArity(representation[currIndex])
+                    push!(childrenIndexes, pop!(stack))
+                end
+                heights[currIndex] = maximum(heights[childrenIndexes]) + 1
             end
-            heights[currIndex] = maximum(heights[childrenIndexes]) + 1
-        end
 
-        push!(stack, currIndex)
-        currIndex -= 1
+            push!(stack, currIndex)
+            currIndex -= 1
+        end
     end
 
     # Chooses cross point
-    indexes = Array{Integer}(undef, 0)
+    indexes = Array{Int64}(undef, 0)
 
     if allowedType == Any
         indexes = collect(1:lenRep)
@@ -109,8 +112,8 @@ function selectCrossPoint(genotype::STGPGenotype, rng::Random.AbstractRNG;
 
     if maxDepth != -1
         if fixedDepth != -1
-            indexes = union(filter(x->depths[x]==fixedDepth, indexes),
-                            filter(x->heights[x]+fixedDepth<=maxDepth, indexes))
+            indexes = filter(x->depths[x]==fixedDepth, indexes)
+
         elseif minDepth != -1
             indexes = union(filter(x->depths[x]>=minDepth, indexes),
                             filter(x->heights[x]+minDepth<=maxDepth, indexes))
@@ -134,7 +137,7 @@ function selectCrossPoint(genotype::STGPGenotype, rng::Random.AbstractRNG;
 
         # Subtree obtention
         subtree = Array{Node}(undef, 0)
-        visitedFromRoot = zeros(Integer, 1, 2)
+        visitedFromRoot = zeros(Int64, 1, 2)
         push!(subtree, representation[pointIndex])
         nodeIndex = pointIndex
         parent = 0
@@ -142,7 +145,7 @@ function selectCrossPoint(genotype::STGPGenotype, rng::Random.AbstractRNG;
         while nodeIndex != 0
 
             if (nodeIndex-pointIndex+1) > size(visitedFromRoot)[1]
-                visitedFromRoot = vcat(visitedFromRoot, zeros(Integer, 1, 2))
+                visitedFromRoot = vcat(visitedFromRoot, zeros(Int64, 1, 2))
                 visitedFromRoot[end, 2] = parent
                 push!(subtree, representation[nodeIndex])
             end
@@ -176,6 +179,10 @@ second parent, a crosspoint of the same type and depth is searched. If there is
 no such crosspoint in the second parent, the process repeats and a different
 crosspoint is chosen in the first parent. If crossover is not possible between the
 two parents (due to type and depth constrictions) the parents are returned as children.
+There may be cases when it is difficult to perform this crossover
+operation between two parents if they have different shapes. Due to this, this
+crossover operation works best with individuals generated by the full generation
+method.
 
 `Self-provided Arguments` are provided by the library, so only `User Arguments` must be provided.
 
@@ -195,13 +202,13 @@ function onePointCross(parent1::STGPGenotype, parent2::STGPGenotype,
                        gpExperimentInfo::STGPInfo, rng::Random.AbstractRNG)
 
     maxDepth = gpExperimentInfo._maxTreeDepth
-    forbidden = Array{Integer}(undef, 0)
+    forbidden = Array{Int64}(undef, 0)
     cantCross = false
     lenRep = length(parent1._representation)
 
     subtree1, crossPoint1, pointDepth1, allowedType = selectCrossPoint(parent1, rng)
-    returned = selectCrossPoint(parent2, rng, fixedDepth=pointDepth1, maxDepth=maxDepth,
-                                allowedType=allowedType)
+    returned = selectCrossPoint(parent2, rng, fixedDepth=pointDepth1,
+                                maxDepth=convert(Int64, maxDepth), allowedType=allowedType)
 
     while returned == nothing
         push!(forbidden, crossPoint1)
@@ -257,12 +264,12 @@ function oneChildSubtreeCross(parent1::STGPGenotype, parent2::STGPGenotype,
                               gpExperimentInfo::STGPInfo, rng::Random.AbstractRNG)
 
     maxDepth = gpExperimentInfo._maxTreeDepth
-    forbidden = Array{Integer}(undef, 0)
+    forbidden = Array{Int64}(undef, 0)
     cantCross = false
     lenRep = length(parent1._representation)
 
     subtree1, crossPoint1, pointDepth1, allowedType = selectCrossPoint(parent1, rng)
-    returned = selectCrossPoint(parent2, rng, minDepth=pointDepth1, maxDepth=maxDepth,
+    returned = selectCrossPoint(parent2, rng, minDepth=pointDepth1, maxDepth=convert(Int64,maxDepth),
                allowedType=allowedType)
     while returned == nothing
         push!(forbidden, crossPoint1)

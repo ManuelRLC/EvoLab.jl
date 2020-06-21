@@ -17,7 +17,7 @@ Generates an integer individual with genes generated randomly within **min** and
 function randomIntegerGenerator(rng::Random.AbstractRNG, genotypeSize::Integer,
                                 min::Integer, max::Integer)::IntegerGenotype
 
-    # Checks if user introduce correctly the bounds
+    # Checks if user has introduced correctly the bounds
     if min > max
         min, max = max, min
     end

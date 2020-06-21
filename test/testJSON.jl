@@ -69,4 +69,4 @@ end
 
 mirng = Random.MersenneTwister(5)
 
-@time experimentos=runGenJ("ECJ/tests/example.json", verbose=false)
+@time experimentos=runGenJ("test/example.json", verbose=false)

@@ -234,7 +234,7 @@ Gets the identifier of the node.
 """
 function getName(node::Node)
     if typeof(node) <: ConstantNode
-        string(node._value)
+        string(eval(node))
     elseif typeof(node) <: VariableNode
         getVariableName(node)
     elseif typeof(node) <: NoArgsFunctionNode

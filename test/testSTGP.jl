@@ -1,6 +1,6 @@
 import Random
 using EvoLab
-using EvoLab.GP
+
 using EvoLab.GP.STGP
 
 
@@ -48,6 +48,8 @@ end
 
 
 println("hola")
+println("hola")
+println("hola")
 """
 rng = Random.MersenneTwister(142)
 
@@ -69,19 +71,21 @@ evaluate!(GenJ, GenJ._population)
 #evaluate!(GenJ, GenJ._population)
 #children = onePointCross(GenJ._population[1]._genotype, GenJ._population[2]._genotype, GenJ._experimentInfo._GPExperimentInfo, rng)
 #mutated = pointMutation(GenJ._population[1]._genotype, GenJ._experimentInfo._GPExperimentInfo, rng, 0.2)
-
-
 """
+
+
 clearGenJ()
+#setAlgorithm(EvoLab.basicExperimentDeep)
 setIndividualType(STGPGenotype)
 setRandomSeed(2)
-setSTGPInfo(x, y, nodesFile="ECJ/utils/GeneticProgramming/StronglyTyped/exampleNodesSTGP.json")
+setSTGPInfo(x, y, nodesFile="src/utils/GeneticProgramming/StronglyTyped/exampleNodesSTGP.json")
 setStopCondition(maxIterations = 50)
 setEvaluator([FitnessFunction(CCR, clases, weight=1)])
 setGenerator(rampedHalfHalfGenerator, popSize = 50, generateOneByOne = false)
 setSelector(tournamentSelector, 5)
 setCrossoverOperator(subtreeCross, probability = 0.9)
-setMutationOperator(onePointMutation, probability = 0.2)
+setMutationOperator(subtreeMutation, probability = 0.2)
 setReplacementOperator(replaceAllPopulation, eliteSize=5)
+setExperimentSummary(batchSize=10)
 
 @time runGenJ(verbose = false)

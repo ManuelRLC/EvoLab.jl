@@ -24,6 +24,7 @@ struct GEInfo <: GPExperimentInfo
 end # struct
 
 
+
 """
     setGEInfo(N::Array{String}, T::Array{String}, P::Array{String}, S::String,
               variables::Array{String}, varValues...; genj::GenJulia = GenJ,
@@ -220,9 +221,7 @@ end # function
 
 
 
-
 #### GEREP ##########
-
 "
 Structure that is the representantion of an individual in Grammatical Evolution,
 which is a tree.
@@ -244,12 +243,15 @@ mutable struct GERep
 end
 
 
+
 """
     getSymbol(tree::GERep)::UInt16
 
 Returns the symbol stored.
 """
 getSymbol(tree::GERep)::UInt16 = tree._symbol
+
+
 
 """
     getDepth(tree::GERep)::UInt8
@@ -258,12 +260,16 @@ Returns the depth of the node in the tree.
 """
 getDepth(tree::GERep)::UInt8 = tree._depth
 
+
+
 """
     getChildren(tree::GERep)::Array{GERep}
 
 Returns the array of children.
 """
 getChildren(tree::GERep)::Array{GERep} = tree._children
+
+
 
 """
     setDepth!(tree::GERep, value)
@@ -272,12 +278,16 @@ Sets the depth of the node in the tree.
 """
 setDepth!(tree::GERep, value) = tree.depth = depth
 
+
+
 """
-    setDepth!(tree::GERep, value)
+    setChildren!(tree::GERep, children::Array{GERep})
 
 Sets the children of the node.
 """
 setChildren!(tree::GERep, children::Array{GERep}) = tree._children = children
+
+
 
 """
     pushChild!(tree::GERep, child::GERep)
@@ -286,12 +296,16 @@ Introduce a child in the array of children.
 """
 pushChild!(tree::GERep, child::GERep) = push!(getChildren(tree), child)
 
+
+
 """
     getNChildren(tree::GERep)::Int
 
 Returns the number of children.
 """
 getNChildren(tree::GERep)::Int = length(getChildren(tree))
+
+
 
 """
     isLeaf(tree::GERep)::Bool
@@ -337,6 +351,7 @@ function getHeights(tree::GERep)
 end
 
 
+
 """
     changeNodes!(tree1::GERep, tree2::GERep)
 
@@ -349,13 +364,13 @@ function changeNodes!(tree1::GERep, tree2::GERep)
 end
 
 
+
 """
     copyTree(tree::GERep)::GERep
 
 Makes a copy of the tree.
 """
 function copyTree(tree::GERep)::GERep
-
 
     stack = [tree]
     newTree = GERep(tree._symbol, tree._depth)
@@ -407,8 +422,10 @@ function printTree(tree::GERep, gramm::Grammar)
     for i=getNChildren(tree):-1:1
         printRecursive(getChildren(tree)[i], 1)
     end
-    nothing
+    return nothing
 end
+
+
 
 """
     getPreOrder(tree::GERep, onlyNonTerminal::Bool=false)
@@ -438,6 +455,8 @@ function getPreOrder(tree::GERep, onlyNonTerminal::Bool=false)
     return preOrder
 end
 
+
+
 """
     countNonTerminal(tree::GERep)
 
@@ -460,6 +479,7 @@ function countNonTerminal(tree::GERep)
     end
     return count
 end
+
 
 
 """
@@ -509,6 +529,8 @@ function pruneProtein(genotype1, genotype2)::Tuple{IntegerGenotype{UInt8}, Array
     return subProtein1, introns1, subProtein2, introns2
 end
 
+
+
 """
     pruneProtein(genotype1)::Tuple{IntegerGenotype{UInt8}, Array{UInt8}}
 
@@ -525,6 +547,8 @@ function pruneProtein(genotype)::Tuple{IntegerGenotype{UInt8}, Array{UInt8}}
 
     return subProtein, introns
 end
+
+
 
 """
     copyGenotype(geGenotype::GEGenotype)::GEGenotype
