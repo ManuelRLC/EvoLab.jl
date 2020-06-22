@@ -369,7 +369,7 @@ export setRNG
 
 
 """
-    runExperiments(jsonFile::String; verbose::Bool = true, outputFile::String = "")
+    runExperiment(jsonFile::String; verbose::Bool = true, outputFile::String = "")
 
 Runs the experiments specified in the configuration file.
 
@@ -390,7 +390,7 @@ For guidance about how to create the information file about the experiments
 visit our GitHub repository at:
 [https://github.com/SergioGmezM/Evolutionary\\_Computation\\_Julia](https://github.com/SergioGmezM/Evolutionary_Computation_Julia)
 """
-function runExperiments(configFile::String; verbose::Bool = true, outputFile::String = "",
+function runExperiment(configFile::String; verbose::Bool = true, outputFile::String = "",
                  parentModule::Module = Main)
     experiments = generateMainStructure(configFile, parentModule=parentModule)
     nExperiments = length(experiments)
@@ -418,7 +418,6 @@ function runExperiments(configFile::String; verbose::Bool = true, outputFile::St
 
     return experiments
 end # function
-export runExperiments
 
 
 
