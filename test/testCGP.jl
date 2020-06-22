@@ -90,4 +90,4 @@ setReplacementOperator(replaceAllPopulation)
 setExperimentSummary(batchSize=10)
 
 
-@time runGenJ(verbose=false)
+@time runExperiment(verbose=false)

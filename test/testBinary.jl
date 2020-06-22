@@ -38,7 +38,7 @@ setReplacementOperator(replaceAllPopulation)
                      #batchSize=1, printDuringExperiment=true)
 setExperimentSummary(printBestFitness=false)
 #setExperimentSummary(batchSize=-1)
-@time runGenJ(verbose=false)
+@time runExperiment(verbose=false)
 
 """
 

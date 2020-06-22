@@ -88,4 +88,4 @@ setMutationOperator(subtreeMutation, probability = 0.2)
 setReplacementOperator(replaceAllPopulation, eliteSize=5)
 setExperimentSummary(batchSize=10)
 
-@time runGenJ(verbose = false)
+@time runExperiment(verbose = false)

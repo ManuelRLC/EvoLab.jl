@@ -34,4 +34,4 @@ setExperimentSummary(printFitness=false, printDuringExperiment=true)
 setExperimentSummary(printBestFitness=false)
 
 
-@time runGenJ(verbose=false)
+@time runExperiment(verbose=false)
