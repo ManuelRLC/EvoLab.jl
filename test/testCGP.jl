@@ -76,7 +76,7 @@ for i=1:nvalues
 end
 
 clearGenJ()
-setAlgorithm(EvoLab.basicExperimentDeep)
+#setAlgorithm(EvoLab.basicExperimentDeep)
 setIndividualType(CGPGenotype)
 setRandomSeed(5432)
 setCGPInfo(x, y, nodesFile="src/utils/GeneticProgramming/Canonical/exampleNodesCGP.json")

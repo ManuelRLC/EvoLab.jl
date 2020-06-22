@@ -76,13 +76,13 @@ export setExperimentSummary
 
 
 """
-    printInformation(genj::GenJulia = GenJ; printFitness::Bool = true,
+    printResults(genj::GenJulia = GenJ; printFitness::Bool = true,
                      printBestFitness::Bool = true, printMeanFitness::Bool = true,
                      printVARFitness::Bool = true, outputFile::String = "")
 
 Prints all the information of the experiment.
 """
-function printInformation(genj::GenJulia = GenJ; printFitness::Bool = true,
+function printResults(genj::GenJulia = GenJ; printFitness::Bool = true,
                           printBestFitness::Bool = true, printFitnessMean::Bool = true,
                           printFitnessVAR::Bool = true, outputFile::String = "")
 
@@ -96,15 +96,15 @@ function printInformation(genj::GenJulia = GenJ; printFitness::Bool = true,
 
     return nothing
 end # function
-export printInformation
+export printResults
 
 
 """
-    printLastInformation(genj::GenJulia = GenJ, currGen::Integer = 0)
+    printLastResults(genj::GenJulia = GenJ, currGen::Integer = 0)
 
 Prints the last bit of information collected of the experiment.
 """
-function printLastInformation(genj::GenJulia = GenJ, currGen::Integer = 0)
+function printLastResults(genj::GenJulia = GenJ, currGen::Integer = 0)
 
     if currGen == 0
         currGen = getCurrentIteration(genj._stopCondition)
@@ -114,4 +114,4 @@ function printLastInformation(genj::GenJulia = GenJ, currGen::Integer = 0)
 
     return nothing
 end # function
-export printLastInformation
+export printLastResults
