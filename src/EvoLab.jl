@@ -369,7 +369,7 @@ export setRNG
 
 
 """
-    runGenJ(jsonFile::String; verbose::Bool = true, outputFile::String = "")
+    runExperiment(jsonFile::String; verbose::Bool = true, outputFile::String = "")
 
 Runs the experiments specified in the configuration file.
 
@@ -390,7 +390,7 @@ For guidance about how to create the information file about the experiments
 visit our GitHub repository at:
 [https://github.com/SergioGmezM/Evolutionary\\_Computation\\_Julia](https://github.com/SergioGmezM/Evolutionary_Computation_Julia)
 """
-function runGenJ(configFile::String; verbose::Bool = true, outputFile::String = "",
+function runExperiment(configFile::String; verbose::Bool = true, outputFile::String = "",
                  parentModule::Module = Main)
     experiments = generateMainStructure(configFile, parentModule=parentModule)
     nExperiments = length(experiments)
@@ -422,7 +422,7 @@ end # function
 
 
 """
-    runGenJ(genj::GenJulia = GenJ; verbose::Bool = true, outputFile::String = "")
+    runExperiment(genj::GenJulia = GenJ; verbose::Bool = true, outputFile::String = "")
 
 Runs a single experiment for `code users`.
 
@@ -440,7 +440,7 @@ For guidance about how to create the information file about the experiments
 visit our GitHub repository at:
 [https://github.com/SergioGmezM/Evolutionary\\_Computation\\_Julia](https://github.com/SergioGmezM/Evolutionary_Computation_Julia)
 """
-function runGenJ(genj::GenJulia = GenJ; verbose::Bool = true, outputFile::String = "")
+function runExperiment(genj::GenJulia = GenJ; verbose::Bool = true, outputFile::String = "")
 
     if !verbose
         verbose = outputFile != ""
@@ -459,7 +459,7 @@ function runGenJ(genj::GenJulia = GenJ; verbose::Bool = true, outputFile::String
     #basicExperiment(genj._experimentInfo._algorithmArgs..., genj=GenJ)
     genj._experimentInfo._algorithm(genj, genj._experimentInfo._algorithmArgs...)
 end # function
-export runGenJ
+export runExperiment
 
 
 function runBasicExperiment(genj::GenJulia = GenJ; verbose::Bool = true, outputFile::String = "")
