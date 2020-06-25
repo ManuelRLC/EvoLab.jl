@@ -76,18 +76,16 @@ for i=1:nvalues
 end
 
 clearGenJ()
-#setAlgorithm(EvoLab.basicExperimentDeep)
 setIndividualType(CGPGenotype)
-setRandomSeed(5432)
+setRandomSeed(5198)
 setCGPInfo(x, y, nodesFile="src/utils/GeneticProgramming/Canonical/exampleNodesCGP.json")
-setStopCondition(maxIterations=50)
+setStopCondition(maxIterations=100)
 setEvaluator([FitnessFunction(compareFunctions, objs, weight=-1)])
 setGenerator(rampedHalfHalfGenerator, popSize = 50, generateOneByOne = false)
 setSelector(tournamentSelector, 4)
 setCrossoverOperator(subtreeCross, probability=0.9)
 setMutationOperator(pointMutation, 0.2, probability=0.1)
-setReplacementOperator(replaceAllPopulation)
-setExperimentSummary(batchSize=10)
+setReplacementOperator(replaceAllPopulation, eliteSize=5)
 
 
 @time runExperiment(verbose=false)
