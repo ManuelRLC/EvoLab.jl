@@ -251,13 +251,13 @@ end # function
 
 
 """
-    displayInformation_(summary::ExperimentSummary; displayFitness::Bool = true,
+    displayInformation_(summary::ExperimentSummary, nGens::Int64 = 0; displayFitness::Bool = true,
                       displayBestFitness::Bool = true, displayMeanFitness::Bool = true,
                       displayVARFitness::Bool = true, outputFile::String = "")
 
 displays all the information in the summary.
 """
-function printInformation_(summary::ExperimentSummary; printFitness::Bool = true,
+function printInformation_(summary::ExperimentSummary, nGens::Int64 = 0; printFitness::Bool = true,
                                      printBestFitness::Bool = true, printFitnessMean::Bool = true,
                                      printFitnessVAR::Bool = true, outputFile::String = "")
 
@@ -273,8 +273,7 @@ function printInformation_(summary::ExperimentSummary; printFitness::Bool = true
         flush(io)
 
         batchSize = getBatchSize(summary)
-        anyDisplayable = displayAnything(summary)
-        nGens = axes(anyDisplayable)[end]
+        nGens = 1:div(nGens, batchSize)
 
         for gen = nGens
             println(io, "GENERATION ", batchSize * gen, ":")
@@ -325,7 +324,7 @@ function printInformation_(summary::ExperimentSummary; printFitness::Bool = true
                     println(io, "\tMean of Fitness ", fit, ": ", summary._meanFitness[fit, gen])
                 end
                 if summary._global
-                    println(io, "\tMean of Global Fitness: ", summary._meanFitness[end, currGeneration])
+                    println(io, "\tMean of Global Fitness: ", summary._meanFitness[end, gen])
                 end
                 println(io)
             end
@@ -337,7 +336,7 @@ function printInformation_(summary::ExperimentSummary; printFitness::Bool = true
                     println(io, "\tVariance of Fitness ", fit, ": ", summary._varFitness[fit, gen])
                 end
                 if summary._global
-                    println(io, "\ttVariance of Global Fitness: ", summary._varFitness[end, gen])
+                    println(io, "\tVariance of Global Fitness: ", summary._varFitness[end, gen])
                 end
                 println(io)
             end

@@ -357,7 +357,7 @@ function saveResults(genj::GenJulia)
 
                 io == Base.stdout || close(io)
 
-                printLastInformation(genj, currIter)
+                printLastResults(genj, currIter)
 
                 println(io, "============================")
                 println(io)

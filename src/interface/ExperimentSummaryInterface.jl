@@ -87,7 +87,9 @@ function printResults(genj::GenJulia = GenJ; printFitness::Bool = true,
                           printFitnessVAR::Bool = true, outputFile::String = "")
 
     if isdefined(genj._experimentInfo, :_experimentSummary)
-        printInformation_(genj._experimentInfo._experimentSummary, printFitness=printFitness,
+        printInformation_(genj._experimentInfo._experimentSummary,
+                          getCurrentIteration(genj._stopCondition),
+                          printFitness=printFitness,
                           printBestFitness=printBestFitness, printFitnessMean=printFitnessMean,
                           printFitnessVAR=printFitnessVAR, outputFile=outputFile)
     else
@@ -108,6 +110,8 @@ function printLastResults(genj::GenJulia = GenJ, currGen::Integer = 0)
 
     if currGen == 0
         currGen = getCurrentIteration(genj._stopCondition)
+    elseif currGen > getCurrentIteration(genj._stopCondition)
+        error("Results not available for that generation")
     end
 
     printLastInformation_(genj._experimentInfo._experimentSummary, currGen)
