@@ -16,11 +16,7 @@ function printExperimentInfo(outputFile::String = "", genj::GenJulia = GenJ)
 
         if typeof(genj._experimentInfo._GPExperimentInfo) <: GEInfo
             #verbose para ge
-            print(io, "\t\t\t· Variables → ")
-            for i=1:(length(genj._experimentInfo._GPExperimentInfo._variables)-1)
-                print(io, "$(genj._experimentInfo._GPExperimentInfo._variables[i]), ")
-            end
-            (length(genj._experimentInfo._GPExperimentInfo._variables) != 0) ? println(io, "$(genj._experimentInfo._GPExperimentInfo._variables[end])") : println(io, "None")
+
         elseif typeof(genj._experimentInfo._GPExperimentInfo) <: CGPInfo ||
                typeof(genj._experimentInfo._GPExperimentInfo) <: STGPInfo ||
                typeof(genj._experimentInfo._GPExperimentInfo) <: GEPInfo
@@ -37,9 +33,9 @@ function printExperimentInfo(outputFile::String = "", genj::GenJulia = GenJ)
 
             print(io, "\t\t\t· Variables → ")
             for i=1:(length(genj._experimentInfo._GPExperimentInfo._variables)-1)
-                print(io, "$(genj._experimentInfo._GPExperimentInfo._variables[i]._name), ")
+                print(io, "$(genj._experimentInfo._GPExperimentInfo._variables[i]), ")
             end
-            (length(genj._experimentInfo._GPExperimentInfo._variables) != 0) ? println(io, "$(genj._experimentInfo._GPExperimentInfo._variables[end]._name)") : println(io, "None")
+            (length(genj._experimentInfo._GPExperimentInfo._variables) != 0) ? println(io, "$(genj._experimentInfo._GPExperimentInfo._variables[end])") : println(io, "None")
         end
     end
     println(io, "\t\t· Random Seed → $(genj._experimentInfo._randomSeed)")
@@ -51,9 +47,9 @@ function printExperimentInfo(outputFile::String = "", genj::GenJulia = GenJ)
 
     # Stop Conditions
     println(io, "\tStop Conditions:")
-    genj._stopCondition._maxEvaluations != -1 && println(io, "\t\t· Maximum Evaluations → $(genj._stopCondition._maxEvaluations)")
-    genj._stopCondition._maxIterations != -1 && println(io, "\t\t· Maximum Iterations → $(genj._stopCondition._maxIterations)")
-    genj._stopCondition._maxIterNotImproving != -1 && println(io, "\t\t· Maximum Iterations without improving → $(genj._stopCondition._maxIterNotImproving)")
+    genj._stopCondition._maxEvaluations != typemax(Int64) && println(io, "\t\t· Maximum Evaluations → $(genj._stopCondition._maxEvaluations)")
+    genj._stopCondition._maxIterations != typemax(Int64) && println(io, "\t\t· Maximum Iterations → $(genj._stopCondition._maxIterations)")
+    genj._stopCondition._maxIterNotImproving != typemax(Int64) && println(io, "\t\t· Maximum Iterations without improving → $(genj._stopCondition._maxIterNotImproving)")
     genj._stopCondition._maxTime != Inf && println(io, "\t\t· Maximum Time → $(genj._stopCondition._maxTime)")
 
     # Evaluation
@@ -69,7 +65,6 @@ function printExperimentInfo(outputFile::String = "", genj::GenJulia = GenJ)
         end
         length(genj._evaluator._globalFitnessFunction._varArgs) != 0 ? println(io, "$(genj._evaluator._globalFitnessFunction._varArgs[end]))") : println(io, ")")
     end
-    println(io, "\t\t· Comparison Function → $(genj._evaluator._compareFunction)")
     println(io, "\t\t· Fitness Comparison Mode → $(genj._evaluator._compareFunctionArgs)")
 
     # Generation
@@ -89,9 +84,8 @@ function printExperimentInfo(outputFile::String = "", genj::GenJulia = GenJ)
         print(io, "$(genj._selector._varArgs[i]), ")
     end
     length(genj._selector._varArgs) != 0 ? println(io, "$(genj._selector._varArgs[end]))") : println(io, ")")
-    println(io, typeof(genj._selector._nSelectedParents) == Integer ? "\t\t· # of Selected Parents → $(genj._selector._nSelectedParents)" : "\t\t· # of Selected Parents → $(round(genj._selector._nSelectedParents*100, digits=2))%")
+    println(io, "\t\t· # of Selected Parents → $(genj._selector._nSelectedParents)")
     println(io, "\t\t· Method needs to compare between individuals → $(genj._selector._needsComparison)")
-    #genj._selector._needsComparison && println(io, "\t\t· Comparison Mode → $(genj._selector._individualMode)")
     println(io, "\t\t· Sampling with Replacement → $(genj._selector._samplingWithRep)")
 
     # Crossover
@@ -122,8 +116,36 @@ function printExperimentInfo(outputFile::String = "", genj::GenJulia = GenJ)
     end
     length(genj._replacementOp._varArgs) != 0 ? println(io, "$(genj._replacementOp._varArgs[end]))") : println(io, ")")
     println(io, "\t\t· Method needs to compare between individuals → $(genj._replacementOp._needsComparison)")
-    #genj._replacementOp._needsComparison && println(io, "\t\t· Comparison Mode → $(genj._replacementOp._individualMode)")
+
+    # Summary
+    println(io, "\tSummary:")
+    batchSize = getBatchSize(genj._experimentInfo._experimentSummary)
+    if batchSize < 0
+        println(io, "\t\t· Results storage disabled")
+    else
+        if batchSize == 0
+            println(io, "\t\t· Results only of the last generation of the algorithm")
+        else
+            println(io, "\t\t· Batch size: ", batchSize)
+        end
+
+        print(io, "\t\t· Display results during experiment: ")
+        printDuringExperiment(genj._experimentInfo._experimentSummary) ? println(io, "enabled") : println(io, "disabled")
+
+        print(io, "\t\t· Display of individuals' fitness values: ")
+        displayFitness(genj._experimentInfo._experimentSummary) ? println(io, "enabled") : println(io, "disabled")
+
+        print(io, "\t\t· Display of the best individual's fitness values: ")
+        displayBestFitness(genj._experimentInfo._experimentSummary) ? println(io, "enabled") : println(io, "disabled")
+
+        print(io, "\t\t· Display of the mean of fitness values: ")
+        displayMeanFitness(genj._experimentInfo._experimentSummary) ? println(io, "enabled") : println(io, "disabled")
+
+        print(io, "\t\t· Display of the variance of fitness values: ")
+        displayVARFitness(genj._experimentInfo._experimentSummary) ? println(io, "enabled") : println(io, "disabled")
+    end
 
     io == Base.stdout || close(io)
     return nothing
 end # function
+export printExperimentInfo

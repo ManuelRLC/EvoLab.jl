@@ -123,7 +123,7 @@ displayMeanFitness(summary::ExperimentSummary)::Bool = !(isempty(summary._meanFi
 
 
 """
-    displaySTDFitness(summary::ExperimentSummary)::Bool
+    displayVARFitness(summary::ExperimentSummary)::Bool
 
 Checks if the user wants to display the standard deviation of the fitness values
 of the individuals throughout the generations.
