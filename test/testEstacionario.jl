@@ -34,4 +34,4 @@ setMutationOperator(pointMutation, 0.2, probability=0.1)
 setReplacementOperator(replaceWorstIndividuals, needsComparison=true)
 setExperimentSummary(printBestFitness=false)
 
-@time runGenJ(verbose=false)
+@time runExperiment(verbose=false)

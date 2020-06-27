@@ -130,7 +130,7 @@ setMutationOperator(
 setReplacementOperator(replaceAllPopulation, eliteSize=5)
 setExperimentSummary()
 
-@time runGenJ(verbose = false)
+@time runExperiment(verbose = false)
 #genj = GeneticJulia.GenJ
 
 #genPopulation!(GenJ)

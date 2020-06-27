@@ -76,18 +76,20 @@ export setExperimentSummary
 
 
 """
-    printInformation(genj::GenJulia = GenJ; printFitness::Bool = true,
+    printResults(genj::GenJulia = GenJ; printFitness::Bool = true,
                      printBestFitness::Bool = true, printMeanFitness::Bool = true,
                      printVARFitness::Bool = true, outputFile::String = "")
 
 Prints all the information of the experiment.
 """
-function printInformation(genj::GenJulia = GenJ; printFitness::Bool = true,
+function printResults(genj::GenJulia = GenJ; printFitness::Bool = true,
                           printBestFitness::Bool = true, printFitnessMean::Bool = true,
                           printFitnessVAR::Bool = true, outputFile::String = "")
 
     if isdefined(genj._experimentInfo, :_experimentSummary)
-        printInformation_(genj._experimentInfo._experimentSummary, printFitness=printFitness,
+        printInformation_(genj._experimentInfo._experimentSummary,
+                          getCurrentIteration(genj._stopCondition),
+                          printFitness=printFitness,
                           printBestFitness=printBestFitness, printFitnessMean=printFitnessMean,
                           printFitnessVAR=printFitnessVAR, outputFile=outputFile)
     else
@@ -96,22 +98,24 @@ function printInformation(genj::GenJulia = GenJ; printFitness::Bool = true,
 
     return nothing
 end # function
-export printInformation
+export printResults
 
 
 """
-    printLastInformation(genj::GenJulia = GenJ, currGen::Integer = 0)
+    printLastResults(genj::GenJulia = GenJ, currGen::Integer = 0)
 
 Prints the last bit of information collected of the experiment.
 """
-function printLastInformation(genj::GenJulia = GenJ, currGen::Integer = 0)
+function printLastResults(genj::GenJulia = GenJ, currGen::Integer = 0)
 
     if currGen == 0
         currGen = getCurrentIteration(genj._stopCondition)
+    elseif currGen > getCurrentIteration(genj._stopCondition)
+        error("Results not available for that generation")
     end
 
     printLastInformation_(genj._experimentInfo._experimentSummary, currGen)
 
     return nothing
 end # function
-export printLastInformation
+export printLastResults
