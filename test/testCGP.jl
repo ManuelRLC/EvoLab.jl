@@ -75,17 +75,48 @@ for i=1:nvalues
     objs[i] = f(x[i], y[i])
 end
 
+"""
+clearGenJ()
+setIndividualType(CGPGenotype)
+setRandomSeed(5198)
+setCGPInfo(x, y, nodesFile="src/utils/GeneticProgramming/Canonical/exampleNodesCGP.json")
+setStopCondition(maxIterations=500)
+setEvaluator([FitnessFunction(compareFunctions, objs, weight=-1)])
+setGenerator(fullGenerator, popSize = 100, generateOneByOne = true)
+setExperimentSummary(batchSize=50, printFitness=false)
+
+"""
+
+"""
 clearGenJ()
 setIndividualType(CGPGenotype)
 setRandomSeed(5198)
 setCGPInfo(x, y, nodesFile="src/utils/GeneticProgramming/Canonical/exampleNodesCGP.json")
 setStopCondition(maxIterations=100)
 setEvaluator([FitnessFunction(compareFunctions, objs, weight=-1)])
-setGenerator(rampedHalfHalfGenerator, popSize = 50, generateOneByOne = false)
-setSelector(tournamentSelector, 4)
-setCrossoverOperator(subtreeCross, probability=0.9)
+setGenerator(fullGenerator, popSize = 100, generateOneByOne = true)
+setSelector(tournamentSelector, 3)
+#setCrossoverOperator(subtreeCross, probability=0.9)
 setMutationOperator(pointMutation, 0.2, probability=0.1)
 setReplacementOperator(replaceAllPopulation, eliteSize=5)
+setExperimentSummary(batchSize=10, printFitness=false)
+"""
 
 
-@time runExperiment(verbose=false)
+clearGenJ()
+setIndividualType(CGPGenotype)
+setRandomSeed(5198)
+setCGPInfo(x, y, nodesFile="src/utils/GeneticProgramming/Canonical/exampleNodesCGP.json")
+setStopCondition(maxIterations=50)
+setEvaluator([FitnessFunction(compareFunctions, objs, weight=-1)])
+setGenerator(rampedHalfHalfGenerator, popSize = 150, generateOneByOne = false)
+setSelector(tournamentSelector, 6, nSelected=10)
+setMutationOperator(pointMutation, 0.2, probability=0.2)
+setReplacementOperator(replaceWorstIndividuals, eliteSize=10, needsComparison=true)
+setExperimentSummary(batchSize=5, printFitness=false)
+
+
+
+val, t, bytes, gctime, memallocs = @timed runExperiment(verbose = false)
+println("tiempo: ", t)
+println("memoria (bytes): ", bytes)

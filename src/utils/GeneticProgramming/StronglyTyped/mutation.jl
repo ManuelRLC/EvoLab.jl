@@ -1,5 +1,5 @@
 """
-    onePointMutation(genotype::CGPGenotype, gpExperimentInfo::CGPInfo,
+    onePointMutation(genotype::STGPGenotype, gpExperimentInfo::STGPInfo,
                      rng::Random.AbstractRNG)
 
 Selects a node from a tree and mutates it into another one.
@@ -7,8 +7,8 @@ Selects a node from a tree and mutates it into another one.
 `Self-provided Arguments` are provided by the library, so only `User Arguments` must be provided.
 
 # Self-provided Arguments
-- `genotype::CGPGenotype`: genotype of the individual that is going to be mutated.
-- `gpExperimentInfo::CGPInfo`: information about the GP experiment.
+- `genotype::STGPGenotype`: genotype of the individual that is going to be mutated.
+- `gpExperimentInfo::STGPInfo`: information about the GP experiment.
 - `rng::Random.AbstractRNG)`: random number generator for random number consistency
     along an experiment.
 
@@ -44,16 +44,17 @@ end # function
 
 
 """
-    pointMutation(genotype::CGPGenotype, gpExperimentInfo::CGPInfo,
+    pointMutation(genotype::STGPGenotype, gpExperimentInfo::STGPInfo,
                   rng::Random.AbstractRNG, probability::Float64)
 
 Mutates the nodes of a tree with a certain probability.
 
-`Self-provided Arguments` are provided by the library, so only `User Arguments` must be provided.
+!!! note
+    `Self-provided Arguments` are provided by the library, so only `User Arguments` must be provided.
 
 # Self-provided Arguments
-- `genotype::CGPGenotype`: genotype of the individual that is going to be mutated.
-- `gpExperimentInfo::CGPInfo`: information about the GP experiment.
+- `genotype::STGPGenotype`: genotype of the individual that is going to be mutated.
+- `gpExperimentInfo::STGPInfo`: information about the GP experiment.
 - `rng::Random.AbstractRNG)`: random number generator for random number consistency
     along an experiment.
 

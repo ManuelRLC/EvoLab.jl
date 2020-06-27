@@ -176,7 +176,7 @@ function checkParametersCorrectGP(genj::GenJulia, index::Int64 = 0)
             OneByOne = false
         end
     end
-    
+
     try
         ind = genj._generator._method(genj._experimentInfo._GPExperimentInfo, one(UInt32), rng, genj._generator._varArgs...)
     catch e
@@ -311,11 +311,11 @@ function checkParametersCorrectGP(genj::GenJulia, index::Int64 = 0)
 
 
         if (nSelectedParents % nParents) != 0
-            error("The number of selected parents ($nSelectedParents) is not divisible by number of parents per cross (\$nParents)")
+            error("The number of selected parents ($nSelectedParents) is not divisible by number of parents per cross ($nParents)")
         end
 
         if !genj._selector._samplingWithRep && nSelectedParents > popSize
-            error("Number of selected parents ($nSelectedParents) should not be greater than population size (\$popSize) when selection method is without replacement")
+            error("Number of selected parents ($nSelectedParents) should not be greater than population size ($popSize) when selection method is without replacement")
         end
 
 #childCross = genj._crossoverOp._method(individuals..., genj._experimentInfo._GPExperimentInfo, rng, genj._crossoverOp._varArgs...)
