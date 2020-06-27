@@ -18,7 +18,7 @@ end
 
 
 
-function scrambleMutation(genotype::GAGenotype, nGens::Integer, rng::Random.AbstractRNG)
+function scrambleMutation(genotype::GAGenotype, rng::Random.AbstractRNG, nGens::Integer)
 
     indRep = genotype._representation
     genLen = length(indRep)
@@ -58,7 +58,7 @@ end
 
 
 
-function inversionMutation(genotype::GAGenotype, nGens::Integer, rng::Random.AbstractRNG)
+function inversionMutation(genotype::GAGenotype, rng::Random.AbstractRNG, nGens::Integer)
 
     indRep = genotype._representation
     genLen = length(indRep)

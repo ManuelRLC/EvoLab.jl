@@ -72,7 +72,7 @@ function standardMutation(genotype::BinaryGenotype, rng::Random.AbstractRNG,
 end # function
 
 
-
+"""
 function exchangeMutation(genotype::BinaryGenotype, rng::Random.AbstractRNG)::BinaryGenotype
 
     genLen = length(genotype._representation)
@@ -219,7 +219,7 @@ function insertMutation(genotype::BinaryGenotype,
     nGens=rand(rng, UInt32)%(genLen-1)+1
     return insertMutation(genotype, convert(Integer, nGens), rng)
 end
-
+"""
 
 
 """

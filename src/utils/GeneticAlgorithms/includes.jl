@@ -3,14 +3,17 @@ module GA
 import ..EvoLab: getDefaultCrossoverOp, getDefaultMutationOp
 using ..EvoLab: GAGenotype, Random
 
+include("../miscFunctions.jl")
 include("crossover.jl")
+include("mutation.jl")
 
 ###############
 ###BinaryGA
 ###############
 module BinaryGA
 
-import ..GA: uniformCross, kPointCross, singlePointCross, getDefaultCrossoverOp, getDefaultMutationOp
+import ..GA: uniformCross, kPointCross, singlePointCross, getDefaultCrossoverOp, getDefaultMutationOp,
+             scrambleMutation, inversionMutation, insertMutation, exchangeMutation
 using ..GA: GAGenotype, Random
 
 include("BinaryGenotype/includes.jl")
@@ -30,7 +33,8 @@ end # module
 module IntegerGA
 
 ###Import section
-import ..GA: uniformCross, kPointCross, singlePointCross, getDefaultCrossoverOp, getDefaultMutationOp
+import ..GA: uniformCross, kPointCross, singlePointCross, getDefaultCrossoverOp, getDefaultMutationOp,
+             scrambleMutation, inversionMutation, insertMutation, exchangeMutation
 using ..GA: GAGenotype, Random
 using ....EvoLab: randomIndexSelection
 

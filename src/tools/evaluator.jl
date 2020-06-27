@@ -592,10 +592,6 @@ function getWorstIndividual(population::Array{Individual}, compare::Function,
         end
     end
 
-    if n == 1
-        worstIndividual = worstIndividual[1]
-    end
-
     return worstIndividual
 end # function
 
