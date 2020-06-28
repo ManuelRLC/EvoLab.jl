@@ -62,7 +62,7 @@ setEvaluator([FitnessFunction(compareFunctions, objs, weight=-1)])
 setGenerator(fullGenerator, popSize = 100, generateOneByOne = true)
 setSelector(tournamentSelector, 3)
 setCrossoverOperator(kPointRecombinationCross, 3, probability=0.9)
-setMutationOperator(geneMutation, probability=0.3)
+setMutationOperator(geneMutation, probability=0.1)
 setReplacementOperator(replaceAllPopulation, eliteSize=5)
 setExperimentSummary(batchSize=10, printFitness=false)
 

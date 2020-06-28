@@ -1,7 +1,6 @@
 using EvoLab
-using EvoLab.GP
 using EvoLab.GP.CGP
-
+#using Plots
 import Random
 println("hola")
 println("hola")
@@ -113,10 +112,17 @@ setGenerator(rampedHalfHalfGenerator, popSize = 150, generateOneByOne = false)
 setSelector(tournamentSelector, 6, nSelected=10)
 setMutationOperator(pointMutation, 0.2, probability=0.2)
 setReplacementOperator(replaceWorstIndividuals, eliteSize=10, needsComparison=true)
-setExperimentSummary(batchSize=5, printFitness=false)
+setExperimentSummary(batchSize=1)
 
 
 
 val, t, bytes, gctime, memallocs = @timed runExperiment(verbose = false)
 println("tiempo: ", t)
 println("memoria (bytes): ", bytes)
+
+myfont = font(13, "cursive")
+allInds = GenJ._experimentInfo._experimentSummary._fitnessValues[1, :, :]
+bestInds = GenJ._experimentInfo._experimentSummary._bestFitnessValues[1, :]
+display(plot(collect(1:50), bestInds, titlefont=myfont, tickfont=myfont,
+             legendfont=myfont, yguide="Valores de fitness", xguide="Generaciones",
+             guidefont=myfont, label="", lw=2))
