@@ -428,7 +428,7 @@ function printLastInformation_(summary::ExperimentSummary, currGeneration::Integ
                 println(io, "\tVariance of Fitness ", fit, ": ", summary._varFitness[fit, currGeneration])
             end
             if summary._global
-                println(io, "\ttVariance of Global Fitness: ", summary._varFitness[end, currGeneration])
+                println(io, "\tVariance of Global Fitness: ", summary._varFitness[end, currGeneration])
             end
             println(io)
         end

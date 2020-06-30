@@ -19,27 +19,11 @@ end
 
 
 
-"""
-
 
 clearGenJ()
-setIndividualType(CGPGenotype)
-setRandomSeed(5198)
-setCGPInfo(x, y, nodesFile="src/utils/GeneticProgramming/Canonical/exampleNodesCGP.json")
-setStopCondition(maxIterations=50)
-setEvaluator([FitnessFunction(compareFunctions, objs, weight=-1)])
-setGenerator(rampedHalfHalfGenerator, popSize = 150, generateOneByOne = false)
-setSelector(tournamentSelector, 6, nSelected=10)
-setMutationOperator(pointMutation, 0.2, probability=0.2)
-setReplacementOperator(replaceWorstIndividuals, eliteSize=10, needsComparison=true)
-setExperimentSummary(batchSize=5, printFitness=false)
-"""
-
-
-
-"""
-clearGenJ()
-setRandomSeed(5198)
+#setRandomSeed(5198)
+#setRandomSeed(2314)
+setRandomSeed(8675)
 setIndividualType(GEPGenotype)
 setGEPInfo(x, y, nodesFile="src/utils/GeneticProgramming/GeneExpressionProgramming/exampleNodesGEP.json")
 setStopCondition(maxIterations=500)
@@ -49,12 +33,14 @@ setGenerator(rampedHalfHalfGenerator, popSize = 50, generateOneByOne = false)
 #setCrossoverOperator(kPointRecombinationCross, 2, probability=0.9)
 #setMutationOperator(geneMutation, probability=0.2)
 #setReplacementOperator(replaceAllPopulation, eliteSize=5)
-setExperimentSummary(batchSize=50, printFitness=false)
+setExperimentSummary(batchSize=1)
 """
 
-"""
+
 clearGenJ()
-setRandomSeed(5198)
+#setRandomSeed(5198)
+#setRandomSeed(2314)
+setRandomSeed(8675)
 setIndividualType(GEPGenotype)
 setGEPInfo(x, y, nodesFile="src/utils/GeneticProgramming/GeneExpressionProgramming/exampleNodesGEP.json")
 setStopCondition(maxIterations=100)
@@ -64,22 +50,48 @@ setSelector(tournamentSelector, 3)
 setCrossoverOperator(kPointRecombinationCross, 3, probability=0.9)
 setMutationOperator(geneMutation, probability=0.1)
 setReplacementOperator(replaceAllPopulation, eliteSize=5)
-setExperimentSummary(batchSize=10, printFitness=false)
+setExperimentSummary(batchSize=1)
+
+"""
 
 """
 
 clearGenJ()
 setIndividualType(GEPGenotype)
-setRandomSeed(5198)
+#setRandomSeed(5198)
+setRandomSeed(2314)
+#setRandomSeed(8675)
 setGEPInfo(x, y, nodesFile="src/utils/GeneticProgramming/GeneExpressionProgramming/exampleNodesGEP.json")
 setStopCondition(maxIterations=50)
 setEvaluator([FitnessFunction(compareFunctions, objs, weight=-1)])
 setGenerator(rampedHalfHalfGenerator, popSize = 150, generateOneByOne = false)
 setSelector(tournamentSelector, 6, nSelected=10)
-setMutationOperator(geneMutation, probability=0.2)
+setMutationOperator(geneMutation, probability=0.3)
 setReplacementOperator(replaceWorstIndividuals, eliteSize=10, needsComparison=true)
-setExperimentSummary(batchSize=5, printFitness=false)
+setExperimentSummary(batchSize=1)
+
+"""
+
 
 val, t, bytes, gctime, memallocs = @timed runExperiment(verbose = false)
 println("tiempo: ", t)
-println("memoria (bytes): ", bytes)
+println("memoria (MB): ", bytes/1000000)
+
+using Plots
+
+myfont = font(13, "cursive")
+bestInds = GenJ._experimentInfo._experimentSummary._bestFitnessValues[1, :]
+
+display(plot(collect(1:500), bestInds, titlefont=myfont, tickfont=myfont,
+             legendfont=myfont, yguide="Valores de fitness", xguide="Generaciones",
+             guidefont=myfont, label="", lw=2))
+
+bestF(x, y) = (y / y + y) - (y - x * x)
+ests = Array{Number}(undef, nvalues)
+for i=1:nvalues
+ests[i] = bestF(x[i], y[i])
+end
+
+display(plot(x, y, ests, titlefont=myfont, tickfont=myfont,
+      legendfont=myfont, yguide="Eje Y", xguide="Eje X",
+      guidefont=myfont, label="", lw=2))
