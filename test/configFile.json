@@ -1,0 +1,67 @@
+{
+"Experiments": [
+  {
+    "GenJulia": {
+      "ExperimentInfo":  {
+        "individualType": "CGPGenotype",
+        "GPExperimentInfo": {
+          "nodesFile": "test/toyNodes.json",
+          "maxTreeDepth": 3,
+          "varValues": ["[-2, -1, 0, 1, 2]"]
+        },
+        "randomSeed": 1234,
+        "algorithm": "basicExperiment",
+        "arguments": []
+      },
+      "StopConditions":{
+        "maxIterations": 10
+      },
+      "Evaluator": {
+        "fitnessFunctions": [
+          {
+            "FitnessFunction": {
+              "function": "compareFunctions",
+              "weight": -1,
+              "arguments": ["[4, 1, 0, 1, 4]"]
+            }
+          }
+        ]
+      },
+      "Generator": {
+        "method": "rampedHalfHalfGenerator",
+        "arguments": 0.7,
+        "probability": 0.9,
+        "popSize": 30,
+        "generateOneByOne": false
+      },
+      "Selector": {
+        "nSelected": 30,
+        "method": "tournamentSelector",
+        "arguments": 3,
+        "needsComparison": true,
+        "samplingWithRep": false
+      },
+      "Crossover":{
+        "method": "subtreeCross",
+        "probability": 0.9,
+        "nParents": 2,
+        "nChildren": 2
+      },
+      "Mutation":{
+        "method": "pointMutation",
+        "arguments": 0.4,
+        "probability": 0.1
+      },
+      "Replacement":{
+        "method": "replaceWorstIndividuals",
+        "needsComparison": true,
+        "eliteSize": 2
+      },
+      "ExperimentSummary":{
+        "batchSize": 2,
+        "printFitness": false
+      }
+    }
+  }
+]
+}

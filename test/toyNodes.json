@@ -1,0 +1,39 @@
+{
+  "FunctionNodes": [
+    {
+      "Node": {
+        "function": "+",
+        "arity": 2,
+        "returnType": "Number",
+        "argumentTypes": ["Number", "Number"]
+      }
+    },
+    {
+      "Node": {
+        "function": "-",
+        "arity": 2,
+        "returnType": "Number",
+        "argumentTypes": ["Number", "Number"]
+      }
+    },
+    {
+      "Node": {
+        "function": "*",
+        "arity": 2,
+        "returnType": "Number",
+        "argumentTypes": ["Number", "Number"]
+      }
+    }
+  ],
+
+  "TerminalNodes": [
+
+    {
+      "Node": {
+        "kind": "variable",
+        "name": "x",
+        "type": "Number"
+      }
+    }
+  ]
+}

@@ -862,7 +862,7 @@ function parseExperimentSummary(summaryDict::Dict, experiment::GenJulia)
         error("printDuringExperiment field in Experiment Summary must be either true or false", printDuringExperiment)
     end
 
-    printFitness = get(summaryDict, "printFitness", false)
+    printFitness = get(summaryDict, "printFitness", true)
     if typeof(printFitness) <: String
         try
             aux = parentModule.eval(Meta.parse(printFitness))
@@ -875,7 +875,7 @@ function parseExperimentSummary(summaryDict::Dict, experiment::GenJulia)
         error("printFitness field in Experiment Summary must be either true or false", printFitness)
     end
 
-    printBestFitness = get(summaryDict, "printBestFitness", false)
+    printBestFitness = get(summaryDict, "printBestFitness", true)
     if typeof(printBestFitness) <: String
         try
             aux = parentModule.eval(Meta.parse(printBestFitness))
@@ -888,7 +888,7 @@ function parseExperimentSummary(summaryDict::Dict, experiment::GenJulia)
         error("printBestFitness field in Experiment Summary must be either true or false", printBestFitness)
     end
 
-    printFitnessMean = get(summaryDict, "printFitnessMean", false)
+    printFitnessMean = get(summaryDict, "printFitnessMean", true)
     if typeof(printFitnessMean) <: String
         try
             aux = parentModule.eval(Meta.parse(printFitnessMean))
@@ -901,7 +901,7 @@ function parseExperimentSummary(summaryDict::Dict, experiment::GenJulia)
         error("printFitnessMean field in Experiment Summary must be either true or false", printFitnessMean)
     end
 
-    printFitnessVAR = get(summaryDict, "printFitnessVAR", false)
+    printFitnessVAR = get(summaryDict, "printFitnessVAR", true)
     if typeof(printFitnessVAR) <: String
         try
             aux = parentModule.eval(Meta.parse(printFitnessVAR))
@@ -914,7 +914,7 @@ function parseExperimentSummary(summaryDict::Dict, experiment::GenJulia)
         error("printFitnessVAR field in Experiment Summary must be either true or false", printFitnessVAR)
     end
 
-    setExperimentSummary(experiment, outputFile=outputFile, batchSize=batchSize,
+    setExperimentSummary(genj=experiment, outputFile=outputFile, batchSize=batchSize,
                          printDuringExperiment=printDuringExperiment, printFitness=printFitness,
                          printBestFitness=printBestFitness, printFitnessMean=printFitnessMean,
                          printFitnessVAR=printFitnessVAR)
