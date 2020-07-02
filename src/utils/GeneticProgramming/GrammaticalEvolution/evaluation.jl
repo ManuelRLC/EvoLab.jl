@@ -1,3 +1,25 @@
+function joinGE(genotype::Array{String})
+    i=1
+    len = length(genotype)
+    aux=""
+    phenotype = quote end
+    while i<=len
+        if genotype[i] == "\n"
+            if aux == "end"
+
+            end
+            push!(phenotype.args, Meta.parse(aux))
+            aux = ""
+        else
+            aux = aux*genotype[i]
+        end
+        i+=1
+    end
+    push!(phenotype.args, Meta.parse(aux))
+    phenotype
+end
+
+
 """
     getPhenotype(gramm::Grammar, genotype::GEGenotype)
 
@@ -28,12 +50,15 @@ function getPhenotype(gramm::Grammar, genotype::GEGenotype)
         result = Meta.parse(result[1])
         return quote $result end
     else
-        aux = Meta.parse(join(result))
+        aux = joinGE(result)
+        """
         if !(typeof(aux) <: Expr)
-            return quote $aux end
+            return quote aux end
         else
             return aux
         end
+        """
+        aux = joinGE(result)
     end
 end
 

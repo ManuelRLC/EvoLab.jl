@@ -176,7 +176,7 @@ function checkParametersCorrectGP(genj::GenJulia, index::Int64 = 0)
             OneByOne = false
         end
     end
-    
+ind = genj._generator._method(genj._experimentInfo._GPExperimentInfo, one(UInt32), rng, genj._generator._varArgs...)
     try
         ind = genj._generator._method(genj._experimentInfo._GPExperimentInfo, one(UInt32), rng, genj._generator._varArgs...)
     catch e
@@ -561,6 +561,7 @@ function checkParametersCorrectGA(genj::GenJulia, index::Integer = 0)
             error("Generation method ($(genj._generator._method)) should generate individuals (you generate $(typeof(individuals[1]))) of the same type as the one specified in individualType ($(genj._experimentInfo._individualType))")
         end
 
+        fitness = fitnessEval(genj._evaluator._fitnessFunctions[1], individuals[1])
         try
             len = length(genj._evaluator._fitnessFunctions)
             k = 1

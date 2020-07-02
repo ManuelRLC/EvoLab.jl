@@ -75,5 +75,5 @@ for both `CGPGenotype` and `STGPGenotype` it is [`pointMutation`](@ref) with a
 probability of 0.2; for `GEPGenotype` it is [`geneMutation`](@ref).
 """
 function getDefaultMutationOp(individualType::Type{GEGenotype})::Tuple{Function, Array}
-    return proteinMutation, [uniformMutation, 0, 10]
+    return proteinMutation, [uniformMutation, 0, 255]
 end # function

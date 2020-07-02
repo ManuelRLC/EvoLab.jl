@@ -385,10 +385,6 @@ Runs the experiments specified in the configuration file.
 
 # Returns
 The array of experiments run.
-
-For guidance about how to create the information file about the experiments
-visit our GitHub repository at:
-[https://github.com/SergioGmezM/Evolutionary\\_Computation\\_Julia](https://github.com/SergioGmezM/Evolutionary_Computation_Julia)
 """
 function runExperiment(configFile::String; verbose::Bool = true, outputFile::String = "",
                  parentModule::Module = Main)
@@ -436,9 +432,6 @@ Runs a single experiment for `code users`.
 - `outputFile::String = ""`: specifies the output stream in which the information
     displayed by verbose is going to be dumped.
 
-For guidance about how to create the information file about the experiments
-visit our GitHub repository at:
-[https://github.com/SergioGmezM/Evolutionary\\_Computation\\_Julia](https://github.com/SergioGmezM/Evolutionary_Computation_Julia)
 """
 function runExperiment(genj::GenJulia = GenJ; verbose::Bool = true, outputFile::String = "")
 

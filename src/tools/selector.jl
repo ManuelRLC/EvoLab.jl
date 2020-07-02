@@ -296,7 +296,7 @@ export rouletteSelector
     rankingSelector(fitnesses::Array, compare::Function, rng::Random.AbstractRNG, k::Integer=-1)
 
 !!! warning
-    Still in development. Do not use. 
+    Still in development. Do not use.
 """
 function rankingSelector(fitnesses::Array, compare::Function, rng::Random.AbstractRNG, k::Integer=-1)
 

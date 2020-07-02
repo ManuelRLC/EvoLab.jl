@@ -20,14 +20,14 @@ function uniformMutation(genotype::IntegerGenotype, rng::Random.AbstractRNG,
     range = max-min
 
     for i=1:nGens
-        mutatedIndRep[indexes[i]] = (rand(rng, UInt64)%range)+1+min
+        mutatedIndRep[indexes[i]] = (abs(rand(rng, Int64))%range)+1+min
     end
 
     return IntegerGenotype(mutatedIndRep)
 end
 
 
-
+"""
 function exchangeMutation(genotype::IntegerGenotype, rng::Random.AbstractRNG)::IntegerGenotype
 
     genLen = length(genotype._representation)
@@ -45,8 +45,8 @@ end
 
 
 
-function scrambleMutation(genotype::IntegerGenotype, nGens::Integer,
-                                rng::Random.AbstractRNG)::IntegerGenotype
+function scrambleMutation(genotype::IntegerGenotype, rng::Random.AbstractRNG,
+                                nGens::Integer)::IntegerGenotype
 
     genLen = length(genotype._representation)
     mutatedIndRep = similar(Array{eltype(parent1._representation)}, genLen)
@@ -83,8 +83,8 @@ end
 
 
 
-function inversionMutation(genotype::IntegerGenotype, nGens::Integer,
-                            rng::Random.AbstractRNG)::IntegerGenotype
+function inversionMutation(genotype::IntegerGenotype, rng::Random.AbstractRNG,
+                            nGens::Integer)::IntegerGenotype
 
     genLen = length(genotype._representation)
     mutatedIndRep = similar(Array{eltype(parent1._representation)}, genLen)
@@ -121,8 +121,8 @@ end
 
 
 
-function insertMutation(genotype::IntegerGenotype, nGens::Integer,
-                            rng::Random.AbstractRNG)::IntegerGenotype
+function insertMutation(genotype::IntegerGenotype, rng::Random.AbstractRNG,
+                            nGens::Integer)::IntegerGenotype
 
     genLen = length(indRep)
     mutatedIndRep = similar(Array{eltype(parent1._representation)}, genLen)
@@ -175,7 +175,7 @@ function insertMutation(genotype::IntegerGenotype,
     return insertMutation(genotype, convert(Integer, nGens), rng)
 end
 
-
+"""
 
 """
     getDefaultMutationOp(individualType::DataType)::Tuple{Function, Array}

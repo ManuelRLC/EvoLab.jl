@@ -75,11 +75,10 @@ evaluate!(GenJ, GenJ._population)
 
 
 clearGenJ()
-#setAlgorithm(EvoLab.basicExperimentDeep)
 setIndividualType(STGPGenotype)
 setRandomSeed(2)
 setSTGPInfo(x, y, nodesFile="src/utils/GeneticProgramming/StronglyTyped/exampleNodesSTGP.json")
-setStopCondition(maxIterations = 50)
+setStopCondition(maxIterations = 100)
 setEvaluator([FitnessFunction(CCR, clases, weight=1)])
 setGenerator(rampedHalfHalfGenerator, popSize = 50, generateOneByOne = false)
 setSelector(tournamentSelector, 5)
@@ -89,3 +88,27 @@ setReplacementOperator(replaceAllPopulation, eliteSize=5)
 setExperimentSummary(batchSize=10)
 
 @time runExperiment(verbose = false)
+
+"""
+
+function nNodes(canonicalgp::GPGenotype, gpInfo)
+    length(canonicalgp._representation)
+end
+
+clearGenJ()
+setIndividualType(STGPGenotype)
+setRandomSeed(2)
+setSTGPInfo(x, y, nodesFile="src/utils/GeneticProgramming/StronglyTyped/exampleNodesSTGP.json")
+setAlgorithm(SPEA, 10)
+setStopCondition(maxIterations=100)
+setEvaluator([FitnessFunction(CCR, clases, weight=1), FitnessFunction(nNodes, weight=-0.2)],
+           globalFitnessFunction=FitnessFunction(pareto), compareFunctionArgs="global")
+setGenerator(rampedHalfHalfGenerator, popSize = 50, generateOneByOne = false)
+setSelector(tournamentSelector, 2)
+setCrossoverOperator(subtreeCross, probability=0.9)
+setMutationOperator(subtreeMutation, probability=0.2)
+setReplacementOperator(replaceAllPopulation, eliteSize=5)
+
+@time runExperiment()
+
+"""

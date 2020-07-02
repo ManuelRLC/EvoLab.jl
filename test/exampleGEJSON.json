@@ -1,0 +1,55 @@
+{
+  "Experiments":[
+    {
+      "GenJulia": {
+        "ExperimentInfo":{
+          "individualType": "GEGenotype",
+          "GPExperimentInfo": {
+            "Grammar":{
+              "N": ["expr", "op", "var", "cons", "int", "digit"],
+              "T": ["x","y","+","-","/","*","(",")","0","1","2",
+                    "3","4","5","6","7","8","9","."],
+              "P": [
+                  "<expr> -> (<expr> <op> <expr>) | <var> | <cons>",
+                  "<op> -> + | - | / | *",
+                  "<var> -> x | y",
+                  "<cons> -> <int> | <int>.<int>",
+                  "<int> -> <int><digit> | <digit>",
+                  "<digit> -> 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9"
+              ],
+              "S": "expr"
+            },
+            "variables": ["x","y"],
+            "varValues": ["collect(-5:0.5:5)", "collect(0:0.5:10)"]
+          }
+        },
+        "Evaluator": {
+          "fitnessFunctions": [
+            {
+              "FitnessFunction": {
+                "function": "compareFunctions",
+                "weight": -1,
+                "arguments": ["objs1"]
+              }
+            }
+          ]
+        },
+        "Generator": {
+          "popSize": 100,
+          "generateOneByOne": false,
+          "method": "rampedHalfHalfGenerator"
+        },
+        "Replacement":{
+          "method": "replaceAllPopulation",
+          "needsComparison": false
+        },
+        "StopConditions":{
+          "maxIterations": 50
+        },
+        "ExperimentSummary":{
+          "outputFile": "hola.txt"
+        }
+      }
+    }
+  ]
+}

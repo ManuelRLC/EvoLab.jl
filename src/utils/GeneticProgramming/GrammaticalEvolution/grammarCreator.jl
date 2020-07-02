@@ -71,7 +71,7 @@ function setThirdDepth!(gramm::Grammar)
                     symbol = consequent._symbols[g]
                     if !isTerminalSymbol(gramm, symbol)
                         current = getDepth(gramm, symbol)
-                        sum = sum + current
+                        sum = sum + getMinProductions(gramm, symbol)
                         if current > max
                             max = current
                         end
@@ -121,10 +121,13 @@ function setSecondDepth!(gramm::Grammar)
                             if !isTerminalSymbol(gramm, symbol)
 
                                 current = getDepth(gramm, symbol)
-                                sum = sum + current
+                                aux = getMinProductions(gramm, symbol)
                                 if current == -32000
                                     max = -32000
                                     break
+                                end
+                                if aux != -32000
+                                    sum += aux
                                 end
                                 if current > max
                                     max = current
@@ -149,6 +152,13 @@ function setSecondDepth!(gramm::Grammar)
                 end
                 if nConsequentSet == length(productionRule._consequent)
                     productionRule._depth = min + 1
+                    minProductions = 20000
+                    for j=1:length(productionRule._consequent)
+                        if minProductions > productionRule._consequent[j]._minProductions
+                            minProductions = productionRule._consequent[j]._minProductions
+                        end
+                    end
+                    productionRule._minProductions = minProductions + 1;
                 else
                     count = count + 1
                 end
@@ -192,6 +202,7 @@ function setFirstDepth!(gramm::Grammar)
                 consequent._depth = 0
                 consequent._minProductions = 0
                 productionRule._depth = 1
+                productionRule._minProductions = 1
             end
         end
     end
@@ -217,14 +228,12 @@ function reorderNonTerminals!(N::Array{String}, productionRules::Array{Productio
     for i in eachindex(productionRules)
         reference[i] = productionRules[i]._antecedent
     end
-    aux = [(reference[i], N[i]) for i=1:len]
+    aux = [(reference[i], N[reference[i]]) for i=1:len]
     aux = sort(aux)
-
     for i in eachindex(productionRules)
         productionRules[i]._antecedent = i
-        N[i] = aux[i][2]
+        N[i] = aux[reference[i]][2]
     end
-
 
     for i in eachindex(productionRules)
         productionRule = productionRules[i]
@@ -368,11 +377,18 @@ function createGrammar(N::Array{String}, T::Array{String}, P::Array{String}, S::
                             next = collect(next)[1]
                             symbol = productionRule[i:next-1]
                             if symbol == "SP"
-                                if findfirst(" ", T) == nothing
+                                if findfirst(x-> x==" ", T) == nothing
                                     push!(T, " ")
                                 end
                                 symbol = " "
                             end
+                            if symbol == "NL"
+                                if findfirst(x-> x=="\n", T) == nothing
+                                    push!(T, "\n")
+                                end
+                                symbol = "\n"
+                            end
+
                             symbolIndex = findnext(x->x==symbol, T, 1)
                             if symbolIndex == nothing
                                 error("Terminal symbol ($symbol) is in production rules, but it isn't in Terminal set, T")
