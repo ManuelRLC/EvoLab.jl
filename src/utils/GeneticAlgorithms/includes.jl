@@ -13,7 +13,7 @@ include("mutation.jl")
 module BinaryGA
 
 import ..GA: uniformCross, kPointCross, singlePointCross, getDefaultCrossoverOp, getDefaultMutationOp,
-             scrambleMutation, inversionMutation, insertMutation, exchangeMutation
+             scrambleMutation, inversionMutation, insertMutation, exchangeMutation, randomIndexSelection
 using ..GA: GAGenotype, Random
 
 include("BinaryGenotype/includes.jl")
