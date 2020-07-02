@@ -1,4 +1,9 @@
+"""
+    uniformMutation(genotype::IntegerGenotype, rng::Random.AbstractRNG,
+                         min::Integer, max::Integer, nGens::Integer=1)
 
+documentation
+"""
 function uniformMutation(genotype::IntegerGenotype, rng::Random.AbstractRNG,
                          min::Integer, max::Integer, nGens::Integer=1)
 

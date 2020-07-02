@@ -1,4 +1,8 @@
+"""
+    exchangeMutation(genotype::GAGenotype, rng::Random.AbstractRNG)
 
+documentation
+"""
 function exchangeMutation(genotype::GAGenotype, rng::Random.AbstractRNG)
 
     indRep = genotype._representation
@@ -17,7 +21,11 @@ function exchangeMutation(genotype::GAGenotype, rng::Random.AbstractRNG)
 end
 
 
+"""
+    scrambleMutation(genotype::GAGenotype, rng::Random.AbstractRNG, nGens::Integer)
 
+documentation
+"""
 function scrambleMutation(genotype::GAGenotype, rng::Random.AbstractRNG, nGens::Integer)
 
     indRep = genotype._representation
@@ -48,7 +56,11 @@ function scrambleMutation(genotype::GAGenotype, rng::Random.AbstractRNG, nGens::
 end
 
 
+"""
+    scrambleMutation(genotype::GAGenotype, rng::Random.AbstractRNG)
 
+documentation
+"""
 function scrambleMutation(genotype::GAGenotype, rng::Random.AbstractRNG)
 
     genLen = length(genotype._representation)
@@ -57,7 +69,11 @@ function scrambleMutation(genotype::GAGenotype, rng::Random.AbstractRNG)
 end
 
 
+"""
+    inversionMutation(genotype::GAGenotype, rng::Random.AbstractRNG, nGens::Integer)
 
+documentation
+"""
 function inversionMutation(genotype::GAGenotype, rng::Random.AbstractRNG, nGens::Integer)
 
     indRep = genotype._representation
@@ -87,7 +103,11 @@ function inversionMutation(genotype::GAGenotype, rng::Random.AbstractRNG, nGens:
 end
 
 
+"""
+    inversionMutation(genotype::GAGenotype, rng::Random.AbstractRNG)
 
+documentation
+"""
 function inversionMutation(genotype::GAGenotype, rng::Random.AbstractRNG)
     genLen = length(genotype._representation)
     nGens=rand(rng, UInt32)%(genLen-2)+2
@@ -95,7 +115,11 @@ function inversionMutation(genotype::GAGenotype, rng::Random.AbstractRNG)
 end
 
 
+"""
+    insertMutation(genotype::GAGenotype, rng::Random.AbstractRNG, nGens::Integer)
 
+documentation
+"""
 function insertMutation(genotype::GAGenotype, rng::Random.AbstractRNG, nGens::Integer)
 
     indRep = genotype._representation
@@ -144,7 +168,11 @@ function insertMutation(genotype::GAGenotype, rng::Random.AbstractRNG, nGens::In
 end
 
 
+"""
+    insertMutation(genotype::GAGenotype, rng::Random.AbstractRNG)
 
+documentation
+"""
 function insertMutation(genotype::GAGenotype, rng::Random.AbstractRNG)
     genLen = length(genotype._representation)
     nGens=rand(rng, UInt32)%(genLen-1)+1
