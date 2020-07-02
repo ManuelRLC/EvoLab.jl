@@ -3,7 +3,7 @@
 
 documentation
 """
-function setExperimentSummary(genj::GenJulia = GenJ; batchSize::Integer = 0,
+function setExperimentSummary(; genj::GenJulia = GenJ, batchSize::Integer = 0,
                               printFitness::Bool = true, printBestFitness::Bool = true,
                               printFitnessMean::Bool = true, printFitnessVAR::Bool = true,
                               printDuringExperiment::Bool = false, outputFile::String = "")
@@ -57,7 +57,7 @@ function setExperimentSummary(genj::GenJulia = GenJ; batchSize::Integer = 0,
             varFitness = Array{Float64}(undef, 0)
         end
 
-        GenJ._experimentInfo._experimentSummary = ExperimentSummary(outputFile,
+        genj._experimentInfo._experimentSummary = ExperimentSummary(outputFile,
                                                                     batchSize,
                                                                     printDuringExperiment,
                                                                     fitnessValues,

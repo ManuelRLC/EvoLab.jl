@@ -87,7 +87,9 @@ setMutationOperator(subtreeMutation, probability = 0.2)
 setReplacementOperator(replaceAllPopulation, eliteSize=5)
 setExperimentSummary(batchSize=10)
 
-@time runExperiment(verbose = false)
+val, t, bytes, gctime, memallocs = @timed runExperiment(verbose = false)
+println("tiempo: ", t)
+println("memoria (bytes): ", bytes)
 
 """
 
@@ -109,6 +111,8 @@ setCrossoverOperator(subtreeCross, probability=0.9)
 setMutationOperator(subtreeMutation, probability=0.2)
 setReplacementOperator(replaceAllPopulation, eliteSize=5)
 
-@time runExperiment()
+val, t, bytes, gctime, memallocs = @timed runExperiment(verbose = false)
+println("tiempo: ", t)
+println("memoria (bytes): ", bytes)
 
 """

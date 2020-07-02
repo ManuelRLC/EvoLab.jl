@@ -1,0 +1,184 @@
+{
+  "FunctionNodes": [
+    {
+      "Node": {
+        "function": "ifelse",
+        "arity": 3,
+        "returnType": "Union{Int, AbstractFloat}",
+        "argumentTypes": ["Bool", "Union{Int, AbstractFloat}", "Union{Int, AbstractFloat}"]
+      }
+    },
+    {
+      "Node": {
+        "function": "+",
+        "arity": 2,
+        "returnType": "Union{Int, AbstractFloat}",
+        "argumentTypes": ["Union{Int, AbstractFloat}", "Union{Int, AbstractFloat}"]
+      }
+    },
+    {
+      "Node": {
+        "function": "-",
+        "arity": 2,
+        "returnType": "Union{Int, AbstractFloat}",
+        "argumentTypes": ["Union{Int, AbstractFloat}", "Union{Int, AbstractFloat}"]
+      }
+    },
+    {
+      "Node": {
+        "function": "<",
+        "arity": 2,
+        "returnType": "Bool",
+        "argumentTypes": ["Union{Int, AbstractFloat}", "Union{Int, AbstractFloat}"]
+      }
+    },
+    {
+      "Node": {
+        "function": ">",
+        "arity": 2,
+        "returnType": "Bool",
+        "argumentTypes": ["Union{Int, AbstractFloat}", "Union{Int, AbstractFloat}"]
+      }
+    },
+    {
+      "Node": {
+        "function": ">=",
+        "arity": 2,
+        "returnType": "Bool",
+        "argumentTypes": ["Union{Int, AbstractFloat}", "Union{Int, AbstractFloat}"]
+      }
+    },
+    {
+      "Node": {
+        "function": "<=",
+        "arity": 2,
+        "returnType": "Bool",
+        "argumentTypes": ["Union{Int, AbstractFloat}", "Union{Int, AbstractFloat}"]
+      }
+    },
+    {
+      "Node": {
+        "function": "==",
+        "arity": 2,
+        "returnType": "Bool",
+        "argumentTypes": ["Union{Int, AbstractFloat}", "Union{Int, AbstractFloat}"]
+      }
+    }
+  ],
+
+  "TerminalNodes": [
+
+    {
+      "Node": {
+        "kind": "variable",
+        "name": "age",
+        "type": "Int64"
+      }
+    },
+    {
+      "Node": {
+        "kind": "variable",
+        "name": "sex",
+        "type": "Bool"
+      }
+    },
+    {
+      "Node": {
+        "kind": "variable",
+        "name": "cp",
+        "type": "Int64"
+      }
+    },
+    {
+      "Node": {
+        "kind": "variable",
+        "name": "trestbps",
+        "type": "Int64"
+      }
+    },
+    {
+      "Node": {
+        "kind": "variable",
+        "name": "chol",
+        "type": "Int64"
+      }
+    },
+    {
+      "Node": {
+        "kind": "variable",
+        "name": "fbs",
+        "type": "Bool"
+      }
+    },
+    {
+      "Node": {
+        "kind": "variable",
+        "name": "restecg",
+        "type": "Int64"
+      }
+    },
+    {
+      "Node": {
+        "kind": "variable",
+        "name": "thalach",
+        "type": "Int64"
+      }
+    },
+    {
+      "Node": {
+        "kind": "variable",
+        "name": "exang",
+        "type": "Bool"
+      }
+    },
+    {
+      "Node": {
+        "kind": "variable",
+        "name": "oldpeak",
+        "type": "Float64"
+      }
+    },
+    {
+      "Node": {
+        "kind": "variable",
+        "name": "slope",
+        "type": "Int64"
+      }
+    },
+    {
+      "Node": {
+        "kind": "variable",
+        "name": "ca",
+        "type": "Int64"
+      }
+    },
+    {
+      "Node": {
+        "kind": "variable",
+        "name": "thal",
+        "type": "Int64"
+      }
+    },
+    {
+      "Node": {
+        "kind": "ephemeralConstant",
+        "function": "rand",
+        "arguments": ["GenJ._experimentInfo._rng", "-10.0:0.01:10.0"]
+      }
+    }
+    ,
+    {
+      "Node": {
+        "kind": "constant",
+        "value": true
+      }
+    }
+    ,
+    {
+      "Node": {
+        "kind": "constant",
+        "value": false
+      }
+    }
+  ]
+}
