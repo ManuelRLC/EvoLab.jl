@@ -203,7 +203,7 @@ function setGEInfo(N::Array{String}, T::Array{String}, P::Array{String}, S::Stri
         varValues = [i for i in varValues]
         vars = [Meta.parse(x) for x in variables]
         vars = (vars...,)
-        values = Array{Number}(undef, nVars)
+        values = Array{Any}(undef, nVars)
         valuesDict = Array{NamedTuple}(undef, nValues)
         for i=1:nValues
             for j=1:nVars

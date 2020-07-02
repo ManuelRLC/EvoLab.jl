@@ -20,7 +20,7 @@ function uniformMutation(genotype::IntegerGenotype, rng::Random.AbstractRNG,
     range = max-min
 
     for i=1:nGens
-        mutatedIndRep[indexes[i]] = (rand(rng, UInt64)%range)+1+min
+        mutatedIndRep[indexes[i]] = (abs(rand(rng, Int64))%range)+1+min
     end
 
     return IntegerGenotype(mutatedIndRep)
