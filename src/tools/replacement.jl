@@ -183,10 +183,13 @@ function replacePopulation_(replaceOp::ReplacementOperator,
             eliteSize = getEliteSize(replaceOp)
 
             if nSelectedOff + eliteSize > popSize
+                worstIndividuals = getWorstIndividual(offspring[offspringIndexes],
+                                                      getCompareFunction(evaluator),
+                                                      nSelectedOff + eliteSize - popSize)
+                # previously obtained indexes did not match the original indexes
+                worstIndividuals = offspringIndexes[worstIndividuals]
                 function belongs1(element)
-                    findnext(x->x==element, getWorstIndividual(offspring[offspringIndexes],
-                                                               getCompareFunction(evaluator),
-                                                               nSelectedOff + eliteSize - popSize), 1) != nothing
+                    findnext(x->x==element, worstIndividuals, 1) != nothing
                 end
                 offspringIndexes = filter(!belongs1, offspringIndexes)
 
@@ -228,20 +231,26 @@ function replacePopulation_(replaceOp::ReplacementOperator,
 
             if nSelectedPop + nSelectedOff + eliteSize > popSize
                 if !isempty(populationIndexes)
+                    worstIndividuals = getWorstIndividual(population[populationIndexes],
+                                                          getCompareFunction(evaluator),
+                                                          nSelectedPop+nSelectedOff+eliteSize-popSize)
+                    # previously obtained indexes did not match the original indexes
+                    worstIndividuals = populationIndexes[worstIndividuals]
                     function belongs2(element)
                         findnext(x->x==element,
-                                 getWorstIndividual(population[populationIndexes],
-                                                    getCompareFunction(evaluator),
-                                                    nSelectedPop+nSelectedOff+eliteSize-popSize),
+                                 worstIndividuals,
                                  1) != nothing
                     end
                     populationIndexes = filter(!belongs2, populationIndexes)
                 else
+                    worstIndividuals = getWorstIndividual(offspring[offspringIndexes],
+                                                          getCompareFunction(evaluator),
+                                                          nSelectedPop+nSelectedOff+eliteSize-popSize)
+                    # previously obtained indexes did not match the original indexes
+                    worstIndividuals = offspringIndexes[worstIndividuals]
                     function belongs3(element)
                         findnext(x->x==element,
-                                 getWorstIndividual(offspring[offspringIndexes],
-                                                    getCompareFunction(evaluator),
-                                                    nSelectedPop+nSelectedOff+eliteSize-popSize),
+                                 worstIndividuals,
                                  1) != nothing
                     end
                     offspringIndexes = filter(!belongs3, offspringIndexes)
@@ -275,25 +284,30 @@ function replacePopulation_(replaceOp::ReplacementOperator,
         eliteSize = getEliteSize(replaceOp)
 
         if !isempty(populationIndexes)
+            worstIndividuals = getWorstIndividual(population[populationIndexes],
+                                                  getCompareFunction(evaluator),
+                                                  eliteSize)
+            # previously obtained indexes did not match the original indexes
+            worstIndividuals = populationIndexes[worstIndividuals]
             function belongs4(element)
                 findnext(x->x==element,
-                         getWorstIndividual(population[populationIndexes],
-                                            getCompareFunction(evaluator),
-                                            eliteSize),
+                         worstIndividuals,
                          1) != nothing
             end
             populationIndexes = filter(!belongs4, populationIndexes)
         else
+            worstIndividuals = getWorstIndividual(offspring[offspringIndexes],
+                                                  getCompareFunction(evaluator),
+                                                  eliteSize)
+            # previously obtained indexes did not match the original indexes
+            worstIndividuals = offspringIndexes[worstIndividuals]
             function belongs5(element)
                 findnext(x->x==element,
-                         getWorstIndividual(offspring[offspringIndexes],
-                                            getCompareFunction(evaluator),
-                                            eliteSize),
+                         worstIndividuals,
                          1) != nothing
             end
             offspringIndexes = filter(!belongs5, offspringIndexes)
         end
-
         populationIndexes = vcat(populationIndexes,
                                  getBestIndividual(population,
                                                    getCompareFunction(evaluator),

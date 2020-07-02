@@ -176,7 +176,7 @@ function checkParametersCorrectGP(genj::GenJulia, index::Int64 = 0)
             OneByOne = false
         end
     end
-ind = genj._generator._method(genj._experimentInfo._GPExperimentInfo, one(UInt32), rng, genj._generator._varArgs...)
+
     try
         ind = genj._generator._method(genj._experimentInfo._GPExperimentInfo, one(UInt32), rng, genj._generator._varArgs...)
     catch e
@@ -311,11 +311,11 @@ ind = genj._generator._method(genj._experimentInfo._GPExperimentInfo, one(UInt32
 
 
         if (nSelectedParents % nParents) != 0
-            error("The number of selected parents ($nSelectedParents) is not divisible by number of parents per cross (\$nParents)")
+            error("The number of selected parents ($nSelectedParents) is not divisible by number of parents per cross ($nParents)")
         end
 
         if !genj._selector._samplingWithRep && nSelectedParents > popSize
-            error("Number of selected parents ($nSelectedParents) should not be greater than population size (\$popSize) when selection method is without replacement")
+            error("Number of selected parents ($nSelectedParents) should not be greater than population size ($popSize) when selection method is without replacement")
         end
 
 #childCross = genj._crossoverOp._method(individuals..., genj._experimentInfo._GPExperimentInfo, rng, genj._crossoverOp._varArgs...)
@@ -361,6 +361,7 @@ ind = genj._generator._method(genj._experimentInfo._GPExperimentInfo, one(UInt32
         if typeof(individuals[1]) != genj._experimentInfo._individualType
             error("Generation method ($(genj._generator._method)) should generate individuals (you generate $(typeof(individuals[1]))) of the same type as the one specified in individualType ($(genj._experimentInfo._individualType)) in experiment $index")
         end
+#fitness = fitnessEval(genj._evaluator._fitnessFunctions[1], genj._experimentInfo._GPExperimentInfo, individuals[1])
 
 
         try

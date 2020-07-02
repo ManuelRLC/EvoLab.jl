@@ -308,7 +308,7 @@ function printInformation_(summary::ExperimentSummary, nGens::Int64 = 0; printFi
 
                 # For each fitness
                 for fit = summary._indexes
-                    println(io, "\tFitness Value", fit, " of the Best Individual: ", summary._bestFitnessValues[fit, gen])
+                    println(io, "\tFitness Value ", fit, " of the Best Individual: ", summary._bestFitnessValues[fit, gen])
                 end
                 if summary._global
                     println(io, "\tGlobal Fitness Value of the Best Individual: ", summary._bestFitnessValues[end, gen])
@@ -400,7 +400,7 @@ function printLastInformation_(summary::ExperimentSummary, currGeneration::Integ
 
             # For each fitness
             for fit = summary._indexes
-                println(io, "\tFitness Value", fit, " of the Best Individual: ", summary._bestFitnessValues[fit, currGeneration])
+                println(io, "\tFitness Value ", fit, " of the Best Individual: ", summary._bestFitnessValues[fit, currGeneration])
             end
             if summary._global
                 println(io, "\tGlobal Fitness Value of the Best Individual: ", summary._bestFitnessValues[end, currGeneration])
@@ -428,7 +428,7 @@ function printLastInformation_(summary::ExperimentSummary, currGeneration::Integ
                 println(io, "\tVariance of Fitness ", fit, ": ", summary._varFitness[fit, currGeneration])
             end
             if summary._global
-                println(io, "\ttVariance of Global Fitness: ", summary._varFitness[end, currGeneration])
+                println(io, "\tVariance of Global Fitness: ", summary._varFitness[end, currGeneration])
             end
             println(io)
         end

@@ -116,6 +116,9 @@ function printExperimentInfo(outputFile::String = "", genj::GenJulia = GenJ)
     end
     length(genj._replacementOp._varArgs) != 0 ? println(io, "$(genj._replacementOp._varArgs[end]))") : println(io, ")")
     println(io, "\t\t· Method needs to compare between individuals → $(genj._replacementOp._needsComparison)")
+    if isElitist(genj._replacementOp)
+        println(io, "\t\t· Elite size: ", getEliteSize(genj._replacementOp))
+    end
 
     # Summary
     println(io, "\tSummary:")
