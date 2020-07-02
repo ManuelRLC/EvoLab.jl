@@ -70,5 +70,5 @@ end
 
 mirng = Random.MersenneTwister(5)
 
-#@time experimentos=runExperiment("test/example.json", verbose=false)
-@time experimentos=runExperiment("test/exampleGEJSON.json", verbose=false)
+@time experimentos=runExperiment("test/example.json", verbose=false)
+#@time experimentos=runExperiment("test/exampleGEJSON.json", verbose=false)
