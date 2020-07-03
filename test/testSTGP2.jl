@@ -173,7 +173,7 @@ using Plots
 
 myfont = font(13, "cursive")
 mylittlefont = font(8, "cursive")
-iters = 500
+iters = 300
 bestInds1 = GenJ._experimentInfo._experimentSummary._bestFitnessValues[1, :]
 
 display(plot(collect(1:iters), bestInds1, titlefont=myfont, tickfont=myfont,

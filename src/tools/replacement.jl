@@ -144,11 +144,11 @@ function replacePopulation_(replaceOp::ReplacementOperator,
     rng = experimentInfo._rng
     if needsComparison(replaceOp)
         compare = getCompareFunction(evaluator)
-        populationIndexes, offspringIndexes = replaceOp._method(population, offspring,
-                                                                compare, replaceOp._varArgs...)
+        populationIndexes, offspringIndexes = replaceOp._method(population,
+            offspring, rng, compare, replaceOp._varArgs...)
     else
-        populationIndexes, offspringIndexes = replaceOp._method(population, offspring,
-                                                                replaceOp._varArgs...)
+        populationIndexes, offspringIndexes = replaceOp._method(population,
+            offspring, rng, replaceOp._varArgs...)
     end
 
     nSelectedPop = length(populationIndexes)
@@ -324,11 +324,15 @@ precompile(replacePopulation_, (ReplacementOperator, Vector{Individual},
 
 
 """
-    replaceAllPopulation(population::Array{Individual}, offspring::Array{Individual})
+    replaceAllPopulation(population::Array{Individual},
+                         offspring::Array{Individual}),
+                         rng::Random.AbstractRNG
 
 Performs a replacement of all the current population by the offspring.
 """
-function replaceAllPopulation(population::Array{Individual}, offspring::Array{Individual})
+function replaceAllPopulation(population::Array{Individual},
+                              offspring::Array{Individual},
+                              rng::Random.AbstractRNG)
     return [], collect(1:length(offspring))
 end # function
 export replaceAllPopulation
@@ -336,12 +340,16 @@ export replaceAllPopulation
 
 
 """
-    replaceWorstIndividuals(population::Array{Individual}, offspring::Array{Individual}
-                                 compareFunction::Function)
+    replaceWorstIndividuals(population::Array{Individual},
+                            offspring::Array{Individual},
+                            rng::Random.AbstractRNG,
+                            compareFunction::Function)
 
 documentation
 """
-function replaceWorstIndividuals(population::Array{Individual}, offspring::Array{Individual},
+function replaceWorstIndividuals(population::Array{Individual},
+                                 offspring::Array{Individual},
+                                 rng::Random.AbstractRNG,
                                  compareFunction::Function)
 
     popSize = length(population)
