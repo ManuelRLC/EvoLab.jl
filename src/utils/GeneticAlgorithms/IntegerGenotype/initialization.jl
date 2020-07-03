@@ -22,13 +22,16 @@ function randomIntegerGenerator(rng::Random.AbstractRNG, genotypeSize::Integer,
         min, max = max, min
     end
     # Memory reserve
-    genotype = Array{Integer}(undef, genotypeSize)
+    genotype = Array{Int64}(undef, genotypeSize)
     # Range for remainder
     range = max - min + 1
+
     # For each gen
     for i = eachindex(genotype)
         # Generates a number within range
-        genotype[i] = (rand(rng, UInt)%range)+min
+        aux2 = abs(rand(rng, Int32))
+        aux = (aux2%range)+min
+        genotype[i] = aux
     end
 
     return IntegerGenotype{Int64}(genotype)

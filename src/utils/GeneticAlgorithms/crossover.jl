@@ -1,4 +1,8 @@
+"""
+    uniformCross(parent1::GAGenotype, parent2::GAGenotype, rng::Random.AbstractRNG)
 
+documentation
+"""
 function uniformCross(parent1::GAGenotype, parent2::GAGenotype, rng::Random.AbstractRNG)
 
     parent1Rep = parent1._representation
@@ -24,7 +28,11 @@ function uniformCross(parent1::GAGenotype, parent2::GAGenotype, rng::Random.Abst
 end
 
 
+"""
+    kPointCross(parent1::GAGenotype, parent2::GAGenotype, rng::Random.AbstractRNG, k::Integer=1)
 
+documentation
+"""
 function kPointCross(parent1::GAGenotype, parent2::GAGenotype, rng::Random.AbstractRNG, k::Integer=1)
 
     if k < 1
@@ -77,7 +85,11 @@ function kPointCross(parent1::GAGenotype, parent2::GAGenotype, rng::Random.Abstr
     return [genType(child1), genType(child2)]
 end
 
+"""
+    singlePointCross(parent1::GAGenotype, parent2::GAGenotype, rng::Random.AbstractRNG)
 
+documentation
+"""
 function singlePointCross(parent1::GAGenotype, parent2::GAGenotype, rng::Random.AbstractRNG)
     kPointCross(parent1, parent2, rng, 1)
 end

@@ -16,7 +16,7 @@
         },
         "Generator": {
           "popSize": 100,
-          "generatedOneByOne": true,
+          "generateOneByOne": true,
           "method": "randomBinaryGenerator",
           "arguments": 5
         },

@@ -29,11 +29,12 @@ function growGeneratorProductions(gpExperimentInfo::GEInfo, rng::Random.Abstract
     stack = [Root]
 
     # A production is always made due to initial symbol
-    actualProductions =  productions - 0x2
+    actualProductions =  productions - getMinProductions(gramm, getInitialSymbol(gramm)) - 0x2
 
     actualDepth::UInt8 = 0x0
     symbolsPerDepth = zeros(UInt8, 2)
     symbolsPerDepth[1] = 0x1
+    #println("========================================")
 
     selections = UInt8[]
     i = 1
@@ -46,12 +47,21 @@ function growGeneratorProductions(gpExperimentInfo::GEInfo, rng::Random.Abstract
 
         node = popfirst!(stack)
         symbol = getSymbol(node)
+                #println("symbol->", symbol)
         if !isTerminalSymbol(gramm, symbol)
 
-            actualProductions = actualProductions + getDepth(gramm, symbol) - 0x1
+            #actualProductions = actualProductions + getDepth(gramm, symbol) - 0x1
+            actualProductions = actualProductions + getMinProductions(gramm, symbol) - 0x1
 
             indexes, nIndexes = getPosibleConsequentProductions(gramm, symbol, actualProductions)
+"""
+            println("ASGKALSGLKASLGKASKLGKLASLK")
+            print("  indexes-> ", indexes, "  actualProductions->", actualProductions)
+            println(indexes)
+            println(actualProductions)
 
+            println("i:",i)
+            """
 
             selected = ind[i] % nIndexes + 0x1
             selected = indexes[selected]
@@ -69,6 +79,8 @@ function growGeneratorProductions(gpExperimentInfo::GEInfo, rng::Random.Abstract
                 symbolsPerDepth[actualDepth + 0x2] += getNSymbols(consequent)
             end
             actualProductions = actualProductions - getMinProductions(consequent)
+            #println("choosed =", selected, "  minproductions: ", getMinProductions(consequent))
+            #readline()
             symbols = consequent._symbols
             for j=length(symbols):-1:1
                 child = GERep(symbols[j], actualDepth + 0x1)
@@ -130,7 +142,6 @@ function growGeneratorDepth(gpExperimentInfo::GEInfo, rng::Random.AbstractRNG,
         symbolsPerDepth[actualDepth + 0x1] -= 0x1
         node = popfirst!(stack)
         symbol = getSymbol(node)
-
         if !isTerminalSymbol(gramm, symbol)
             actualProductions = actualProductions + getDepth(gramm, symbol) - 0x1
             indexes, nIndexes = getPosibleConsequentDepth(gramm, symbol, maxDepth-actualDepth, actualProductions)
@@ -220,7 +231,7 @@ function fullGeneratorProductions(gpExperimentInfo::GEInfo, rng::Random.Abstract
     stack = [Root]
 
     # A production is always made due to initial symbol
-    actualProductions =  productions - 0x2
+    actualProductions =  productions - getMinProductions(gramm, getInitialSymbol(gramm)) - 0x2
 
     actualDepth::UInt8 = 0x0
     symbolsPerDepth = zeros(UInt8, 2)
@@ -238,7 +249,8 @@ function fullGeneratorProductions(gpExperimentInfo::GEInfo, rng::Random.Abstract
         node = popfirst!(stack)
         symbol = getSymbol(node)
         if !isTerminalSymbol(gramm, symbol)
-            actualProductions = actualProductions + getDepth(gramm, symbol) - 0x1
+            #actualProductions = actualProductions + getDepth(gramm, symbol) - 0x1
+            actualProductions = actualProductions + getMinProductions(gramm, symbol) - 0x1
             indexes, nIndexes = getPosibleRecursiveProductions(gramm, symbol, actualProductions)
 
             selected = ind[i] % nIndexes + 0x1

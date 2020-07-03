@@ -82,8 +82,9 @@ mutable struct ProductionRule
     _consequent::Array{Consequent}
     _depth::Int16
     _nConsequent::UInt8
+    _minProductions::Int16
 
-    ProductionRule(antecedent::Integer, consequent::Array{Consequent}) = new(antecedent, consequent, -32000, length(consequent))
+    ProductionRule(antecedent::Integer, consequent::Array{Consequent}) = new(antecedent, consequent, -32000, length(consequent), -32000)
 end
 
 
@@ -220,6 +221,10 @@ function getPosibleRecursiveDepth(productionRule::ProductionRule, depth::UInt8=0
         index, count = getPosibleConsequentDepth(productionRule, depth, productions)
     end
     return index, count
+end
+
+function getMinProductions(production::ProductionRule)
+    return production._minProductions
 end
 
 
@@ -373,6 +378,12 @@ A interface for `getPosibleRecursiveDepth(productionRule::ProductionRule, depth,
 """
 getPosibleRecursiveDepth(gramm::Grammar, antecedent::UInt16, depth::UInt8=0xff,
         productions::UInt16=0xffff)::Tuple{Array{UInt8}, UInt8} = getPosibleRecursiveDepth(getProductionRule(gramm, antecedent), depth, productions)
+
+
+
+function getMinProductions(gramm::Grammar, antecedent::UInt16)
+    getMinProductions(getProductionRule(gramm, antecedent))
+end
 
 
 """
