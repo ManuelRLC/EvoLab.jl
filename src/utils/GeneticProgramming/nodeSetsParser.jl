@@ -1,9 +1,9 @@
 """
-    parseFunctionNode(nodeDict::Dict)
+    parseFunctionNode(nodeDict::Dict, parentModule::Module)
 
 Parses a [`FunctionNode`](@ref) from a node set configuration file.
 """
-function parseFunctionNode(nodeDict::Dict)
+function parseFunctionNode(nodeDict::Dict, parentModule::Module)
 
     func = get(nodeDict, "function", false)
     if func == false
@@ -11,7 +11,7 @@ function parseFunctionNode(nodeDict::Dict)
     else
         aux = 0
         try
-            aux = eval(Meta.parse(func))
+            aux = parentModule.eval(Meta.parse(func))
         catch e
             error("The following function: '$func' in FunctionNode is not defined")
         end
@@ -40,7 +40,7 @@ function parseFunctionNode(nodeDict::Dict)
     if returnType != ""
         aux = 0
         try
-            aux = eval(Meta.parse(returnType))
+            aux = parentModule.eval(Meta.parse(returnType))
         catch e
             error("The following type: '$returnType' in TerminalNode: '$func' is not defined")
         end
@@ -75,7 +75,7 @@ function parseFunctionNode(nodeDict::Dict)
             error("The elements of argumentTypes field must be strings in FunctionNode: '$func'")
         end
         try
-            aux = eval(Meta.parse(argTypes[i]))
+            aux = parentModule.eval(Meta.parse(argTypes[i]))
         catch e
             error("The following type: '$(argTypes[i])' in TerminalNode: '$func' is not defined")
         end
@@ -93,11 +93,11 @@ end # function
 
 
 """
-    parseTerminalNode(nodeDict::Dict)
+    parseTerminalNode(nodeDict::Dict, parentModule::Module)
 
 Parses a [`TerminalNode`](@ref) from a node set configuration file.
 """
-function parseTerminalNode(nodeDict::Dict)
+function parseTerminalNode(nodeDict::Dict, parentModule::Module)
     terminalNode = 0
 
     kind = get(nodeDict, "kind", false)
@@ -124,7 +124,7 @@ function parseTerminalNode(nodeDict::Dict)
         end
         aux = 0
         try
-            aux = eval(Meta.parse(type))
+            aux = parentModule.eval(Meta.parse(type))
         catch e
             error("The following type: '$type' in TerminalNode: '$name' is not defined")
         end
@@ -145,7 +145,7 @@ function parseTerminalNode(nodeDict::Dict)
 
         try
             aux = Meta.parse(value)
-            value = eval(aux)
+            value = parentModule.eval(aux)
         catch e
             # Empty
         end
@@ -160,7 +160,7 @@ function parseTerminalNode(nodeDict::Dict)
         else
             aux = 0
             try
-                aux = eval(Meta.parse(func))
+                aux = parentModule.eval(Meta.parse(func))
             catch e
                 error("The following function: '$func' in TerminalNode of kind ephemeralConstant is not defined")
             end
@@ -181,7 +181,7 @@ function parseTerminalNode(nodeDict::Dict)
         for i=1:length(varArgs)
             try
                 arg = Meta.parse(varArgs[i])
-                varArgs[i] = eval(arg)
+                varArgs[i] = parentModule.eval(arg)
             catch e
                 # Empty
             end
@@ -197,7 +197,7 @@ function parseTerminalNode(nodeDict::Dict)
         else
             aux = 0
             try
-                aux = eval(Meta.parse(func))
+                aux = parentModule.eval(Meta.parse(func))
             catch e
                 error("The following function: '$func' in TerminalNode of kind terminalFunction is not defined")
             end
@@ -219,12 +219,12 @@ end # function
 
 
 """
-    createNodes(jsonFile::String, verbose::Bool=true)
+    createNodes(jsonFile::String, parentModule::Module)
 
 Parses a node set configuration file that contains the information about the
 nodes of a Genetic Programming problem.
 """
-function createNodes(jsonFile::String)
+function createNodes(jsonFile::String, parentModule::Module)
 
     if !isfile(jsonFile)
         error("File $jsonFile does not exist in working directory")
@@ -255,11 +255,11 @@ function createNodes(jsonFile::String)
     terminalSet = Array{TerminalNode}(undef, nTerminals)
 
     for i=1:nFunctions
-        functionSet[i] = parseFunctionNode(dictionary["FunctionNodes"][i]["Node"])
+        functionSet[i] = parseFunctionNode(dictionary["FunctionNodes"][i]["Node"], parentModule)
     end
 
     for i=1:nTerminals
-        terminalSet[i] = parseTerminalNode(dictionary["TerminalNodes"][i]["Node"])
+        terminalSet[i] = parseTerminalNode(dictionary["TerminalNodes"][i]["Node"], parentModule)
     end
 
     return functionSet, terminalSet

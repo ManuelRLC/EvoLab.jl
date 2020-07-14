@@ -80,9 +80,13 @@ function setSTGPInfo(varValues...; nodesFile::String = "", maxTreeDepth::Integer
                      genj::GenJulia = GenJ)
 
     if nodesFile == ""
-        functionSet, terminalSet = createNodes("ECJ/utils/GeneticProgramming/StronglyTyped/exampleNodesSTGP.json")
+        error("A node information file must be provided")
     elseif isfile(nodesFile)
-        functionSet, terminalSet = createNodes(nodesFile)
+        if isdefined(genj._experimentInfo, :_parentModule)
+            functionSet, terminalSet = createNodes(nodesFile, genj._experimentInfo._parentModule)
+        else
+            functionSet, terminalSet = createNodes(nodesFile, Main)
+        end
     else
         error("Node information file $nodesFile does not exist in the specified directory")
     end

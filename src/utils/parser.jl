@@ -25,13 +25,6 @@ function parseExperimentInfo(experimentInfoDict::Dict, experiment::GenJulia)
         error("individualType field in ExperimentInfo is mandatory and must be set")
     end
 
-    gpExperimentInfoDict = get(experimentInfoDict, "GPExperimentInfo", false)
-    if individualType <: GPGenotype && gpExperimentInfoDict != false
-        parseGPExperimentInfo(individualType, gpExperimentInfoDict, experiment)
-    elseif gpExperimentInfoDict != false
-        @warn "Information about Genetic Programming problem has been given for a non-GP problem ($individualType), this information will be dismissed"
-    end
-
     randomSeed = get(experimentInfoDict, "randomSeed", false)
     if randomSeed != false
         if typeof(randomSeed) <: String
@@ -44,7 +37,7 @@ function parseExperimentInfo(experimentInfoDict::Dict, experiment::GenJulia)
         end
 
         if !(typeof(randomSeed) <: Integer) || randomSeed < 0
-            error("Random seed must be an integer number greater or equal than 0", maxTreeDepth)
+            error("Random seed must be an integer number greater or equal than 0", randomSeed)
         end
         setRandomSeed(randomSeed, genj=experiment)
     end
@@ -52,8 +45,8 @@ function parseExperimentInfo(experimentInfoDict::Dict, experiment::GenJulia)
     rng = get(experimentInfoDict, "rng", false)
     if rng != false
         try
-            aux = parentModule.eval(Meta.parse(rng))
-            rng = aux
+            aux = Meta.parse(rng)
+            rng = parentModule.eval(aux)
         catch e
             error("The following random number generator is not defined: ", rng)
         end
@@ -67,7 +60,15 @@ function parseExperimentInfo(experimentInfoDict::Dict, experiment::GenJulia)
     if rng != false && randomSeed != false
         @warn "Random number generator and random seed have been provided, random seed will be dismissed"
     elseif rng == false && randomSeed == false
+        println("entro aqui?")
         setRNG(Random.GLOBAL_RNG, genj=experiment)
+    end
+
+    gpExperimentInfoDict = get(experimentInfoDict, "GPExperimentInfo", false)
+    if individualType <: GPGenotype && gpExperimentInfoDict != false
+        parseGPExperimentInfo(individualType, gpExperimentInfoDict, experiment)
+    elseif gpExperimentInfoDict != false
+        @warn "Information about Genetic Programming problem has been given for a non-GP problem ($individualType), this information will be dismissed"
     end
 
     algorithm = get(experimentInfoDict, "algorithm", false)
@@ -144,6 +145,7 @@ function parseFitnessFunction(fitnessFunctionDict::Dict, parentModule::Module, i
         varArgs = [varArgs]
     end
     for i=1:length(varArgs)
+
         try
             arg = Meta.parse(varArgs[i])
             varArgs[i] = parentModule.eval(arg)
