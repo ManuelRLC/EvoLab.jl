@@ -133,6 +133,7 @@ export GenJ
 GenJ._experimentInfo = ExperimentInfo()
 GenJ._experimentInfo._randomSeed = 1234
 GenJ._experimentInfo._rng = Random.GLOBAL_RNG
+GenJ._experimentInfo._parentModule = Main
 
 
 

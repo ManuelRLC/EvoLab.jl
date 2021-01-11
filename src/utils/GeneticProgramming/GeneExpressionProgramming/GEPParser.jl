@@ -4,7 +4,7 @@
 documentation
 """
 function parseGPExperimentInfo(type::Type{GEPGenotype}, GEPInfoDict::Dict, experiment::GenJulia)
-    parentModule = parentmodule(parentModule(parentmodule(CGP)))
+    parentModule = experiment._experimentInfo._parentModule
     nodesFile = get(GEPInfoDict, "nodesFile", "")
     if !(typeof(nodesFile) <: String)
         error("nodesFile field must be a string with the path of the file containing the information about the nodes")
@@ -29,17 +29,16 @@ function parseGPExperimentInfo(type::Type{GEPGenotype}, GEPInfoDict::Dict, exper
         head = 7
     end
 
-    varValues = get(GPInfoDict, "varValues", Array{NamedTuple}(undef, 0))
+    varValues = get(GEPInfoDict, "varValues", Array{NamedTuple}(undef, 0))
     if !(typeof(varValues) <: Array)
-        varValues = [varValues]
+        error("varValues field must be an array with the arrays of values for each variable of the problem")
     else
         for i=eachindex(varValues)
             try
                 arg = Meta.parse(varValues[i])
+                varValues[i] = parentModule.eval(arg)
                 if !(typeof(varValues[i]) <: Array)
                     error("varValues field must be an array with the arrays of values for each variable of the problem")
-                else
-                    varValues[i] = parentModule.eval(arg)
                 end
             catch e
                 error("varValues field must be an array with the arrays of values for each variable of the problem")

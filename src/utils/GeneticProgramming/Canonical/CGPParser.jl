@@ -4,7 +4,7 @@
 documentation
 """
 function parseGPExperimentInfo(type::Type{CGPGenotype}, GPInfoDict::Dict, experiment::GenJulia)
-    parentModule = parentmodule(parentmodule(parentmodule(CGP)))
+    parentModule = experiment._experimentInfo._parentModule
     nodesFile = get(GPInfoDict, "nodesFile", "")
     if !(typeof(nodesFile) <: String)
         error("nodesFile field must be a string with the path of the file containing the information about the nodes")

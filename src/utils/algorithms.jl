@@ -122,6 +122,7 @@ function SPEA(genj::GenJulia, archiveSize::Int64)
     genPopulation!(genj)
     evaluate!(genj, genj._population)
     initBestIndividual(genj)
+    saveResults(genj)
     archive = getDominant(genj._population)
 
     while !reached(genj)

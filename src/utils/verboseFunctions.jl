@@ -38,7 +38,7 @@ function printExperimentInfo(outputFile::String = "", genj::GenJulia = GenJ)
             (length(genj._experimentInfo._GPExperimentInfo._variables) != 0) ? println(io, "$(genj._experimentInfo._GPExperimentInfo._variables[end])") : println(io, "None")
         end
     end
-    println(io, "\t\t· Random Seed → $(genj._experimentInfo._randomSeed)")
+
     print(io, "\t\t· Evolutionary Algorithm → $(genj._experimentInfo._algorithm)(")
     for i=1:length(genj._experimentInfo._algorithmArgs)-1
         print(io, "$(genj._experimentInfo._algorithmArgs[i]), ")
