@@ -323,8 +323,10 @@ function saveResults(genj::GenJulia)
 
                 if typeof(bestGenotype) <: GEGenotype
                     bestRep = getRepresentation(genj._experimentInfo._GPExperimentInfo, bestGenotype)
-                else
+                elseif typeof(bestGenotype) <: Array
                     bestRep = getRepresentation(bestGenotype)
+                else
+                    bestRep = []
                 end
 
                 saveBestFitness(genj._experimentInfo._experimentSummary,

@@ -48,4 +48,26 @@ export IntegerGenotype, randomIntegerGenerator, uniformCross, kPointCross,
        copyGenotype
 end # module
 
+
+###############
+###RealGA
+###############
+module RealGA
+
+###Import section
+import ..GA: uniformCross, kPointCross, singlePointCross, getDefaultCrossoverOp, getDefaultMutationOp,
+             scrambleMutation, inversionMutation, insertMutation, exchangeMutation
+using ..GA: GAGenotype, Random
+using ....EvoLab: randomIndexSelection
+
+###Code
+include("RealGenotype/includes.jl")
+
+###Export
+export RealGenotype, randomRealGenerator, BLXAlpha, uniformCross, kPointCross,
+       singlePointCross, getDefaultCrossoverOp, uniformMutation, exchangeMutation,
+       scrambleMutation, inversionMutation, insertMutation, getDefaultMutationOp,
+       copyGenotype
+end # module
+
 end # module
